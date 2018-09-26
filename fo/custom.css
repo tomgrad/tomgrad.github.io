@@ -1,0 +1,59 @@
+
+@import url(reveal.js/lib/font/league-gothic/league-gothic.css);
+
+.reveal {
+font-size: 30px;
+
+}
+
+.reveal h1 {    font-size: 3.77em; }
+.reveal h2 {    font-size: 2.11em; }
+.reveal h3 {    font-size: 1.3em; }
+.reveal h4 {    font-size: 1em; }
+
+.reveal h1,
+.reveal h2,
+.reveal h3
+{
+    color: gold;
+    text-shadow: 0px 2px 3px rgba(0,0,0,.3);
+}
+
+.reveal h3,
+.reveal h4
+{
+	text-transform: none;
+}
+
+.reveal blockquote {
+width: 85%;
+}
+
+.reveal table th,
+.reveal strong {
+    color: lightskyblue;
+}
+
+.reveal strong, .reveal b {
+    font-weight: bold;
+}
+
+.reveal .cols,
+.cols12,
+.cols21 {
+    display: grid;
+    grid-gap: 1em;
+    text-align: left;
+}
+
+.reveal .cols {
+    grid-template-columns: 1fr 1fr;
+ }
+
+ .cols12 {
+    grid-template-columns: 1fr 2fr;
+ }
+
+ .cols21 {
+    grid-template-columns: 2fr 1fr;
+ }
