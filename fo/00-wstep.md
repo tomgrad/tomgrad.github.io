@@ -6,11 +6,8 @@ revealjs-url: ../reveal.js
 ---
 
 #
-
 ## Fizyka Ogólna
-
 ### dr inż. Tomasz Gradowski
-
 #### Wykład dla kierunku Informatyka oraz Automatyka i Robotyka, Wydział Elektroniki i Technik Informacyjnych
 
 ## Kontakt
@@ -36,9 +33,7 @@ revealjs-url: ../reveal.js
 sesji)
 
 #
-
 ## Plan wykładu
-
 ### Mechanika
 - Opis ruchu. Układy odniesienia.
 - Opis ruchu układu fizycznego. Rodzaje sił. Zasady dynamiki Newtona. Równania ruchu.

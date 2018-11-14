@@ -522,7 +522,7 @@ Example for $q=2$ , $\langle k \rangle = 50$
 
 - Pair approximation gives valid results for a wide range of topologies
 - ... but not sufficient for scale-free networks with $\gamma< 3$
-- possible multplex generalization
+- possible multiplex generalization
 
 #
 ##
