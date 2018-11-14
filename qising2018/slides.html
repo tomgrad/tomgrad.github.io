@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>slides</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="reveal.js/css/theme/league.css" id="theme">
+  <link rel="stylesheet" href="custom.css"/>
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section><section id="section-1" class="slide level2">
+
+<h3 id="pair-approximation-for-the-q-ising-model-on-monoplex-and-duplex-networks">Pair approximation for the <em>q</em>-Ising model on monoplex and duplex networks</h3>
+<h4 id="tomasz-gradowski" class="autor">Tomasz Gradowski</h4>
+<p><code class="small">tomasz.gradowski@pw.edu.pl</code></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="andrzej.jpg" class="foto" /></p>
+<h4 id="andrzej-krawiecki" class="autor">Andrzej Krawiecki</h4>
+<p><code class="small">akraw@if.pw.edu.pl</code></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="ania.jpg" class="foto" /></p>
+<h4 id="ania-chmiel" class="autor">Ania Chmiel</h4>
+<p><code class="small">anulachmiel@gmail.com</code></p>
+</div>
+</div>
+<h4 id="division-of-complex-systems-physics-faculty-of-physics-warsawuniversityoftechnology" class="afil">Division of Complex Systems Physics, Faculty of Physics Warsaw University of Technology</h4>
+</section><section id="disclaimer" class="slide level2">
+<h2>Disclaimer</h2>
+<p>This work is <strong>heavily</strong> inspired by the papers from the K. Sznajd-Weron group from PWr, including:</p>
+<ul>
+<li>A. Jędrzejewski, A. Chmiel, K. Sznajd-Weron, <em>Phys. Rev. E</em> 92, 052105 (2015)</li>
+<li>A. Chmiel, K. Sznajd-Weron, <em>Phys. Rev. E</em> 92, 052812 (2015)</li>
+<li>A. Jędrzejewski, <em>Phys. Rev. E</em> 95, 012307 (2017)</li>
+</ul>
+</section><section id="section-2" class="slide level2">
+
+<h3 id="overview">Overview</h3>
+<ul>
+<li>Pair approximation for the <em>q</em>-Ising model on networks
+<ul>
+<li>comparison with Monte-Carlo simulations results</li>
+</ul></li>
+<li><p>Generalization of the PA method for two-layer networks</p></li>
+<li><p><em>q</em>-Ising model on homogeneous duplex (PA+MC results)</p></li>
+<li><p>Thoughts on the heterogeneous approximation</p></li>
+</ul>
+</section></section>
+<section><section id="pair-approximation-pa" class="slide level2">
+<h2>Pair approximation (PA)</h2>
+<div class="columns">
+<div class="column" style="width:33%;">
+<p><img data-src="bonds.png" class="col" /></p>
+</div><div class="column" style="width:66%;">
+<ul>
+<li><strong>two states of nodes</strong> (<span class="math inline">\(\pm 1\)</span>, <span class="math inline">\(\uparrow\)</span>/<span class="math inline">\(\downarrow\)</span>)</li>
+<li><strong>two states of edges</strong> (bonds): active bonds between nodes with oposite state, inactive bonds between nodes of the same state</li>
+</ul>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p><span class="math inline">\(\frac{\partial c}{\partial t} = F_c(c,b)\)</span></p>
+<p><span class="math inline">\(\frac{\partial b}{\partial t} = F_b(c,b)\)</span></p>
+</div><div class="column left" style="width:50%;">
+<p><span class="math inline">\(c\)</span> - concentration of <span class="math inline">\(\uparrow\)</span> spins</p>
+<p><span class="math inline">\(b\)</span> - concentration of active bonds</p>
+</div>
+</div>
+</section><section id="section-4" class="slide level2">
+
+<h3 id="pa-for-networks">PA for networks</h3>
+<h4 id="a.-jędrzejewski-phys.-rev.e-95-012307-2017">A. Jędrzejewski, <em>Phys. Rev. E</em> 95, 012307 (2017)</h4>
+<p><span class="math inline">\(c\equiv c_\uparrow=P(\uparrow)\)</span></p>
+<p><span class="math inline">\(1-c\equiv c_\downarrow=P(\downarrow)\)</span></p>
+<p><span class="math inline">\(b=P(\uparrow \downarrow) + P(\downarrow \uparrow) = 2 P(\uparrow \downarrow)\)</span></p>
+<p><span class="math inline">\(P(\uparrow \downarrow)\)</span> - probability of selecting <span class="math inline">\(\downarrow\)</span>-spin after selecting <span class="math inline">\(\uparrow\)</span>-spin.</p>
+<h4 id="conditional-probabilities">Conditional probabilities:</h4>
+<p><span class="math inline">\(\theta_{\uparrow} = P(\downarrow | \uparrow) = \frac{P\left( \downarrow \uparrow\right)}{P\left(\uparrow\right)}=\frac{b}{2c}\)</span></p>
+<p><span class="math inline">\(\theta_{\downarrow} = P(\uparrow | \downarrow) = \frac{P\left( \uparrow \downarrow\right)}{P\left(\downarrow\right)}= \frac{b}{2(1-c)}\)</span></p>
+</section><section id="section-5" class="slide level2">
+
+<p><span class="math display">\[
+\frac{\partial c}{\partial t} = \gamma^{+} -\gamma^{-}
+\]</span></p>
+<p><span class="math display">\[
+\frac{\partial b}{\partial t} = \frac{2}{\langle k\rangle} \sum \limits_{\nu\in \left\{ \uparrow,\downarrow\right\}} c_{\nu} \sum \limits_{k}P(k) \sum \limits_{i=0}^{k} B(i, k, \theta_{\nu}) f_{k}\left( i,q,\hat{p}\right) (k-2i)
+\]</span> <!--{k \choose i} \theta_{\nu}^{i} \left( 1-\theta_{\nu}\right)^{k-i}--></p>
+<p><span class="math inline">\(\gamma^{+}\)</span>, <span class="math inline">\(\gamma^{-}\)</span> - rates (probabilities per time unit) of elementary change of <span class="math inline">\(c\)</span> (<span class="math inline">\(c \rightarrow c \pm \Delta_c\)</span>)</p>
+<p><span class="math inline">\(f_{k}\left( i,q,\hat{p}\right)\)</span> - flipping probability of spin with <span class="math inline">\(k\)</span> neighbors and <span class="math inline">\(i\)</span> active bonds at temperature <span class="math inline">\(\hat{p}\)</span></p>
+</section></section>
+<section><section id="q-ising-model" class="slide level2">
+<h2>q-Ising model</h2>
+<h4 id="a.-jędrzejewski-a.-chmiel-k.-sznajd-weron-phys.-rev.e-92-052105-2015">A. Jędrzejewski, A. Chmiel, K. Sznajd-Weron, <em>Phys. Rev. E</em> 92, 052105 (2015)</h4>
+</section><section id="section-7" class="slide level2">
+
+<ol type="1">
+<li><p>Randomly choose a node <span class="math inline">\(j\)</span></p></li>
+<li><p>From the set of <span class="math inline">\(k_j\)</span> neighbors choose randomly and without repetitions a subset <span class="math inline">\({\rm nn}_{j,q}\)</span> of its <span class="math inline">\(q\)</span> neighbors</p></li>
+<li><p>Calculate the change of the local “energy” related to the potential flip of the spin <span class="math inline">\(s_j\)</span></p></li>
+</ol>
+<p><span class="math display">\[
+\Delta E = E(-s_j)-E(s_j)=2Js_j\sum \limits_{j^{\prime} \in {\rm nn}_{j,q}}s_{j^{\prime}}
+\]</span></p>
+<ol start="4" type="1">
+<li>Flip the spin <span class="math inline">\(s_{j}\)</span> with probability given by a Metropolis-like formula <span class="math display">\[
+w(s_j) = \min \left[ 1, e^{-\beta \Delta E} \right]
+\]</span></li>
+<li>Repeat steps (1-4) until all <span class="math inline">\(N\)</span> nodes are updated.</li>
+</ol>
+</section></section>
+<section><section id="pa-for-q-ising-model" class="slide level2">
+<h2>PA for q-Ising model</h2>
+<p><span class="math display">\[
+f_{k}\left( i,q,T\right) = \frac{1}{{k \choose q}} \sum_{l=0}^{q} {i \choose l} {k-i \choose q-l} \min \left(1, e^{ -2\beta J(q-2l)}\right)
+\]</span></p>
+<p>… and after transformations: <span class="math display">\[
+\dots = \frac{1}{{k \choose i}} \sum_{l=0}^{q} {k-q \choose i-l} {q \choose l}\min \left(1, e^{ -2\beta J(q-2l)}\right)
+\]</span></p>
+</section><section id="section-9" class="slide level2">
+
+<p>To increase <span class="math inline">\(c\)</span> in one step, we flip one <span class="math inline">\(\downarrow\)</span>-spin to <span class="math inline">\(\uparrow\)</span>.</p>
+<p><span class="math display">\[
+\gamma^{+}= \sum_{l=0}^{q} (1-c)  B(l,q,\theta_{\downarrow}) \min \left(1, e^{ -2\beta J(q-2l)}\right)
+\]</span></p>
+<p>And similar eq. for <span class="math inline">\(\gamma^{-}\)</span>.</p>
+</section><section id="section-10" class="slide level2">
+
+<h4 id="the-final-equations-do-not-depend-on-degree-distribution-pk-only-langle-k-rangle.">The final equations do not depend on degree distribution <span class="math inline">\(P(k)\)</span>, only <span class="math inline">\(\langle k \rangle\)</span>.</h4>
+<p>For the full PA equations for <em>q</em>-Ising model check:</p>
+<p>A. Chmiel, T. Gradowski, A. Krawiecki, <em>Int. J. of Mod. Phys. C</em> 29, 1850041 (2018)</p>
+</section><section id="stability-of-fixed-points" class="slide level2">
+<h2>Stability of fixed points</h2>
+</section><section id="section-11" class="slide level2">
+
+<h4 id="ferromagnetic-fm-and-paramagnetic-pm-f.p.">ferromagnetic (FM) and paramagnetic (PM) f.p.</h4>
+<p><span class="math inline">\(q=4\)</span>, <span class="math inline">\(\langle k \rangle =20\)</span>, <span class="math inline">\(T=1.90\)</span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="stream_q4k20T19.png" /></p>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><p><strong><span class="math inline">\(T&lt;T_{c}^{(1)}\)</span>: stable FM, unstable PM</strong></p></li>
+<li><p><span class="math inline">\(T_{c}^{(1)}&lt;T&lt;T_{c}^{(2)}\)</span></p></li>
+<li><p><span class="math inline">\(T&gt;T_{c}^{(2)}\)</span></p></li>
+</ul>
+</div>
+</div>
+</section><section id="section-12" class="slide level2">
+
+<h4 id="ferromagnetic-fm-and-paramagnetic-pm-f.p.-1">ferromagnetic (FM) and paramagnetic (PM) f.p.</h4>
+<p><span class="math inline">\(q=4\)</span>, <span class="math inline">\(\langle k \rangle =20\)</span>, <span class="math inline">\(T=1.95\)</span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="stream_q4k20T195.png" /></p>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><p><span class="math inline">\(T&lt;T_{c}^{(1)}\)</span>: stable FM, unstable PM</p></li>
+<li><p><strong><span class="math inline">\(T_{c}^{(1)}&lt;T&lt;T_{c}^{(2)}\)</span>: bistability (both FM and PM points stable)</strong></p></li>
+<li><p><span class="math inline">\(T&gt;T_{c}^{(2)}\)</span></p></li>
+</ul>
+</div>
+</div>
+</section><section id="section-13" class="slide level2">
+
+<h4 id="ferromagnetic-fm-and-paramagnetic-pm-f.p.-2">ferromagnetic (FM) and paramagnetic (PM) f.p.</h4>
+<p><span class="math inline">\(q=4\)</span>, <span class="math inline">\(\langle k \rangle =20\)</span>, <span class="math inline">\(T=2.20\)</span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="stream_q4k20T22.png" /></p>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><p><span class="math inline">\(T&lt;T_{c}^{(1)}\)</span>: stable FM, unstable PM</p></li>
+<li><p><strong><span class="math inline">\(T_{c}^{(1)}&lt;T&lt;T_{c}^{(2)}\)</span>: bistability (both FM and PM points stable)</strong></p></li>
+<li><span class="math inline">\(T&gt;T_{c}^{(2)}\)</span>: stable PM, no FM points</li>
+</ul>
+</div>
+</div>
+</section><section id="section-14" class="slide level2">
+
+<h4 id="ferromagnetic-fm-and-paramagnetic-pm-f.p.-3">ferromagnetic (FM) and paramagnetic (PM) f.p.</h4>
+<p><span class="math inline">\(q=4\)</span>, <span class="math inline">\(\langle k \rangle =20\)</span>, <span class="math inline">\(T=2.25\)</span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="stream_q4k20T25.png" /></p>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><p><span class="math inline">\(T&lt;T_{c}^{(1)}\)</span>: stable FM, unstable PM</p></li>
+<li><p><span class="math inline">\(T_{c}^{(1)}&lt;T&lt;T_{c}^{(2)}\)</span>: bistability</p></li>
+<li><p><strong><span class="math inline">\(T&gt;T_{c}^{(2)}\)</span>: stable PM, no FM points</strong></p></li>
+</ul>
+<p>Subcritical pitchfork bifurcation</p>
+</div>
+</div>
+</section><section id="section-15" class="slide level2">
+
+<h3 id="continous-and-discontinous-phase-transitions">Continous and discontinous phase transitions</h3>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="teor_q4.png" /></p>
+<p><span class="math inline">\(q=4\)</span></p>
+<p><span class="math inline">\(\langle k \rangle =50, 20, 10, 7, 6, 4\)</span></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="teor_q5.png" /></p>
+<p><span class="math inline">\(q=5\)</span></p>
+<p><span class="math inline">\(\langle k \rangle=1000, 100, 50, 20, 10, 5\)</span></p>
+</div>
+</div>
+</section><section id="section-16" class="slide level2">
+
+<h3 id="comparison-with-monte-carlo-simulations">Comparison with Monte-Carlo simulations</h3>
+<p><span class="math inline">\(q=4\)</span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="q4k6_er_teor_rrg.png" /></p>
+<p><span class="math inline">\(\langle k \rangle = 6\)</span></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="q4k40_teor_rrg_er-ferro_rnd.png" /></p>
+<p><span class="math inline">\(\langle k \rangle = 40\)</span></p>
+</div>
+</div>
+<p>The same results for ERG, RRG and SF networks with <span class="math inline">\(\gamma \geq 3\)</span>.</p>
+</section><section id="section-17" class="slide level2">
+
+<h3 id="oscillating-hysteresis-effect">“Oscillating hysteresis” effect</h3>
+<p><img data-src="deltaT_vs_q.png" /></p>
+<p>Width of the hysteresis loop, <span class="math inline">\(\Delta T\)</span> vs. <span class="math inline">\(q\)</span>, <span class="math inline">\(\langle k \rangle = 50\)</span> (triangles) and <span class="math inline">\(\langle k \rangle = 1000\)</span> (circles).</p>
+</section><section id="pa-for-q-ising-model-1" class="slide level2">
+<h2>PA for <em>q</em>-Ising model …</h2>
+<h3 id="works-for">… works for:</h3>
+<ul>
+<li>Erdős–Rényi graphs</li>
+<li>random regular graphs</li>
+<li>scale-free graphs with <span class="math inline">\(\gamma \geq 3\)</span></li>
+</ul>
+<h3 id="does-not-work-for">… does not work for:</h3>
+<ul>
+<li>scale-free graphs with <span class="math inline">\(\gamma \lt 3\)</span></li>
+</ul>
+</section></section>
+<section><section id="multiplex-generalization" class="title-slide slide level1"><h1>Multiplex generalization</h1></section><section id="pair-approximation-for-duplex-network" class="slide level2">
+<h2>Pair approximation for duplex network</h2>
+<ul>
+<li><p>Two fully overlapping networks (layers) <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> with joint degree distribution <span class="math inline">\(P\left( k^{(A)}, k^{(B)}\right)\)</span>.</p></li>
+<li><p>One concentration <span class="math inline">\(c\)</span>, but two different active bond concentrations <span class="math inline">\(b^{(A)}\)</span> and <span class="math inline">\(b^{(B)}\)</span>.</p></li>
+<li><p>Spin flip rate: <span class="math inline">\(f_{k^{(A)},k^{(B)}}\left( i^{(A)},i^{(B)},q,\hat{p}\right)\)</span></p></li>
+</ul>
+</section><section id="i-apologize-for-the-next-slide" class="slide level2">
+<h2>I apologize for the next slide 😔</h2>
+</section><section id="section-18" class="slide level2">
+
+<p><span class="math display">\[
+\frac{\partial c}{\partial t} = \gamma^{+}-\gamma^{-}
+\]</span></p>
+<p><span class="math display">\[
+\frac{\partial b^{(A)}}{\partial t} = \frac{2}{\langle k^{(A)}\rangle} \sum_{j\in \left\{ \uparrow,\downarrow\right\}} c_{j}
+\sum_{k^{(A)},k^{(B)}} P\left( k^{(A)}, k^{(B)}\right) 
+\]</span></p>
+<p><span class="math display">\[
+\times
+\sum_{i^{(A)}=0}^{k^{(A)}} \sum_{i^{(B)}=0}^{k^{(B)}}
+B(i^{(A)}, k^{(A)}, \theta_{j}^{(A)})
+B(i^{(B)}, k^{(B)}, \theta_{j}^{(B)})
+\]</span></p>
+<p><span class="math display">\[
+\times f_{k^{(A)},k^{(B)}}\left( i^{(A)},i^{(B)},q,\hat{p}\right) \left( k^{(A)}-2i^{(A)}\right)
+\]</span></p>
+<!-- {k^{(A)} \choose i^{(A)} } \theta_{j}^{(A)i^{(A)}}\left( 1-\theta_{j}^{(A)}\right)^{k^{(A)}-i^{(A)}}
+{k^{(B)} \choose i^{(B)} } \theta_{j}^{(B)i^{(B)}}\left( 1-\theta_{j}^{(B)}\right)^{k^{(B)}-i^{(B)}} -->
+<p>… and a complementary equation for <span class="math inline">\(b^{(B)}\)</span>.</p>
+</section></section>
+<section><section id="local-vs.global" class="title-slide slide level1"><h1>LOCAL vs. GLOBAL</h1></section><section id="multiplex-generalization.-localand-vs.globaland." class="slide level2">
+<h2>Multiplex generalization. <code>LOCAL&amp;AND</code> vs. <code>GLOBAL&amp;AND</code>.</h2>
+<h4 id="a.-chmiel-k.-sznajd-weron-phys.-rev.e-92-052812-2015">A. Chmiel, K. Sznajd-Weron, <em>Phys. Rev. E</em> 92, 052812 (2015)</h4>
+</section><section id="section-19" class="slide level2">
+
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="localand"><code>LOCAL&amp;AND</code></h3>
+<ul>
+<li><p>Check the result of the spin-flip rule on each layer (for local <span class="math inline">\(q\)</span>-panels from all the layers)</p></li>
+<li><p>If the results are consistent, apply the rule</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="globaland"><code>GLOBAL&amp;AND</code></h3>
+<ul>
+<li><p>Create one global panel consisting neighbors from all the layers (<span class="math inline">\(q\)</span> neighbors from each layer)</p></li>
+<li>Apply the spin-flip rule for the global panel</li>
+</ul>
+</div>
+</div>
+</section><section id="pa-for-localand-dynamics" class="slide level2">
+<h2>PA for <code>LOCAL&amp;AND</code> dynamics</h2>
+<p><span class="math display">\[
+f_{k^{(A)},k^{(B)}}\left( i^{(A)},i^{(B)},q,\hat{p}\right)=
+f_{k^{(A)}}\left( i^{(A)},q,\hat{p}\right) f_{k^{(B)}}\left( i^{(B)},q,\hat{p}\right)
+\]</span></p>
+<h3 id="for-q-ising">for <em>q</em>-Ising:</h3>
+<p><span class="math display">\[
+f_{k^{(A)}}\left( i^{(A)},q,T\right) =
+\]</span></p>
+<p><span class="math display">\[
+= \frac{1}{{k^{(A)} \choose i}} \sum_{l=0}^{q} {k^{(A)}-q \choose i^{(A)}-l} {q \choose l}
+\min \left(1, e^{ -2\beta J(q-2l)}\right)
+\]</span></p>
+<p>… and similar formula for <span class="math inline">\(f_{k^{(B)}}\left( i^{(B)},q,T\right)\)</span></p>
+</section><section id="flip-rates-for-q-ising-model" class="slide level2">
+<h2>Flip rates for q-Ising model</h2>
+<p><span class="math display">\[
+\gamma^{+} = (1-c) 
+\left[ \sum_{l=0}^{q} B(l, q, \theta^{(A)}_{\downarrow})
+ \min \left(1, e^{ -2\beta J(q-2l)}\right) \right]
+\]</span></p>
+<p><span class="math display">\[
+\times
+\left[ \sum_{l^{\prime}=0}^{q} B(l^{\prime}, q, \theta^{(B)}_{\downarrow})
+\min \left(1, e^{ -2\beta J(q-2l^{\prime})}\right) \right]
+\]</span></p>
+<p>… and similar formula for <span class="math inline">\(\gamma^{-}\)</span>.</p>
+</section><section id="too-muh-equationz" class="slide level2">
+<h2>Too muh equationz!!! 😫</h2>
+</section></section>
+<section><section id="simple-case.-homoduplex" class="title-slide slide level1"><h1>Simple case. Homoduplex? 😕</h1></section><section id="section-20" class="slide level2">
+
+<ul>
+<li><p>We consider two fully overlapping layers with the same topologies: <span class="math inline">\(P(k^{(A)})=P(k^{(B)})\)</span>. Then: <span class="math inline">\(\langle k^{(A)} \rangle=\langle k^{(B)} \rangle\)</span>.</p></li>
+<li><p>Due to symmetry of the <span class="math inline">\(\dot b^{(A)}\)</span> and <span class="math inline">\(\dot b^{(B)}\)</span> rates:</p>
+<ul>
+<li><span class="math inline">\(\theta_{j}^{(A)} =\theta_{j}^{(B)} =\theta_{j}\)</span> <span class="math inline">\(\quad \quad j\in \left\{ \uparrow,\downarrow\right\}\)</span></li>
+<li><span class="math inline">\(b^{(A)} = b^{(B)} = b\)</span></li>
+</ul></li>
+</ul>
+</section><section id="localand-1" class="slide level2">
+<h2><code>LOCAL&amp;AND</code></h2>
+<h4 id="im-sorry">I’m sorry…</h4>
+<!-- $$
+\frac{\partial c}{\partial t} &=&\gamma^{+}-\gamma^{-}
+$$ -->
+<p><span class="math display">\[
+\frac{\partial b^{(A)}}{\partial t} = \frac{2}{\langle k^{(A)}\rangle} \sum_{j\in \left\{ \uparrow,\downarrow\right\}} c_{j}
+\]</span></p>
+<p><span class="math display">\[
+\times \sum_{l=0}^{q} B(l, q, \theta_{j}^{(A)})
+\left[  \langle k^{(A)}\rangle -2 \left( \langle k^{(A)}\rangle -q\right) \theta_{j}^{(A)} -2l\right]
+\min \left(1, e^{ -2\beta J(q-2l)}\right)
+\]</span></p>
+<p><span class="math display">\[
+\times \sum_{l^{\prime}=0}^{q} 
+B(l^{\prime}, q, \theta_{j}^{(B)})
+\min \left(1, e^{ -2\beta J(q-2l^{\prime})}\right)
+\]</span></p>
+</section><section id="localand-2" class="slide level2">
+<h2><code>LOCAL&amp;AND</code></h2>
+<h3 id="q6..2-k50"><span class="math inline">\(q=6..2\)</span>, <span class="math inline">\(k=50\)</span></h3>
+<p><img data-src="PA_LA_k50_q2-6.png" /></p>
+</section><section id="localand-3" class="slide level2">
+<h2><code>LOCAL&amp;AND</code></h2>
+<h3 id="some-boring-plots">Some boring plots</h3>
+<p><img data-src="LA_SF3_k50_q2-4.png" /></p>
+<p>Example result for scale-free network <span class="math inline">\((\gamma=3)\)</span>, <span class="math inline">\(\langle k \rangle =50\)</span> The same results for higher values of <span class="math inline">\(\gamma\)</span>, ERG and RRG.</p>
+</section><section id="globaland-1" class="slide level2">
+<h2><code>GLOBAL&amp;AND</code></h2>
+<p>The equations obtained for the <code>GLOBAL&amp;AND</code> duplex dynamics are in complete agreement with those for monoplex with <span class="math inline">\(q ^\prime = 2q\)</span> and <span class="math inline">\(\langle k ^\prime \rangle = 2 \langle k \rangle\)</span></p>
+</section><section id="dont-run" class="slide level2">
+<h2>Don’t run!</h2>
+<h3 id="no-more-equations">No more equations!</h3>
+</section><section id="globaland-2" class="slide level2">
+<h2><code>GLOBAL&amp;AND</code></h2>
+<h3 id="q2-langle-k-rangle2..6"><span class="math inline">\(q=2\)</span> , <span class="math inline">\(\langle k \rangle=2..6\)</span></h3>
+<p><img data-src="PA_GA_q2_k2-6.png" /></p>
+<p>Example for <span class="math inline">\(q=2\)</span> , <span class="math inline">\(\langle k \rangle = 50\)</span></p>
+</section><section id="section-21" class="slide level2">
+
+<h3 id="but-it-doesnt-work-for-scale-free-networks-with-small-gamma.">…but it doesn’t work for scale-free networks with small <span class="math inline">\(\gamma\)</span>.</h3>
+<p><img data-src="GA_SF225-3_k50_q2.png" /></p>
+</section></section>
+<section><section id="whats-next" class="title-slide slide level1"><h1>What’s next? 🤔</h1></section><section id="lets-solve-150000-differential-equations" class="slide level2">
+<h2>Let’s solve 150’000 differential equations!</h2>
+<h3 id="heterogeneous-approximation-gleeson-equations">Heterogeneous approximation: Gleeson equations</h3>
+<h4 id="j.p.-gleeson-binary-state-dynamics-on-complex-networks-pair-approximation-and-beyond-phys.-rev.x-3-2013">J.P. Gleeson, Binary-State Dynamics on Complex Networks: Pair Approximation and Beyond, <em>Phys. Rev. X</em> 3 (2013)</h4>
+<ul>
+<li>done for <span class="math inline">\(q\)</span>-voter model</li>
+<li>great agreement with MC results for ERR, RRG and SF with <span class="math inline">\(\gamma \geq 3\)</span></li>
+<li>poor agreement for SF with <span class="math inline">\(\gamma &lt; 3\)</span></li>
+<li>possible solution for partially overlapping layers</li>
+</ul>
+</section></section>
+<section><section id="conclusions" class="slide level2">
+<h2>Conclusions</h2>
+<ul>
+<li>Pair approximation gives valid results for a wide range of topologies</li>
+<li>… but not sufficient for scale-free networks with <span class="math inline">\(\gamma&lt; 3\)</span></li>
+<li></li>
+</ul>
+</section></section>
+<section><section id="section-24" class="slide level2">
+
+<h3 id="references">References</h3>
+<ul>
+<li><p>A. Chmiel, T. Gradowski, A. Krawiecki, <em>Int. J. of Mod. Phys. C</em> 29, 1850041 (2018) (<a href="https://doi.org/10.1142/S0129183118500419">doi</a>)</p></li>
+<li><p>T. Gradowski, A. Krawiecki, Pair approximation for multiplex networks (in preparation)</p></li>
+<li><p>A. Jędrzejewski, A. Chmiel, K. Sznajd-Weron, <em>Phys. Rev. E</em> 92, 052105 (2015)</p></li>
+<li><p>A. Chmiel, K. Sznajd-Weron, <em>Phys. Rev. E</em> 92, 052812 (2015)</p></li>
+<li><p>A. Jędrzejewski, <em>Phys. Rev. E</em> 95, 012307 (2017)</p></li>
+<li><p>J.P. Gleeson, <em>Phys. Rev. X</em> 3, 021004 (2013)</p></li>
+<li><p>Slides background: <a href="https://github.com/VincentGarreau/particles.js">github.com/VincentGarreau/particles.js</a></p></li>
+</ul>
+<script src="particles.min.js"></script>
+<script src="particles-config.js"></script>
+</section></section>
+    </div>
+  </div>
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Transition style
+        transition: 'cube', // none/fade/slide/convex/concave/zoom
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'reveal.js/plugin/math/math.js', async: true },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>

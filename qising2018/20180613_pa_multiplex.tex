@@ -1,0 +1,343 @@
+\documentclass[11pt]{article}  
+
+
+\usepackage{graphicx}
+ 
+%\renewcommand{\thesection}{\arabic{section}.}  
+%\renewcommand{\thesubsection}{\thesection\arabic{subsection}.}  
+\textwidth=15.0cm  
+\textheight=23.0cm  
+\topmargin=-50pt  
+\oddsidemargin=0.5in  
+  
+  
+\begin{document}  
+  
+\title{{\bf Pair approximation for multiplex networks}}  
+\author{AA\\  
+Faculty of Physics, Warsaw University of Technology, \\
+Koszykowa 75, PL-00-662 Warsaw, Poland}  
+  
+\baselineskip=4ex   
+%\begin{titlepage}  
+\maketitle  
+\begin{abstract}  
+AA
+\end{abstract}  
+  
+PACS numbers: 
+
+Key words: 
+  
+
+\section{The model}
+
+Nonequilibrium models for the opinion formation, the $q$-voter model and the $q$-Ising model are considered on
+multiplex networks (MNs) with two layers denoted as $G^{(A)}$, $G^{(B)}$. 
+The MNs under study consist of a fixed set of nodes $i=1,2,\ldots N$
+at which two-state spins $s_{i}=\pm 1$ are placed, and two separetely generated layersof edges connecting the 
+nodes which are complex networks, e.g., ERGs or RRGs. Only the case of fully overlapping MNs is considered.
+Each node has degree $k^{(A)}$ ($k^{(B)}$) within the layer $G^{(A)}$ ($G^{(B)}$),
+the mean degrees of nodes within the layers are $\langle k^{(A)}\rangle$ ($\langle k^{(B)}\rangle$)
+and the joint degree distribution is $P\left( k^{(A)}, k^{(B)}\right)$.
+
+For the analytic study of the model PA is used.
+Within this approach the macroscopic quantities characterizing the model are concentrations of spins with orientation
+up and of active bonds connecting nodes occupied by spins with opposite orientations. In the case of a model
+on a MN a single quantity $c$ is enough to characterize the concentration of spins with orientation up 
+(normalized to the number of nodes $N$), but two quantities $b^{(A)}$, $b^{(B)}$ 
+characterizing the concentrations of active bonds within different layers 
+(normalized to the total numbers of edges $N\langle k^{(A)}\rangle/2$ ($N\langle k^{(B)}\rangle/2$)
+within the layer$G^{(A)}$ ($G^{(B)}$)) are necessary. The flipping probability of a spin located in a node
+charcterized by the degrees $k^{(A)}$, $k^{(B)}$ if the number of active edges attached to it within the layer 
+$G^{(A)}$ ($G^{(B)}$) is $i^{(A)}$ ($i^{(B)}$) is denoted by
+$f_{k^{(A)},k^{(B)}}\left( i^{(A)},i^{(B)},q,\hat{p}\right)$,
+where $\hat{p}$ is a parameter characterizing the degree of stochasticity in a model
+(parameter $p$ characterizing independence in the case of the $q$-voter model and temperatute $T$ in the
+case of the $q$-neighbor Ising model).
+
+The rate equations for the macroscopic concentrations $c$, $b^{(A)}$, $b^{(B)}$ can be derived as in Ref.\ 
+\cite{Jedrzejewski17} taking into account that each spin flip 
+in a node with degrees $k^{(A)}$, $k^{(B)}$ and the numbers of active edges attached to it $i^{(A)}$, $i^{(B)}$ 
+affects simultaneously concentrations of active edges within both layers changing them by
+\begin{eqnarray}
+\Delta_{b^{(A)}}&=&\frac{2}{N\langle k^{(A)}\rangle}\left( k^{(A)}-2i^{(A)} \right) \nonumber\\
+\Delta_{b^{(B)}}&=&\frac{2}{N\langle k^{(B)}\rangle}\left( k^{(B)}-2i^{(B)} \right).
+\end{eqnarray}
+The probabilities that in each MCSS first the spin with orientation $j\in \left\{ \uparrow,\downarrow\right\}$ 
+is selected and then its neighbor within the layer $G^{(A)}$ ($G^{(B)}$) with opposite orientation is selected are denoted
+by $\theta_{j}^{(A)}$ ($\theta_{j}^{(B)}$),
+\begin{equation}
+\theta_{\uparrow}^{(A)}=\frac{b^{(A)}}{2c},\;\; \theta_{\downarrow}^{(A)}=\frac{b^{(A)}}{2(1-c)}
+\end{equation}
+\begin{equation}
+\theta_{\uparrow}^{(B)}=\frac{b^{(B)}}{2c},\;\; \theta_{\downarrow}^{(B)}=\frac{b^{(B)}}{2(1-c)}
+\end{equation}
+
+\section{General rate equations}
+
+General rate equations for the concentrations $c$, $b^{(A)}$, $b^{(B)}$ are
+\begin{eqnarray}
+\frac{\partial c}{\partial t} &=&\gamma^{+}-\gamma^{-}, 
+\label{rate1}\\
+\frac{\partial b^{(A)}}{\partial t} &=& \frac{2}{\langle k^{(A)}\rangle} \sum_{j\in \left\{ \uparrow,\downarrow\right\}} c_{j}
+\sum_{k^{(A)},k^{(B)}} P\left( k^{(A)}, k^{(B)}\right) 
+\nonumber\\
+&\times&
+\sum_{i^{(A)}=0}^{k^{(A)}} \sum_{i^{(B)}=0}^{k^{(B)}} 
+{k^{(A)} \choose i^{(A)} } \theta_{j}^{(A)i^{(A)}}\left( 1-\theta_{j}^{(A)}\right)^{k^{(A)}-i^{(A)}}
+{k^{(B)} \choose i^{(B)} } \theta_{j}^{(B)i^{(B)}}\left( 1-\theta_{j}^{(B)}\right)^{k^{(B)}-i^{(B)}}
+\nonumber\\
+&\times& f_{k^{(A)},k^{(B)}}\left( i^{(A)},i^{(B)},q,\hat{p}\right) \left( k^{(A)}-2i^{(A)}\right), \label{rate2}
+\end{eqnarray}
+and a complementary equation for $b^{(B)}$ which can be obtained from Eq.\ (\ref{rate2}) by exchanging the
+superscripts $A$, $B$.
+
+The final form of the above system of equations depends on the joint degree distribution 
+$P\left( k^{(A)}, k^{(B)}\right) $ and 
+the spin update rule determining the form of the spin flip rate 
+$f_{k^{(A)},k^{(B)}}\left( i^{(A)},i^{(B)},q,\hat{p}\right)$. 
+Concerning the former problem, particularly simple situation occurs if the layers 
+of the MN are separately and independently generated networks
+with degree disributions $P\left( k^{(A)}\right)$, $P\left( k^{(B)}\right)$ which yields the joint degree distribution
+$P\left( k^{(A)}, k^{(B)}\right)= P\left( k^{(A)}\right) P\left( k^{(B)}\right)$. 
+Concerning the latter problem, particularly simple situation occurs for the LOCAL AND update rule
+defined in Ref.\ \cite{Chmiel15}, where the probability of each spin flip is a product of probabilities characteristic of a given
+model evaluated separately for each layer and thus
+\begin{displaymath}
+f_{k^{(A)},k^{(B)}}\left( i^{(A)},i^{(B)},q,\hat{p}\right)=
+f_{k^{(A)}}\left( i^{(A)},q,\hat{p}\right) f_{k^{(B)}}\left( i^{(B)},q,\hat{p}\right).
+\end{displaymath}
+Under the two above-mentioned assumptions 
+the summations over $k^{(A)}$, $k^{(B)}$ as well as over
+$i^{(A)}$, $i^{(B)}$ in Eq.\ (\ref{rate2}) can be performed separately which yields
+\begin{eqnarray}
+\frac{\partial b^{(A)}}{\partial t} &=& \frac{2}{\langle k^{(A)}\rangle} \sum_{j\in \left\{ \uparrow,\downarrow\right\}} c_{j}
+\nonumber\\
+&\times&
+\sum_{k^{(A)}} P\left( k^{(A)}\right)  
+\sum_{i^{(A)}=0}^{k^{(A)}}
+{k^{(A)} \choose i^{(A)} } \theta_{j}^{(A)i^{(A)}}\left( 1-\theta_{j}^{(A)}\right)^{k^{(A)}-i^{(A)}}
+f_{k^{(A)}}\left( i^{(A)},q,\hat{p}\right) \left( k^{(A)}-2i^{(A)}\right) \nonumber\\
+&\times& 
+\sum_{k^{(B)}} P\left( k^{(B)}\right)  
+\sum_{i^{(B)}=0}^{k^{(B)}}
+{k^{(B)} \choose i^{(B)} } \theta_{j}^{(B)i^{(B)}}\left( 1-\theta_{j}^{(B)}\right)^{k^{(B)}-i^{(B)}}
+f_{k^{(B)}}\left( i^{(B)},q,\hat{p}\right),
+\label{rate3}
+\end{eqnarray}
+and a complementary equation for $b^{(B)}$ which can be obtained from Eq.\ (\ref{rate3}) by exchanging the
+superscripts $A$, $B$.
+
+\section{Rate equations for the $q$-voter model}
+
+\subsection{LOCAL AND update rule}
+
+For the $q$-voter model the spin flip rate is
+\begin{eqnarray}
+f_{k^{(A)}}\left( i^{(A)},q,p\right) &=&
+(1-p) \frac{\prod_{j=1}^{q}\left( i^{(A)}-j+1\right)}{\prod_{j=1}^{q}\left( k^{(A)}-j+1\right)} +\frac{p}{2}
+\nonumber\\
+&=&
+(1-p)\frac{i^{(A)}!\left( k^{(A)} -q\right)!}{k^{(A)}!\left(i^{(A)}-q\right)!} +\frac{p}{2}.
+\label{fkv}
+\end{eqnarray}
+ The formula for $f_{k^{(B)}}\left( i^{(B)},q,p\right)$ 
+can be obtained from Eq.\ (\ref{fk}) by changing the superscript $A$ into $B$. Similarly, the rates
+$\gamma^{+}$, $\gamma^{-}$ are
+\begin{eqnarray}
+\gamma^{+}&=& (1-c) \left[ (1-p)\theta_{\downarrow}^{(A)q} +\frac{p}{2}\right]
+\left[ (1-p)\theta_{\downarrow}^{(B)q} +\frac{p}{2}\right], 
+\label{gammaplusv}
+\\
+\gamma^{-}&=& c \left[ (1-p)\theta_{\uparrow}^{(A)q} +\frac{p}{2}\right]
+\left[ (1-p)\theta_{\uparrow}^{(B)q} +\frac{p}{2}\right].
+\label{gammaminusv}
+\end{eqnarray}
+
+Substituting Eq.\ (\ref{fkv}) in Eq.\ (\ref{rate3}) and performing summations as in Ref.\ \cite{Jedrzejewski17} as well as
+substituting Eq.\ (\ref{gammaplusv},\ref{gammaminusv}) in Eq.\ (\ref{rate1}) yields the following system of rate
+equations for the macroscopic quantities $c$, $b^{(A)}$, $b^{(B)}$,
+\begin{eqnarray}
+\frac{\partial c}{\partial t} &=&\gamma^{+}-\gamma^{-}, 
+\label{systemcb3v}\\
+\frac{\partial b^{(A)}}{\partial t} &=& \frac{2}{\langle k^{(A)}\rangle} \sum_{j\in \left\{ \uparrow,\downarrow\right\}} c_{j} \nonumber\\
+& \times&  \left\{ (1-p) \theta_{j}^{(A)q}
+\left[  \langle k^{(A)}\rangle-2q -2 \left( \langle k^{(A)}\rangle -q\right) \theta_{j}^{(A)} \right]
++\frac{p}{2}\langle k^{(A)}\rangle \left(1-2 \theta_{j}^{(A)}\right) \right\} \nonumber\\
+&\times& \left[ (1-p) \theta_{j}^{(B)q} +\frac{p}{2}\right],
+\label{systemcb4v}
+\end{eqnarray}
+and the complementary equation for $b^{(B)}$ which can be obtained from Eq.\ (\ref{systemcb4v}) by exchanging the 
+superscripts $A$ and $B$.
+
+Further simplification of the above system of equations
+can be achieved if the two layers are independently and separately generated
+networks with identical degree distributions $P\left( k^{(A)}\right) =P\left( k^{(B)}\right) = P(k)$, 
+e.g., two ERGs or RRGs with the same mean degrees of nodes
+$\langle k^{(A)} \rangle = \langle k^{(B)}\rangle = \langle k\rangle$. Due to the symmetry of Eq.\ (\ref{systemcb4v}) and
+the complementary equation for $b^{(B)}$ a solution exists with equal active bond concentrations within both layers,
+$b^{(A)}=b^{(B)} =b$ (and thus with $\theta_{j}^{(A)} =\theta_{j}^{(B)} =\theta_{j}$, 
+$j\in \left\{ \uparrow,\downarrow\right\}$). 
+Then the two rate equations for the active bond concentrations can be replaced with a single equation for $b$.
+Hence, in this case the model on a MN is described by only two macroscopic 
+quantities $c$, $b$ obeying the equations
+\begin{eqnarray}
+\frac{\partial c}{\partial t} &=&(1-c) \left[ (1-p)\theta_{\downarrow}^{q} +\frac{p}{2}\right]^2 -
+c\left[ (1-p)\theta_{\uparrow}^{q} +\frac{p}{2}\right]^2 \\
+\frac{\partial b}{\partial t} &=& \frac{2}{\langle k\rangle} \sum_{j\in \left\{ \uparrow,\downarrow\right\}} c_{j} \nonumber\\
+& \times&  
+ \left\{ (1-p) \theta_{j}^{q}
+\left[  \langle k\rangle-2q -2 \left( \langle k\rangle -q\right) \theta_{j} \right]
++\frac{p}{2}\langle k\rangle \left(1-2 \theta_{j}\right) \right\}
+ \left[ (1-p) \theta_{j}^{q} +\frac{p}{2}\right].
+\end{eqnarray}
+In particular, for $p=0$ the above system of equations reduces to
+\begin{eqnarray}
+\frac{\partial c}{\partial t} &=&(1-c) \theta_{\downarrow}^{2q} - c \theta_{\uparrow}^{2q}\\
+\frac{\partial b}{\partial t} &=& \frac{2}{\langle k\rangle} \sum_{j\in \left\{ \uparrow,\downarrow\right\}} c_{j} 
+\theta_{j}^{2q}
+\left[  \langle k\rangle-2q -2 \left( \langle k\rangle -q\right) \theta_{j} \right],
+\end{eqnarray}
+which is equivalent to the equations for the macroscopic concentrations of spins with orientation up and of active bonds
+obtained in the PA for the $2q$-voter model with $p=0$ on a network with the mean degree of nodes $2 \langle k\rangle$.
+Thus, in the framework of the PA, the $q$-voter model with $p=0$ on a MN with two layers is equivalent to 
+the $2q$-voter model on a network being a superposition of the two layers. However, this is not the case for $0<p \le 1$.
+
+\subsection{GLOBAL AND update rule}
+
+In this case the spin-flip rate cannot be written as a product of the rates evaluated separately for each layer. It takes a form
+\begin{eqnarray}
+f_{k^{(A)},k^{(B)}}\left( i^{(A)},i^{(B)},q,\hat{p}\right) &=&
+(1-p) \frac{\prod_{j=1}^{q}\left( i^{(A)}-j+1\right)}{\prod_{j=1}^{q}\left( k^{(A)}-j+1\right)} 
+\frac{\prod_{j^{\prime}=1}^{q}\left( i^{(B)}-j^{\prime}+1\right)}{\prod_{j^{\prime}=1}^{q}\left( k^{(B)}-j^{\prime}+1\right)} 
++\frac{p}{2}
+\nonumber\\
+&=&
+(1-p)\frac{i^{(A)}!\left( k^{(A)} -q\right)!}{k^{(A)}!\left(i^{(A)}-q\right)!} 
+\frac{i^{(B)}!\left( k^{(B)} -q\right)!}{k^{(B)}!\left(i^{(B)}-q\right)!}
++\frac{p}{2}.
+\label{fkvG}
+\end{eqnarray}
+Similarly, the rates
+$\gamma^{+}$, $\gamma^{-}$ are
+\begin{eqnarray}
+\gamma^{+}&=& (1-c) \left[ (1-p)\theta_{\downarrow}^{(A)q}\theta_{\downarrow}^{(B)q} +\frac{p}{2}\right], 
+\label{gammaplusvG}
+\\
+\gamma^{-}&=& c \left[ (1-p)\theta_{\uparrow}^{(A)q} \theta_{\uparrow}^{(B)q}+\frac{p}{2}\right].
+\label{gammaminusvG}
+\end{eqnarray}
+Substituting Eq.\ (\ref{fkvG}) in Eq.\ (\ref{rate2}) and performing summations as in Ref.\ \cite{Jedrzejewski17} as well as
+substituting Eq.\ (\ref{gammaplusvG},\ref{gammaminusvG}) in Eq.\ (\ref{rate1}) yields the following system of rate
+equations for the macroscopic quantities $c$, $b^{(A)}$, $b^{(B)}$,
+\begin{eqnarray}
+\frac{\partial c}{\partial t} &=&\gamma^{+}-\gamma^{-}, 
+\label{systemcb3vG}\\
+\frac{\partial b^{(A)}}{\partial t} &=& \frac{2}{\langle k^{(A)}\rangle} \sum_{j\in \left\{ \uparrow,\downarrow\right\}} c_{j} \nonumber\\
+& \times&  \left\{ (1-p) \theta_{j}^{(A)q} \theta_{j}^{(B)q}
+\left[  \langle k^{(A)}\rangle-2q -2 \left( \langle k^{(A)}\rangle -q\right) \theta_{j}^{(A)} \right]
++\frac{p}{2}\langle k^{(A)}\rangle \left(1-2 \theta_{j}^{(A)}\right) \right\}, \nonumber\\
+&&
+\label{systemcb4vG}
+\end{eqnarray}
+and the complementary equation for $b^{(B)}$ which can be obtained from Eq.\ (\ref{systemcb4v}) by exchanging the 
+superscripts $A$ and $B$.
+
+In the case of the two independently and separately generated layers with identical degree distributions $P\left( k^{(A)}\right) =P\left( k^{(B)}\right) = P(k)$
+(thus with $\langle k^{(A)} \rangle = \langle k^{(B)}\rangle = \langle k\rangle$) the solution with $b^{(A)}=b^{(B)} =b$  obeys the system of equations
+\begin{eqnarray}
+\frac{\partial c}{\partial t} &=&(1-c) \left[ (1-p)\theta_{\downarrow}^{2q} +\frac{p}{2}\right] -
+c\left[ (1-p)\theta_{\uparrow}^{2q} +\frac{p}{2}\right] \\
+\frac{\partial b}{\partial t} &=& \frac{2}{\langle k\rangle} \sum_{j\in \left\{ \uparrow,\downarrow\right\}} c_{j} \nonumber\\
+& \times&  
+ \left\{ (1-p) \theta_{j}^{2q}
+\left[  \langle k\rangle-2q -2 \left( \langle k\rangle -q\right) \theta_{j} \right]
++\frac{p}{2}\langle k\rangle \left(1-2 \theta_{j}\right) \right\}.
+\end{eqnarray}
+It can be easily verified that in the framework of the PA the above $q$-voter model with the GLOBAL AND update rule is equivalent to 
+the $2q$-voter model on a network with the mean degree of nodes $2 \langle k\rangle$.
+in a whole range of $p$, $0\le p\le1$.
+
+\section{Rate equations for the $q$-neighbor Ising model}
+
+For the $q$-neighbor Ising model the spin flip rate is 
+\begin{eqnarray}
+f_{k^{(A)}}\left( i^{(A)},q,T\right) &=& \frac{1}{{k^{(A)} \choose q}} \sum_{l=0}^{q} {i^{(A)} \choose l} 
+{k^{(A)}-i^{(A)} \choose q-l} \min \left(1, e^{ -2\beta J(q-2l)}\right)
+\nonumber\\
+&=&  \frac{1}{{k^{(A)} \choose i}} \sum_{l=0}^{q} {k^{(A)}-q \choose i^{(A)}-l} {q \choose l}
+\min \left(1, e^{ -2\beta J(q-2l)}\right),
+\label{fk}
+\end{eqnarray}
+where, however, it should be remembered that the summation is performed only over such $l$ that additional constraints
+$l\le i$ and $q-l \le k-i$ are fulfilled; these constraints can be formally included in Eq.\  (\ref{fk}) by assuming that 
+${n \choose m}\equiv 0$ for $m<0$ and $n<m$. The formula for $f_{k^{(B)}}\left( i^{(B)},q,T\right)$ 
+can be obtained from Eq.\ (\ref{fk}) by changing the superscript $A$ into $B$. Similarly, the rates
+$\gamma^{+}$, $\gamma^{-}$ are
+\begin{eqnarray}
+\gamma^{+} &=& (1-c) 
+\left[ \sum_{l=0}^{q} {q\choose l} \theta^{(A)l}_{\downarrow} \left( 1-\theta^{(A)}_{\downarrow} \right)^{q-l}
+ \min \left(1, e^{ -2\beta J(q-2l)}\right) \right], \nonumber\\
+&\times& 
+\left[ \sum_{l^{\prime}=0}^{q} {q\choose l} \theta^{(B)l^{\prime}}_{\downarrow} 
+\left( 1-\theta^{(B)}_{\downarrow} \right)^{q-l^{\prime}}
+ \min \left(1, e^{ -2\beta J(q-2l^{\prime})}\right) \right], \label{gammaplus}\\
+\gamma^{-} &=& c\left[ \sum_{l=0}^{q} {q\choose l} \theta_{\uparrow}^{(A)l} \left( 1-\theta_{\uparrow}^{(A)} \right)^{q-l}
+ \min \left(1, e^{ -2\beta J(q-2l)}\right) \right] \nonumber\\
+&\times&
+\left[ \sum_{l^{\prime}=0}^{q} {q\choose l^{\prime}} \theta_{\uparrow}^{(B)l^{\prime}} 
+\left( 1-\theta_{\uparrow}^{(B)} \right)^{q-l^{\prime}}
+ \min \left(1, e^{ -2\beta J(q-2l^{\prime})}\right) \right]. \label{gammaminus}
+\end{eqnarray}
+
+Substituting Eq.\ (\ref{fk}) in Eq.\ (\ref{rate3}) and performing summations as in Ref.\ \cite{Chmiel17a} as well as
+substituting Eq.\ (\ref{gammaplus},\ref{gammaminus}) in Eq.\ (\ref{rate1}) yields the following system of rate
+equations for the macroscopic quantities $c$, $b^{(A)}$, $b^{(B)}$,
+\begin{eqnarray}
+\frac{\partial c}{\partial t} &=&\gamma^{+}-\gamma^{-}, 
+\label{systemcb3}\\
+\frac{\partial b^{(A)}}{\partial t} &=& \frac{2}{\langle k^{(A)}\rangle} \sum_{j\in \left\{ \uparrow,\downarrow\right\}} c_{j} \nonumber\\
+& \times&  \left\{ \sum_{l=0}^{q} {q \choose l } 
+\theta_{j}^{(A)l}\left( 1-\theta_{j}^{(A)}\right)^{q-l}
+\left[  \langle k^{(A)}\rangle -2 \left( \langle k^{(A)}\rangle -q\right) \theta_{j}^{(A)} -2l\right] \right. \nonumber\\
+&& \left. \times \min \left(1, e^{ -2\beta J(q-2l)}\right)\right\} \nonumber\\
+&\times& \left\{  \sum_{l^{\prime}=0}^{q} {q \choose l^{\prime}} 
+\theta_{j}^{(B)l^{\prime}}\left( 1-\theta_{j}^{(B)}\right)^{q-l^{\prime}}
+\min \left(1, e^{ -2\beta J(q-2l^{\prime})}\right)
+\right\},
+\label{systemcb4}
+\end{eqnarray}
+and the complementary equation for $b^{(B)}$ which can be obtained from Eq.\ (\ref{systemcb4}) by exchanging the 
+superscripts $A$ and $B$.
+
+Again, in the case of two separately and independently generated layers with identical degree distributions the
+above system of equations can be simplified to a system of only two equations for the macroscopic 
+concentrations $c$, $b$. This can be achieved simply by dropping the superscripts $(A)$, $(B)$ in 
+Eq.\ (\ref{gammaplus},\ref{gammaminus},\ref{systemcb3},\ref{systemcb4}).
+
+\newpage
+
+\begin{thebibliography}{99}
+
+\bibitem{Jedrzejewski17}
+A.\ J\c{e}drzejewski,
+{\it Phys.\ Rev.\ E} {\bf 95}, 012307 (2017).
+
+\bibitem{Chmiel15}
+A.\ Chmiel and K.\ Sznajd-Weron,
+{\it Phys.\ Rev.\ E} {\bf 92},  052812 (2015).
+
+\bibitem{Chmiel17}
+A.\ Chmiel, J.\ Sienkiewicz, K.\ Sznajd-Weron,
+arxiv: 1611.07938
+
+\bibitem{Chmiel17a}
+A.\ Chmiel, T.\ Gradowski, A.\ Krawiecki,
+{\it Int.\ J.\ Modern Phys.\ C}, submitted
+
+\end{thebibliography}
+
+
+\end{document}  
+

@@ -1,0 +1,6 @@
+#!/bin/sh
+sed -i 's/<div class="reveal">/<div id="particles-js" class="reveal">/' slides.html
+
+#TODO:
+#<script src="particles.min.js"></script>
+#<script src="particles-config.js"></script>

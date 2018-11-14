@@ -1,0 +1,5 @@
+#!/bin/sh
+
+md2revealjs slides.md
+
+[[ $1 ]] && ./add_particles
