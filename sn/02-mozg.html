@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Podstawowe własności układu nerwowego człowieka</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/beige.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+    <link rel="stylesheet" href="./_assets/custom.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+
+# Podstawowe własności układu nerwowego człowieka
+</script></section><section ><section data-markdown><script type="text/template">
+
+## Mózg
+
+<div class="cols">
+
+- średnia masa: $1200-1370$ $g$
+- powierzchnia kory mózgowej: $1500-2000$ $cm^3$
+- liczba neuronów: $86$ miliardów
+- średnia liczba połączeń: $10^3-10^4$
+- moc: $20 W$
+
+![](brain.png)
+</div>
+</script></section><section data-markdown><script type="text/template">
+## Neuron
+
+<div class="cols">
+
+- neurony odbierają potencjały czynnościowe, poprzez połączenia synaptyczne
+- jeśli w krótkim czasie napłynie dostateczna ilość pobudzeń, neuron może wysłać potencjał czynnościowy
+- wysłanie kolejnego potencjału jest możliwe po upływie czasu refrakcji
+
+![](neurons.png)
+
+</div>
+</script></section><section data-markdown><script type="text/template">
+## Potencjał czynnościowy
+
+<div class="cols21">
+
+- w stanie spoczynku wnętrze aksonu ma ładunek ujemny względem otoczenia
+- zróżnicowanie przepuszczalności jonów potasu i sodu umożliwia odwrócenie polaryzacji błony komórkowej
+- w synapsach pod wpływem potencjału zostają uwolnione neuroprzekaźniki, które powodują otwarcie kanałów jonowych w dendrytach
+- to umożliwia wnikanie jonów sodu do dendrytów i przewodzenie potencjału czynnościowego
+
+![](action_potential.png)
+
+</div></script></section></section><section ><section data-markdown><script type="text/template">
+# Modele neuronu
+
+- model ilościowy: Hodgkin–Huxley
+- model jakościowy: FitzHugh–Nagumo, Hindmarsh–Rose
+- karykatura: McCulloch–Pitts
+</script></section><section data-markdown><script type="text/template">
+## Model Hodgkina–Huxleya
+
+<div class="cols">
+
+- konduktancje $g_n$ - sterowane napięciem kanały jonowe ($g_{Na}$ i $g_K$)
+- prąd w $i$-tym kanale: $I_{i}={g_{i}}(V_{m}-V_{i})$
+- $C_m$ - pojemność błony komórkowej
+- $I_p$ - pompa jonowa
+
+![](Hodgkin-Huxley.svg)
+
+
+</div>
+
+</script></section><section data-markdown><script type="text/template">
+## Model McCullocha–Pittsa
+</script></section></section><section  data-markdown><script type="text/template">
+# Sztuczne sieci neuronowe
+## Podobieństwa do mózgu
+
+- złożona sieć połączeń
+- równoległe przetwarzanie informacji
+- szybkość działania
+- odporność na uszkodzenia
+- odporność na zaburzenia
+</script></section><section  data-markdown><script type="text/template">
+# Źródła
+
+- R. A. Kosiński, *Sztuczne sieci neuronowe. Dynamika nieliniowa i chaos*,  WNT 2007
+- G. D. Fischbach, *Mind and Brain*, Scientific American **267**, 3 (1992)
+- [wikipedia / Action potential](https://en.wikipedia.org/wiki/Action_potential)
+- [wikipedia / Hodgkin-Huxley model](https://en.wikipedia.org/wiki/Hodgkin%E2%80%93Huxley_model)</script></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"progress":true,"width":1920,"height":1080}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
