@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Sieci konwolucyjne</title>
+    <link rel="shortcut icon" href="./../../favicon.ico" />
+    <link rel="stylesheet" href="./../../dist/reset.css" />
+    <link rel="stylesheet" href="./../../dist/reveal.css" />
+    <link rel="stylesheet" href="./../../dist/theme/beige.css" id="theme" />
+    <link rel="stylesheet" href="./../../css/highlight/zenburn.css" />
+
+    <link rel="stylesheet" href="./../../_assets/custom.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+# Sieci konwolucyjne
+## (*Convolutional Neural Networks*)
+</script></section><section data-markdown><script type="text/template">
+## D. Hubel, T. Wiesel (1959)
+
+ - badania kory wzrokowej u kota
+ - poszczególne neurony pobudzane obszarami pola widzenia
+
+<div class="cols">
+
+![](Hubel_Wiesel_1.png)
+
+![](Hubel_Wiesel_2.png)
+
+</div>
+
+![](Hubel_Wiesel_3.png)
+</script></section><section data-markdown><script type="text/template">
+## Neocognitron
+
+### Kunihiko Fukushima (1979)
+
+![](neocognitron.png)
+
+</script></section><section data-markdown><script type="text/template">
+## Yann LeCun (1989, 1998)
+
+### LeNet-5
+
+![](lenet5.png)
+
+Uczenie metodą wstecznej propagacji
+</script></section><section data-markdown><script type="text/template">
+##  Alex Krizhevsky *et. al.* (2012)
+
+### AlexNet
+
+![](alexnet.png)
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Własności sieci konwolucyjnych
+
+- sieci wielowarstwowe jednokierunkowe
+- uczone za pomocą wstecznej propagacji
+- samodzielnie dokonują ekstrakcji cech
+- ekstrakcja cech możliwa na wielu poziomach abstrakcji (w różnej rozdzielczości)
+- zawierają warstwy liniowe jako końcowy klasyfikator
+- umożliwiają klasyfikację obrazów, dźwięków, szeregów czasowych itp.
+- wykorzystują operację splotu dyskretnego
+</script></section><section data-markdown><script type="text/template">
+### Zasada działania filtrów splotowych (konwolucyjnych)
+
+Operacja splotu dyskretnego jest zdefiniowana następująco:
+
+$(f \star g)[n]=\sum \limits_{m=-M}^{M}f[n-m]g[m]$
+
+- w CNN $f$ jest sygnałem wejściowym, $g$ jest filtrem (kernelem)
+- filtry z reguły są krótkimi wektorami (lub macierzami w przypadku 2D)
+- sygnał wejściowy jest próbkowany - dzielony na okna o długości filtra
+- w zależności od potrzeby dobiera się właściwe przekrycie okien
+- odpowiedź filtra jest iloczynem skalarnym okna z filtrem
+</script></section><section data-markdown><script type="text/template">
+### Przykłady działania splotu w 1D
+
+#### Splot z filtrem $[1, -1, 0]$
+
+![](conv1d_pulse.png)
+
+Splot z impulsem powoduje odtworzenie filtra w miejscu impulsu.
+</script></section><section data-markdown><script type="text/template">
+#### Splot z filtrem $[1, -1, 0]$ c.d.
+
+![](conv1d_square.png)
+
+![](conv1d_saw.png)
+
+Rozważany filtr czuły jest na zbocza sygnału. Daje odpowiedź dodatnią (ujemną) w przypadku zbocza narastającego (opadającego).
+</script></section><section data-markdown><script type="text/template">
+#### Splot z filtrem $[1, -1, 0]$ c.d.
+
+![](conv1d_triangle.png)
+
+![](conv1d_sine.png)
+
+Filtr $[1, -1, 0]$ różniczkuje sygnał wejściowy.
+</script></section><section data-markdown><script type="text/template">
+### Przykłady działania splotu w 2D
+
+![](conv2d_filters.png)
+
+Filtry w postaci macierzy $3 \times 3$, wyrazy o wartościach $1$ (czarny), $0$ (szary) i $-1$ (biały).
+
+#### Obrazy wejściowe
+
+<div class="cols12">
+
+<div>
+
+![](square.png)
+</div>
+
+<div>
+
+![](mnist.png)
+</div>
+</div>
+
+
+</script></section><section data-markdown><script type="text/template">
+### Przykłady działania splotu w 2D (kwadrat)
+
+![](conv2d_square.png)
+
+Po zastosowaniu funkcji aktywacji $ReLU$:
+
+![](conv2d_relu_square.png)
+</script></section><section data-markdown><script type="text/template">
+### Przykłady działania splotu w 2D c.d.
+
+Obrazy wejściowe z bazy MNIST.
+
+
+<div class="cols">
+
+![](conv2d_mnist_4.png)
+
+![](conv2d_mnist_2.png)
+
+</div>
+
+Po zastosowaniu funkcji aktywacji $ReLU$:
+
+<div class="cols">
+
+![](conv2d_relu_mnist_4.png)
+
+![](conv2d_relu_mnist_2.png)
+
+</div>
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Budowa sieci konwolucyjnej
+
+### na przykładzie VGG16
+
+![](vgg16.png)
+</script></section><section data-markdown><script type="text/template">
+## Budowa sieci konwolucyjnej
+
+### na przykładzie VGG16
+
+- warstwa konwolucyjna (splotowa) - dokonuje próbkowania (subsampling) i nakłada filtry splotowe (kernele)
+- warstwa aktywacyjna (np. ReLU)
+- warstwa *maxpooling* - oblicza maksima i zmniejsza rozdzielczość
+- powtórzenie powyższych warstw z większą liczbą coraz mniejszych filtrów
+- warstwa spłaszczająca do jednowymiarowego wektora cech
+- warstwy w pełni połączone (klasyfikacja)
+</script></section><section data-markdown><script type="text/template">
+## Ekstrakcja cech - próbkowanie
+
+<div class="cols">
+
+![](aggarwal_cnn_1.png)
+
+- dane wejściowe mogą mieć wiele kanałów / warstw (nie mylić z warstwami sieci): np. kanały RGB w obrazie lub odprowadzenia w EKG
+- filtry muszą posiadać tyle samo warstw, co dane, na których działają
+- w wyniku splotu otrzymujemy dane o liczbie kanałów równej liczbie filtrów
+- z reguły wraz z głębokością sieci liczba filtrów rośnie (rośnie liczba coraz bardziej abstrakcyjnych cech i zależności)
+
+</div>
+</script></section><section data-markdown><script type="text/template">
+## Ekstrakcja cech - filtry splotowe
+
+<div class="cols">
+
+![](aggarwal_cnn_2.png)
+
+
+<div>
+
+#### Kluczowe parametry splotu
+
+- rozmiar filtra (zasięg poszukowanych korelacji)
+- liczba filtrów (liczba ukrytych cech)
+- przekrycie okien próbkowania (*stride*)
+- wypełnienie (*padding*), czyli uzupełnienie danych na brzegach neutralnymi elementami (zerami)
+- rozszerzenie (*dilation*), czyli "rozrzedzenie" danych zerami
+
+
+</div>
+
+</div>
+</script></section><section data-markdown><script type="text/template">
+## Ekstrakcja cech - filtry splotowe
+
+![](aggarwal_cnn_4.png)
+
+Zwykle po operacji splotu nakładana jest nieliniowa funkcja aktywacji (np. *ReLU*), której zadaniem jest wzmocnienie efektu filtra i odrzucenie zbędnej informacji z danych.
+
+</script></section><section data-markdown><script type="text/template">
+## Zmniejszenie rozdzielczości - maxpooling
+
+
+<div class="cols">
+
+![](aggarwal_cnn_3.png)
+
+<div>
+
+- *downsampling* jest niezbędny, by wyszukiwać wzorce i korelacje o różnym zasięgu na wielu poziomach abstrakcji
+- jest to forma stratnej kompresji, jednak z zachowaniem informacji o przybliżonym wystąpieniu wyekstrachowanej cechy
+- zmniejszenie rozdzielczości może zostać zrealizowane również przez sam splot z mniejszym przekryciem okien (arytmetyka splotów: [github.com/vdumoulin/conv_arithmetic](https://github.com/vdumoulin/conv_arithmetic))
+
+</div>
+
+
+</div>
+</script></section></section><section ><section data-markdown><script type="text/template">
+# Zastosowania sieci konwolucyjnych
+
+Warstwy konwolucyjne odgrywają współcześnie kluczową rolę w sieciach odpowiadających za:
+
+- klasyfikację
+- identyfikację
+- segmentację
+- modelowanie generatywne
+</script></section><section data-markdown><script type="text/template">
+### Rozpoznawanie obrazów
+
+<div class="cols">
+<div>
+
+- sieci konwolucyjne osiągają najlepsze wyniki w konkursie rozpoznawania obrazów z bazy *ImageNet* (14 mln zdjęć w 20 tys. kategorii)
+- wzrost znaczenia dzięki zastosowaniu GPU w celu zwiększenia szybkości uczenia
+- aktualnie CNN osiągają większą efektywność od człowieka
+
+
+</div>
+
+<div>
+
+![](ImageNet_error_rate_history.png)
+</div>
+</div>
+</script></section><section data-markdown><script type="text/template">
+<div class="cols">
+<div>
+
+### Lokalizacja obiektów
+
+![](bounding_box.png)
+
+</div>
+<div>
+
+### Identyfikacja obiektów
+
+![](object_ident.png)
+
+</div>
+</div>
+</script></section><section data-markdown><script type="text/template">
+### Segmentacja
+
+![](mri.png)
+
+![](ecg.jpg)
+
+</script></section><section data-markdown><script type="text/template">
+### Szeregi czasowe
+
+Sieci konwolucyjne wykorzystuje się do analizy szeregów czasowych w 1D i w 2D:
+
+- sploty 1-wymiarowe operujące na "surowych" szeregach czasowych, czyli spróbkowanych seriach danych (dźwięk, dane meteorologiczne, dane finansowe, dane medyczne)
+- sploty 2-wymiarowe operujące na spektogramach (np. rozpoznawanie mowy)
+
+![](spectrogram.png)
+</script></section></section><section  data-markdown><script type="text/template">
+# Źródła
+
+1. C. C. Aggarwal, *Neural Networks and Deep Learning*, Springer 2018
+2. [Convolutional Neural Networks for Visual Recognition (Stanford class CS231n)](http://cs231n.stanford.edu/)
+
+
+</script></section></div>
+    </div>
+
+    <script src="./../../dist/reveal.js"></script>
+
+    <script src="./../../plugin/markdown/markdown.js"></script>
+    <script src="./../../plugin/highlight/highlight.js"></script>
+    <script src="./../../plugin/zoom/zoom.js"></script>
+    <script src="./../../plugin/notes/notes.js"></script>
+    <script src="./../../plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>

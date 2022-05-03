@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Rekurencyjne sieci neuronowe</title>
+    <link rel="shortcut icon" href="./../../favicon.ico" />
+    <link rel="stylesheet" href="./../../dist/reset.css" />
+    <link rel="stylesheet" href="./../../dist/reveal.css" />
+    <link rel="stylesheet" href="./../../dist/theme/beige.css" id="theme" />
+    <link rel="stylesheet" href="./../../css/highlight/zenburn.css" />
+
+    <link rel="stylesheet" href="./../../_assets/custom.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+# Rekurencyjne sieci neuronowe
+## Recurrent neural networks (RNN)
+
+- architektura RNN znajduje zastosowanie przy przetwarzaniu serii czasowych, języka naturalnego lub sekwencji nukleotydów w niciach DNA
+- działanie RNN opiera się na istnieniu ukrytych stanów neuronów zależnych od ich historii
+</script></section><section data-markdown><script type="text/template">
+## Budowa podstawowej RNN
+
+
+<div class="cols"><div>
+
+![](rnn.png)
+
+</div><div>
+
+
+
+<div>\[\begin{aligned}
+\bar h_t&=f(W_{xh} \bar x_t + W_{hh}\bar h_{t-1}) \\
+\bar y_t&=g(W_{hy} \bar h_t)
+\end{aligned}\]</div>
+
+*Oznaczenia:*
+
+$\bar x_t$ - zakodowana wartość szeregu (sekwencji) w chwili $t$
+
+$\bar h_t$ - ukryty (wewnętrzny) stan neuronu w chwili $t$
+
+$W_{xh}$, $W_{hh}$, $W_{hy}$ - macierz parametrów
+
+$f(\ldots)$, $g(\ldots)$ - funkcje aktywacji (np. $sigmoid$, $tanh$, $ReLU$)
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+## Ewolucja RNN w czasie
+
+![](rnn_unfolded.png)
+</script></section><section data-markdown><script type="text/template">
+## Przykład: przetwarzane języka naturalnego
+
+![](language.png)
+</script></section><section data-markdown><script type="text/template">
+## Wielowarstwowa RNN
+
+![](multilayer.png)
+</script></section><section data-markdown><script type="text/template">
+## Zalety i wady RNN
+
+- $+$ możliwość przetwarzania wejścia o dowolnej długości
+- $+$ rozmiar modelu nie zależy od rozmiaru wejścia
+- $-$ powolne obliczenia
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Warianty RNN
+
+
+<div class="cols"><div>
+
+![](variation1.png)
+
+</div><div>
+
+### *Many-to-many*
+
+- przewidywanie przyszłości
+- klasyfikacja wideo (po klatce)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Warianty RNN
+
+
+<div class="cols"><div>
+
+![](variation2.png)
+
+</div><div>
+
+### *One-to-many*
+- generowanie opisów zdjęć (obraz $\rightarrow$ sekwencja słów)
+- generowanie muzyki
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Warianty RNN
+
+
+<div class="cols"><div>
+
+![](variation3.png)
+
+</div><div>
+
+### *Many-to-one*
+- klasyfikacja opinii
+- podejmowanie decyzji (np. klatki wideo $\rightarrow$ akcja)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Warianty RNN
+
+
+
+<div class="cols"><div>
+
+![](variation4.png)
+
+</div><div>
+
+### *Many-to-many*
+#### (koder-dekoder)
+
+- tłumaczenie maszynowe
+- generowanie opisu wideo (klatki wideo $\rightarrow$ sekwencja słów)
+
+</div></div>
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Modyfikacje RNN
+
+- ze względu na rekurencyjność, RNN są podatne na problem znikających oraz eksplodujących gradientów
+- uniemożliwia to śledzenie długoterminowych zależności
+- by ograniczyć te problemy, stosuje się neurony LSTM (_long short-term memory_) oraz GRU (_gated recurrent unit_)
+</script></section><section data-markdown><script type="text/template">
+## Long Short-Term Memory (LSTM)
+
+
+<div class="cols"><div>
+
+![](lstm.png)
+
+</div><div>
+
+- $h_t$ - stan krótkoterminowy
+- $c_t$ - stan długoterminowy
+- $i_t$, $o_t$, $f_t$ - wyniki działania bramek wejściowej, wyjściowej i "zapomnij"
+
+
+<div>\[\begin{aligned}
+f_t&=\sigma_g (W_f x_t +U_f h_{t-1}+b_f) \\
+i_t&=\sigma_g (W_i x_t +U_i h_{t-1}+b_i) \\
+o_t&=\sigma_g (W_o x_t +U_o h_{t-1}+b_o) \\
+{\tilde c_t}&= \sigma_c (W_c x_t+U_c h_{t-1} + b_c) \\
+c_t&=f_t \odot c_{t-1}+i_t \odot {\tilde c_t} \\
+h_{t}&=o_{t}\odot \sigma_{h}(c_{t}) \\
+\end{aligned}\]</div>
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+## Gated Recurrent Unit (GRU)
+
+
+<div class="cols"><div>
+
+![](gru.png)
+
+</div><div>
+
+- $x_t$ - wejście
+- $h_t$ - wyjście
+- $r_t$ - wyjście bramki *reset*
+- $z_t$ - wyjście bramki *update*
+
+</div></div>
+
+
+<div>\[\begin{aligned}
+z_t&=\sigma_g (W_{z}x_{t}+U_{z}h_{t-1}+b_{z}) \\
+r_t&=\sigma_g (W_{r}x_{t}+U_{r}h_{t-1}+b_{r}) \\
+{\hat h_t}&=\phi_h (W_{h}x_{t}+U_{h}(r_{t}\odot h_{t-1})+b_{h}) \\
+h_{t}&=(1-z_{t})\odot h_{t-1}+z_{t}\odot {\hat {h}}_{t} \\
+\end{aligned}\]</div></script></section></section><section ><section data-markdown><script type="text/template">
+## Warto zobaczyć
+
+- [Show and Tell: A Neural Image Caption Generator](https://arxiv.org/abs/1411.4555)
+- [Show and Tell: Lessons learned from the 2015 MSCOCO Image Captioning Challenge](https://arxiv.org/abs/1609.06647)
+- [DRAW: A Recurrent Neural Network For Image Generation](https://arxiv.org/abs/1502.04623)
+- [Sequence to Sequence Learning with Neural Networks](https://arxiv.org/abs/1409.3215)
+- [Andrej Karpathy: The Unreasonable Effectiveness of Recurrent Neural Networks](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
+- [Long-term Recurrent Convolutional Networks for Visual Recognition and Description](https://arxiv.org/abs/1411.4389)
+<hr/>
+
+## Źródła ilustracji
+
+- C. C. Aggarwal, *Neural Networks and Deep Learning*,  Springer 2018
+- [Recurrent neural network
+ (Wikipedia)](https://en.wikipedia.org/wiki/Recurrent_neural_network)
+- [Recurrent Neural Networks cheatsheet](https://stanford.edu/~shervine/teaching/cs-230/cheatsheet-recurrent-neural-networks)
+</script></section><section data-markdown><script type="text/template">
+## Dodatek: kodowanie symboli w RNN
+
+
+<div class="cols"><div>
+
+### kod 1 z n (*one-hot encoding*)
+
+- kod pozycyjny bezwagowy
+- wymiar przestrzeni równy jest liczbie symboli (rozmiarowi słownika)
+- słowa binarne zawierające tylko jeden bit $1$, jego pozycja determinuje zakodowaną wartość
+
+![](one-hot-representation-en.png)
+
+</div><div>
+
+### zanurzenie (*embedding*)
+
+- symbole (słowa) reprezentowane są przed rzeczywiste wektory w przestrzeni o mniejszym wymiarze niż rozmiar słownika
+- bliskość słów w przestrzeni zanurzenia oznacza podobieństwo semantyczne
+
+![](word-embedding-representation-en.png)
+
+</div></div>
+</script></section></section></div>
+    </div>
+
+    <script src="./../../dist/reveal.js"></script>
+
+    <script src="./../../plugin/markdown/markdown.js"></script>
+    <script src="./../../plugin/highlight/highlight.js"></script>
+    <script src="./../../plugin/zoom/zoom.js"></script>
+    <script src="./../../plugin/notes/notes.js"></script>
+    <script src="./../../plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>

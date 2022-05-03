@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Sieci niesekwencyjne</title>
+    <link rel="shortcut icon" href="./../favicon.ico" />
+    <link rel="stylesheet" href="./../dist/reset.css" />
+    <link rel="stylesheet" href="./../dist/reveal.css" />
+    <link rel="stylesheet" href="./../dist/theme/beige.css" id="theme" />
+    <link rel="stylesheet" href="./../css/highlight/zenburn.css" />
+
+    <link rel="stylesheet" href="./../_assets/custom.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+# Sieci splotowe niesekwencyjne
+
+- sieci z połączeniami rezydualnymi (*ResNets*)
+- sieci z głęboką agregacją warstw (*Deep Layer Aggregation*)
+- autoenkodery typu *U-Net* do segmentacji
+
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+### Model sekwencyjny (linearny)
+![](seq.png)
+
+</div><div>
+
+### Modele niesekwencyjne
+![](nonseq1.png)
+![](nonseq2.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Jak działa sekwencyjna sieć splotowa?
+
+
+<div class="cols"><div>
+
+- warstwy splotowe dokonują **ekstrakcji cech** za pomocą zestawu filtrów
+- jednocześnie następuje **zmniejszanie rozdzielczości** obrazu efektywnie zwiększając zasięg filtrów
+  - pierwsze warstwy szukają cech niskopoziomowych, np. krawędzie
+  - warstwy środkowe szukają cech średniopoziomowych, np. kształty
+  - warstwy końcowe szukają cech wysokopowiomowych, np. relacji pomiędzy cechami średniego poziomu
+
+
+
+</div><div>
+
+![](vgg16.png)
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+## Ograniczenia sieci sekwencyjnych
+
+<div class="cols"><div>
+
+- przy dużych głębokościach następuje przedwczesne zatrzymanie uczenia ze względu na **problem znikających gradientów**
+- klasyfikacja następuje wyłącznie na podstawie cech wysokiego poziomu
+
+</div><div>
+
+![](plain_cifar10.png)
+Postępy uczenia sieci sekwencyjnej na przykładzie bazy *CIFAR10*.
+
+</div></div>
+</script></section></section><section ><section data-markdown><script type="text/template">
+# Sieci rezydualne
+
+<div class="cols"><div>
+
+- *ResNet* - Residual Neural Network
+- model zaproponowany w 2015 roku przez grupę badaczy z firmy Microsoft (*MSRA*)
+- grupa zwyciężyła w 194 kategoriach (na 200) w konkursie [ImageNet](https://www.image-net.org/challenges/LSVRC/2015/results.php) w 2015 roku
+
+</div><div>
+
+![](he.png)
+
+[Źródło](https://scholar.google.com/citations?user=DhtAFkwAAAAJ&hl=en)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template"><!-- .element data-auto-animate -->
+## Założenia modelu ResNet
+
+
+<div class="cols"><div>
+
+- połączenia resztkowe (skróty), omijające warstwę lub grupę warstw
+- na ogół skrót omija warstwę splotową, normalizującą (np. *BatchNorm*) i aktywacyjną
+- skróty pozwalają na propagację gradientu ograniczając problem znikania gradientów w bardzo głębokich sieciach
+- obecność skrótów upraszcza sieć, stabilizując algorytm optymalizacji poprzez wymuszenie stopniowej eksploracji przestrzeni parametrów
+- dodanie skrótu nie zwiększa złożoności obliczeniowej, skróty nie posiadają wag (mogą w *highway network*)
+
+</div><div>
+
+![](resnet_block.png)
+
+</div></div>
+</script></section><section data-markdown><script type="text/template"><!-- .element data-auto-animate -->
+## Zasada działania ResNet
+
+<div class="cols21"><div>
+
+- **założenie:** odwzorowanie $H(\vec x)$ może być aproksymowane przez szereg przekształceń (warstw) nieliniowych
+- **teza:** możliwa jest aproksymacja reszty (residuum) $F(\vec x)= H(\vec x)-\vec x$
+- **obserwacja:** algorytmom łatwiej jest znaleźć residuum $F(\vec x)$, niż funkcję $H(\vec x)$
+- skrót przekazuje niezmieniony sygnał, oznacza więc **odwzorowanie tożsamościowe**
+- oryginalny sygnał jest dodawany do wyniku działania funkcji $F(\vec x)$
+- jeśli $F(\vec x)$ i $\vec x$ mają inny wymiar, dokonywana jest liniowa projekcja $W_s \vec x$
+
+
+</div><div>
+
+![](resnet_block.png)
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+## Sieć splotowa typu ResNet
+
+### *Bottleneck architecture*
+
+
+<div class="cols"><div>
+
+- blok składa się z 3 warstw splotowych
+  - warstwa z filtrami $1 \times 1$: redukcja wymiaru (liczby kanałów)
+  - warstwa z filtrami $3 \times 3$ (mniejszy rozmiar wejściowy i wyjściowy)
+  - warstwa z filtrami $1 \times 1$: przywrócenie wymiaru
+- ostatnia warstwa $1 \times 1$ może zmniejszać rozdzielczość poprzez skok o wartości $2$.
+
+</div><div>
+
+![](resnet_deep.png)
+
+</div></div>
+
+
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+### Sieć splotowa typu ResNet
+
+Przykłady architektur *ResNet* dla bazy *ImageNet*:
+
+![](resnet_impl.png)
+
+Zmniejszenie rozdzielczości następuje w warstwach *conv3_1*, *conv4_1* i *conv5_1* ze skokiem $2$.
+
+Dla porównania: liczba FLOPs dla VGG19: $19.6 \times 10^9$.
+
+</div><div>
+
+![](vgg_vs_resnet.png)<!-- .element style="width:50%" -->
+
+</div></div>
+
+
+
+</script></section><section data-markdown><script type="text/template">
+## Efektywność modelu ResNet
+
+![](resnet_imagenet.png)
+
+Postępy uczenia na przykładzie bazy *ImageNet*.
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+## ResNet do klasyfikacji zapisów EKG
+
+![](ribeiro.png)<!-- .element style="width:75%" -->
+
+⬆️ Ribeiro, A.H. et al. Automatic diagnosis of the 12-lead ECG using a deep neural network. *Nat Commun* 11, 1760 (2020).
+
+➡️ Hannun, A.Y. et al. Cardiologist-level arrhythmia detection and classification in ambulatory electrocardiograms using a deep neural network. *Nat Med* 25, 65–69 (2019).
+
+
+</div><div>
+
+
+![](hannun.png)<!-- .element style="width:40%" -->
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+## ResNeXt
+### (2017)
+
+![](resnext.png)
+
+*Równoważne bloki w modelu ResNeXt.*
+</script></section></section><section ><section data-markdown><script type="text/template">
+# Sieci o głębokiej agregacji warstw
+### Deep Layer Aggregation (DLA)
+
+<div class="cols"><div>
+
+- agregacja wielopoziomowa (łaczenie różnych rozdzielczości i głębi)
+- agregacja poprzez nieliniową kompozycję
+- możliwość tworzenia struktur iteracyjnych i hierarchicznych
+- poprawa skuteczności sieci
+- węzły agregujące oparte na splotach $1 \times 1$: $N(\vec x_1, \ldots, \vec x_n)= \sigma(BatchNorm(\sum\limits_i W_i \vec x_i + \vec b))$
+
+
+</div><div>
+
+![](yu.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">### Proponowane architektury *DLA*
+![](deep_aggregation.png)<!-- .element style="width:75%" -->
+
+
+<div class="cols"><div>
+
+#### Agregacja iteratywna
+- kolejne poziomy odpowiadają za cechy różnego poziomu
+- węzły agregujące łączą różne rozdzielczości (skale)
+
+</div><div>
+
+#### Agregacja hierarchiczna
+- struktura drzewa
+- agregacja węzłów o tej samej głębi
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Łączenie metod agregacji
+
+![](hierarchical.png)
+
+Głęboka agregacja pozwala na lepszą ekstrakcję informacji przestrzennej i semantycznej.
+</script></section></section><section ><section data-markdown><script type="text/template">
+# U-Net
+
+
+<div class="cols"><div>
+
+- model zaproponowany w 2015 roku
+- segmentacja danych z obrazowania medycznego
+- sieć w pełni splotowa
+- model oparty na architekturze autoenkodera
+
+</div><div>
+
+![](ronneberger.png)
+
+[Źródło](https://scholar.google.de/citations?user=7jrO1NwAAAAJ&hl=en)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Struktura U-Net
+
+<div class="cols"><div>
+
+- ścieżka redukująca / kompresująca (koder) i rekonstruująca / dekompresująca (dekoder)
+- ścieżka kompresująca zawiera warstwy splotowe ($3 \times 3$) i $MaxPool$ ($2 \times 2$)
+- ścieżka dekompresująca zawiera sploty transponowane (z ułamkowym skokiem) i konkatenację przyciętych map cech ze ścieżki kompresującej
+
+</div><div>
+
+![](unet.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Segmentacja "kafelkowa"
+### *Overlap-tile strategy*
+
+
+<div class="cols"><div>
+
+- segmentacja przekrywających się okienek
+- możliwe przetwarzanie obrazów o dowolnym rozmiarze
+- segmentacja obszaru w żółtej ramce na podstawie obrazu w niebieskiej ramce
+- brakujące dane są ekstrapolowane przez lustrzane odbicie
+
+</div><div>
+
+![](segmentation_mirroring.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Śledzenie komórek
+### *ISBI cell tracking challenge*
+
+![](segmentation_cells.png)
+
+
+- *a*, *c*: obraz wejściowy
+- *b*, *d*: żółty kontur - rzeczywiste granice; kolorowe obszary - wynik z modelu
+</script></section></section><section  data-markdown><script type="text/template">
+# Literatura
+
+- [K. He, X. Zhang, S. Ren and J. Sun, "Deep Residual Learning for Image Recognition," 2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2016, pp. 770-778](https://ieeexplore.ieee.org/document/7780459)
+
+- [S. Xie, R. Girshick, P. Dollár, Z. Tu and K. He, "Aggregated Residual Transformations for Deep Neural Networks," 2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2017, pp. 5987-5995](https://ieeexplore.ieee.org/document/8100117)
+
+
+- [F. Yu, D. Wang, E. Shelhamer and T. Darrell,  "Deep Layer Aggregation," in 2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), Salt Lake City, UT, USA, 2018 pp. 2403-2412.](https://www.computer.org/csdl/proceedings-article/cvpr/2018/642000c403/17D45Xtvpcb)
+
+- [Ronneberger, O., Fischer, P., Brox, T. (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation. In: Navab, N., Hornegger, J., Wells, W., Frangi, A. (eds) Medical Image Computing and Computer-Assisted Intervention](https://link.springer.com/chapter/10.1007/978-3-319-24574-4_28)</script></section></div>
+    </div>
+
+    <script src="./../dist/reveal.js"></script>
+
+    <script src="./../plugin/markdown/markdown.js"></script>
+    <script src="./../plugin/highlight/highlight.js"></script>
+    <script src="./../plugin/zoom/zoom.js"></script>
+    <script src="./../plugin/notes/notes.js"></script>
+    <script src="./../plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>

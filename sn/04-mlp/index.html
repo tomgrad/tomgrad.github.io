@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Perceptron</title>
+    <link rel="shortcut icon" href="./../favicon.ico" />
+    <link rel="stylesheet" href="./../dist/reset.css" />
+    <link rel="stylesheet" href="./../dist/reveal.css" />
+    <link rel="stylesheet" href="./../dist/theme/beige.css" id="theme" />
+    <link rel="stylesheet" href="./../css/highlight/zenburn.css" />
+
+    <link rel="stylesheet" href="./../_assets/custom.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+
+# Perceptron
+
+- perceptron prosty
+- perceptron wielowarstwowy
+- problem znikających i eksplodujących gradientów
+- funkcje aktywacji
+- algorytmy optymalizacji uczenia sieci
+- problem przeuczania sieci
+</script></section><section ><section data-markdown><script type="text/template">
+
+## Perceptron prosty
+
+<div class="cols">
+
+<div>
+
+- najprostsza sieć neuronowa (1 neuron)
+- $\vec x$ - wektor cech (warstwa wejściowa)
+- $\vec w$ - wagi połączeń
+- liniowy klasyfikator binarny (2 klasy)
+  - $y=\sigma(\vec w \cdot \vec x + b)$ - układ $a$ 
+  - $y=\sigma(\vec w \cdot \vec x)$ - układ $b$
+  - $\sigma(\ldots)$ - funkcja aktywacji
+
+</div>
+
+![](simple_perceptron.png)
+Źródło: [1]
+
+</div>
+</script></section><section data-markdown><script type="text/template">
+## Uczenie perceptronu prostego
+### Rosenblatt, 1962 [3]
+<div class="cols">
+
+<div>
+
+- $\\{ \vec x_\mu, \hat y_\mu \\}$ - zbiór uczący {wektor cech, klasa}
+- $h_\mu=\sum\limits_n x_{\mu i } w_i$ - pole lokalne od wzorca $\mu$
+- $y_\mu=\sigma(h_\mu)$ - wyjście dla wzorca $\mu$
+- $\sigma(x) = \frac{1}{1+e^{-x}}$ - funkcja aktywacji
+
+</div>
+<div>
+
+- $L_\mu = \frac{1}{2} (\hat y_\mu - y_\mu)^2$ - strata na wzorzec
+- $L=\sum\limits_\mu L_\mu$
+- $\frac{\partial L}{\partial w_i}=-\sum\limits_\mu (\hat y_\mu - y_\mu) \sigma\prime(h_\mu) x_i$ - gradient
+- $\sigma\prime=\sigma(1-\sigma)$
+</div>
+
+</div>
+
+[Przykład w Pythonie](https://github.com/tomgrad/SN-kod/blob/main/simple_perceptron/simple_perceptron.ipynb)
+
+</script></section><section data-markdown><script type="text/template">
+
+## Klasyfikator liniowy vs perceptron
+
+Klasyfikator liniowy:
+
+$f(x) = W x$
+
+Perceptron z jedną warstwą ukrytą
+
+$f(x) = W_2 \sigma(W_1 x)$
+
+Perceptron z dwiema warstwami ukrytymi
+
+$f(x) = W_3 \sigma \left(W_2 \sigma(W_1 x) \right)$
+
+$\sigma(\ldots)$ - nieliniowa funkcja aktywacji
+</script></section><section data-markdown><script type="text/template">
+## Klasyfikator liniowy vs perceptron
+
+<div class="cols">
+
+Klasyfikator liniowy\
+![](linear.png)
+
+Perceptron z jedną warstwą ukrytą\
+![](mlp01.png)
+
+</div>
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Perceptron wielowarstwowy
+### Multi-layer perceptron (MLP)
+
+- należy do klasy wielowarstwowych sieci jednokierunkowych
+- umożliwia klasyfikację danych liniowo nieseparowalnych
+- pełni rolę wyjściowego modułu w bardziej złożonych architekturach (np. sieciach konwolucyjnych)
+- znajduje zastosowanie przy ekstrakcji cech i przy generacji (np. autoenkodery)
+
+</script></section><section data-markdown><script type="text/template">
+## Perceptron wielowarstwowy
+### Wielowarstwowa sieć jednokierunkowa
+
+![](mlp.png)
+Źródło: [1]
+
+[Przykład w Pythonie](https://github.com/tomgrad/SN-kod/blob/main/basic_mlp/mlp.ipynb)</script></section><section data-markdown><script type="text/template">
+## Zasada działania perceptronów warstwowych
+
+<div class="cols">
+
+<div>
+
+- warstwy ukryte z nieliniowymi funkcjami aktywacji przekształcają wejściowy wektor cech do ukrytej przestrzeni (*latent space*)
+- przekształcenie jest nieliniowe (następuje "wygięcie" przestrzeni)
+- dane w przestrzeni ukrytej są liniowo separowalne
+- neurony w warstwie wyjściowej dokonują liniowej klasyfikacji (przecinają przestrzeń ukrytą hiperpłaszczyznami)
+</div>
+
+<div>
+
+![](transformation.png)
+Źródło: [1]
+
+</div>
+
+</div>
+</script></section><section data-markdown><script type="text/template">
+### Zasada działania perceptronów warstwowych
+
+<div class="cols">
+
+![](region_shapes.png)
+Źródło: [6]
+
+![](transformation_space.png)
+[Przykład w JS (autor: Andrej Karpathy)](https://cs.stanford.edu/people/karpathy/convnetjs/demo/classify2d.html)
+
+</div>
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Problem znikających i eksplodujących gradientów
+
+- wyznaczanie gradientu za pomocą reguły łańcuchowej ma swoje negatywne konsekwencje
+- niska (zerowa) wartość jednego z gradientów lokalnych powoduje zniknięcie gradientu
+- zanik gradientu powoduje zatrzymanie procesu uczenia sieci
+
+### Przyczyny zaniku gradientu
+
+- zbyt duże wartości wag skutkują dużą wartością pól lokalnych działających na neurony
+- duże pole lokalne powoduje wejście neuronu w stan nasycenia
+
+### Metody unikania problemu
+
+- odpowiednia inicjalizacja wag (wariancja zależna on liczby neuronów w warstwie)
+- zastąpienie funkcji sigmoidalnej innym rodzajem funkcji aktywacji
+- uczenie adaptacyjne
+- *batch normalization*
+- *residual neural networks*
+</script></section><section data-markdown><script type="text/template">
+## Funkcje aktywacji
+### Funkcje sigmoidalne
+<div class="cols">
+
+<div>
+
+$\sigma(x)=\frac{1}{1+e^{-x}}$
+
+(*funkcja logistyczna*)
+
+![](sigmoid.png)
+</div>
+
+<div>
+
+$\sigma(x)=\tanh(x)$
+
+![](tanh.png)
+</div>
+</div></script></section><section data-markdown><script type="text/template">
+## Funkcje aktywacji
+### Prostowniki
+
+<div class="cols">
+<div>
+
+Prostownik (*ReLU - rectified linear unit*)
+
+$f (x) = \ max (0, x)$
+
+![](relu.png)
+</div>
+<div>
+
+Przeciekający prostownik (*leaky ReLU*)
+
+$$f(x)={\begin{cases}x&{\text{gdy }}x>0,\\\0.1x&{\text{w p.p.}}\end{cases}}$$
+
+![](leaky_relu.png)
+</div>
+</div>
+</script></section><section data-markdown><script type="text/template">## Funkcje aktywacji c.d.
+
+
+Wykładniczy prostownik (*ELU*)
+
+${\displaystyle f(x)={\begin{cases}x&{\text{gdy }}x>0\\\a(e^{x}-1)&{\text{w p.p.}}\end{cases}}}$
+
+![](elu.png)
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Metody optymalizacji
+
+- gradient w sieciach neuronowych wyznaczamy metodą wstecznej propagacji
+- aktualizacji parametrów sieci możemy dokonać z wykorzystaniem różnych algorytmów
+- algorytmy różnią się przede wszystkim szybkością znajdowania minimum funkcji straty
+
+<div class="cols">
+
+![](opt1.gif)
+
+![](opt2.gif)
+
+</div>
+
+Źródło: [4]
+
+https://ruder.io/optimizing-gradient-descent/</script></section><section data-markdown><script type="text/template">
+## Metoda gradientu prostego 
+### *(batch) gradient descent (GD)*
+
+- układ opisują parametry $\\{w_i\\}$ (wagi połączeń sieci neuronowej)
+- szukamy minimum pewnej funkcji straty $L$
+- wyznaczamy składowe gradientu $\frac{\partial L}{\partial w_i}$ metodą wstecznej propagacji
+- aktualizujemy wartości wag proporcjonalnie do wartości gradientu lecz w przeciwnym kierunku
+
+$w_i := w_i- \eta \frac{\partial L}{\partial w_i}$
+
+$w := w - \eta \nabla_w L$
+
+- w metodzie GD gradient wyznaczony jest na podstawie całego zbioru uczącego 
+</script></section><section data-markdown><script type="text/template">
+## Wersja stochastyczna metody gradientu prostego
+### *stochastic gradient descent (SGD)*
+
+- gradient wyznaczamy na podstawie wartości funkcji straty dla pojedynczego wzorca $\mu$
+- aktualizujemy wagi sieci
+
+$w_i:=w_i- \eta \frac{\partial L^{(\mu)}}{\partial w_i}$
+
+- procedurę powtarzamy dla każdego wzorca w zbiorze uczącym
+- kolejność wzorców jest losowa i inna dla każdej epoki
+- dla metody SGD charakterystyczne są duże fluktuacje
+
+
+## Mini-batch GD
+- gradient wyznaczamy dla pewnej porcji (*batch*) danych z zestawu uczącego
+- porcje są losowane
+</script></section><section data-markdown><script type="text/template">
+## SGD z bezwładnością
+### (*SGD with momentum*)
+
+- szybkość uczenia w danym kroku zależy od poprzedniego kroku
+- $\gamma$ - parametr bezwładności
+
+$v_t=\gamma v_{t-1} + \eta \nabla_w L$
+
+$w := w - v_t$
+
+- dzięki bezwładności układ szybciej znajduje minimum
+- bezwładność redukuje wpływ fluktuacji
+</script></section><section data-markdown><script type="text/template">
+## Problemy tradycyjnych algorytmów
+
+- trudny wybór szybkości uczenia (mała $\eta$ - wolne zbieganie, duża $\eta$ - niestabilność)
+- ta sama szybkość uczenia przez wszystkie epoki (ewentualnie trudność określenia zmienności uczenia z czasem)
+- ta sama szybkość uczenia dla wszystkich parametrów, bez względu na częstotliwość występowania odpowiadającej im cechy
+- trudność ominięcia lokalnych minimów
+</script></section><section data-markdown><script type="text/template">
+### AdaGrad
+#### adaptive gradient algorithm
+
+- różne współczynniki uczenia dla każdego parametru i kroku
+- wolniejsze uczenie wag odpowiadających za często występujące cechy
+- szybsze uczenie wag związanych z rzadkimi cechami
+
+- $g_{t, i} = \nabla_w L( w_{t, i} )$ - gradient $i$-tej wagi w chwili $t$
+
+Aktualizacja szybkości uczenia:
+
+$w_{t+1, i} = w_{t, i} - \frac{\eta}{\sqrt{G_{t, ii} + \epsilon}} \cdot g_{t, i}$
+
+$G_t$ - macierz diagonalna: $G_{t,jj}=\sum\limits_{\tau=1}^{t}g_{\tau ,j}^{2}$
+</script></section><section data-markdown><script type="text/template">
+### AdaDelta
+
+- modyfikacja metody AdaGrad
+- rozwiązuje problem kumulowania się gradientów z poprzednich kroków, a więc malenia współczynnika uczenia
+- wprowadzone jest okno czasowe o ustalonej długości, z którego wyliczany jest współczynnik uczenia
+</script></section><section data-markdown><script type="text/template">
+### RMSprop
+#### root mean square propagation
+
+- niezależna szybkość uczenia dla każdego parametru
+- szybkość uczenia zależy od ruchomej średniej ostatnich gradientów dla danej wagi.
+
+$v(w,t):=\gamma v(w,t-1)+(1-\gamma )(\nabla_w L(w))^{2}$
+
+gdzie $\gamma$ jest parametrem zapominania.
+
+- wagi są aktualizowane wg równania:
+
+$w:=w-{\frac {\eta }{\sqrt {v(w,t)}}}\nabla L(w)$
+</script></section><section data-markdown><script type="text/template">
+### Adam
+#### adaptive moment estimation
+
+- szybkość uczenia zależy od wykładniczo zanikającej średniej z ostatnich gradientów
+- zależy również od wykładniczo zanikającej średniej drugich momentów gradientów
+- rozwiązanie takie symuluje bezwładność i opór
+  
+Zanikające średnie:
+
+$m_t=\beta_1 m_{t−1}+(1−\beta_1)\nabla_w L$
+
+$v_t=\beta_2 v_{t−1}+(1−\beta_2)(\nabla_w L)^2$
+
+- ponieważ $m$ i $v$ na początku są zerowe, wyznaczamy ich poprawione wartości:
+
+$\hat m_t = \frac{m_t}{1-\beta_1^t}$
+
+$\hat v_t = \frac{v_t}{1-\beta_2^t}$
+
+Aktualizacja wag: $w := w - \frac{\eta}{\sqrt{\hat v_t}+\epsilon} \hat m_t$
+</script></section></section><section  data-markdown><script type="text/template">
+## Problem przeuczenia sieci neuronowej
+### (*overfitting problem*)
+
+- przeuczenie - zbytnie dopasowanie klasyfikatora do zbioru uczącego
+- utrudnia rozpoznawanie wzorców spoza zestawu uczącego
+- redukuje uniwersalność modelu
+
+### Metody uniknięcia przeuczenia
+
+- [regularyzacja](https://en.wikipedia.org/wiki/Regularization_(mathematics))
+- wczesne zakończenie nauki
+- rozcieńczanie (*dilution*, *dropout*)
+</script></section><section  data-markdown><script type="text/template">
+# Źródła
+
+1. C. C. Aggarwal, *Neural Networks and Deep Learning*, Springer 2018
+2. [Convolutional Neural Networks for Visual Recognition (Stanford class CS231n)](http://cs231n.stanford.edu/)
+3. J. Hertz, A. Krogh, R.G. Palmer, *Wstęp do obliczeń neuronowych*, WNT 1995
+4. Alec Radford, [imgur 1](https://imgur.com/a/Hqolp), [imgur 2](https://imgur.com/SmDARzn), [reddit](https://www.reddit.com/r/MachineLearning/comments/2p93s9/nice_visualization_of_stochastic_optimizers_by/), 
+5. S. Ruder, *An overview of gradient descent optimization algorithms*,  	[arXiv:1609.04747](https://arxiv.org/abs/1609.04747)
+6. R. Tadeusiewicz, *Sieci neuronowe*, Akademicka Oficyna Wydawnicza, Warszawa 1993</script></section></div>
+    </div>
+
+    <script src="./../dist/reveal.js"></script>
+
+    <script src="./../plugin/markdown/markdown.js"></script>
+    <script src="./../plugin/highlight/highlight.js"></script>
+    <script src="./../plugin/zoom/zoom.js"></script>
+    <script src="./../plugin/notes/notes.js"></script>
+    <script src="./../plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>

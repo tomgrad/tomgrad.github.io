@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Wsteczna propagacja</title>
+    <link rel="shortcut icon" href="./../favicon.ico" />
+    <link rel="stylesheet" href="./../dist/reset.css" />
+    <link rel="stylesheet" href="./../dist/reveal.css" />
+    <link rel="stylesheet" href="./../dist/theme/beige.css" id="theme" />
+    <link rel="stylesheet" href="./../css/highlight/zenburn.css" />
+
+    <link rel="stylesheet" href="./../_assets/custom.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+
+# Wsteczna propagacja
+
+1. Klasyfikatory
+2. Funkcja straty
+3. Grafy obliczeniowe
+4. Wsteczna propagacja
+5. Klasyfikator liniowy
+</script></section><section ><section data-markdown><script type="text/template">
+## Klasyfikacja
+
+Proces nadawania etykiet.
+
+|          | ![](kot.jpg) | ![](rower.jpg) | ![](drzewo.jpg) |
+| -------: | -----------: | -------------: | --------------: |
+|  *rower* |       $-0.1$ |          $1.3$ |          $-2.1$ |
+|    *kot* |        $2.1$ |          $0.8$ |           $1.5$ |
+| *drzewo* |        $0.7$ |         $-1.2$ |           $0.2$ |
+</script></section><section data-markdown><script type="text/template">
+## Klasyfikator
+
+- Klasyfikator odwzorowuje przestrzeń danych na przestrzeń etykiet.
+
+- Klasyfikator to funkcja $f(x,W)$, gdzie $x$ to dane, a $W$ - parametry, która zwraca punktację dla każdej klasy.
+
+- Punkty - nieunormowane logarytmy prawdopodobieństwa.
+
+- Uczenie klasyfikatora - optymalizacja: dobór parametrów $W$, by zminimalizować *funkcję straty*.
+
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Uczenie klasyfikatora
+
+1. Propagacja do przodu (obliczenie punktacji)
+2. Wyznaczenie wartości funkcji straty
+3. Wsteczna propagacja
+4. Aktualizacja parametrów klasyfikatora (metoda gradientu prostego)
+</script></section><section data-markdown><script type="text/template">
+### Propagacja do przodu
+
+- $\\{ x_i \\}$ - zbiór wejściowych danych uczących
+- $\\{ y_i \\}$ - etykiety danych testowych (indeksy klas)
+
+
+![](klasyfikator_1.png)
+
+
+</script></section><section data-markdown><script type="text/template">
+### Funkcja straty (*loss function*)
+
+Funkcja, której wartość jest minimalizowana w trakcie procesu uczenia.
+
+Inaczej: funkcja kosztu, funkcja błędu
+
+
+#### Przykład funkcji straty
+
+<div class="cols">
+
+Hinge loss (Weston-Watkins 1999)
+$$L_i=\sum\limits_{j \neq y_i} \max (0, s_j-s_{y_i}+\epsilon)$$
+
+- $\sum\limits_{j \neq y_i}$ - suma po "złych" klasach
+- $s_j$ - punktacja $j$-ej klasy
+- $s_{y_i}$ - punktacja właściwej klasy
+- $\epsilon$ - margines
+
+</div>
+</script></section><section data-markdown><script type="text/template">### Przykład: hinge loss
+
+$L_i=\sum\limits_{j \neq y_i} \max (0, s_j-s_{y_i}+1)$
+
+
+|            | <img src="kot.jpg" width=50%/> | <img src="rower.jpg" width=50%/> | <img src="drzewo.jpg" width=50%/> |
+| ---------: | -----------------------------: | -------------------------------: | --------------------------------: |
+|    *rower* |                         $-0.1$ |                          👍 $1.3$ |                            $-2.1$ |
+|      *kot* |                        👍 $2.1$ |                            $0.8$ |                             $1.5$ |
+|   *drzewo* |                          $0.7$ |                           $-1.2$ |                           👍 $0.2$ |
+| **strata** |                          **0** |                          **0.5** |                           **2.3** |
+
+Całkowita strata (dla całego zbioru uczącego):
+
+$L=\sum\limits_i L_i = 2.8$
+</script></section><section data-markdown><script type="text/template">
+## Pytania
+
+1. Co zmieni sumowanie po wszystkich klasach?
+2. Co zmieni średnia zamiast sumy w całkowitej stracie?
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Softmax
+
+Punkty przyznane klasom przez klasyfikator możemy interpretować jako nieunormowane logarytmy prawdopodobieństw.
+
+$$P(Y=k | X=x_i)=\frac{e^{s_k}}{\sum\limits_j e^{s_j}}$$
+
+$P$ - prawdopodobieństwo, że wejście $x_i$ należy do klasy $k$.
+
+### Entropia krzyżowa (cross-entropy loss)
+
+$$L_i=-\ln P(Y=y_i | X=x_i) = - \ln \frac{e^{s_{y_i}}}{\sum\limits_j e^{s_j}}$$
+</script></section><section data-markdown><script type="text/template">
+### Przykład: softmax i cross-entropy loss
+
+<div class="cols">
+
+<div>
+
+![](rower.jpg)
+
+|          |     $s$ |      $e^s$ |  $P_k$ |
+| -------: | ------: | ---------: | -----: |
+|  *rower* | 👍 $1.3$ |      $3.7$ |  $0.6$ |
+|    *kot* |   $0.8$ |      $2.2$ | $0.35$ |
+| *drzewo* |  $-1.2$ |      $0.3$ | $0.05$ |
+|          |         | $\sum=6.2$ |        |
+
+
+$L_i=-\ln 0.6=0.51$
+</div>
+
+<div>
+
+![](drzewo.jpg)
+
+|          |     $s$ |      $e^s$ |  $P_k$ |
+| -------: | ------: | ---------: | -----: |
+|  *rower* |  $-2.1$ |      $0.1$ | $0.02$ |
+|    *kot* |   $1.5$ |      $4.5$ | $0.78$ |
+| *drzewo* | 👍 $0.2$ |      $1.2$ | $0.21$ |
+|          |         | $\sum=5.8$ |        |
+
+
+$L_i=-\ln 0.21=1.6$
+</div>
+
+</div>
+</script></section><section data-markdown><script type="text/template">
+## Pytania
+
+1. Jakie są maksymalne i minimalne wartości straty cross-entropy?
+2. Na początku uczenia z reguły wszystkie wartości punktacji $s$ są bliskie zera. Jaka zatem jest początkowa wartość funkcji straty?
+</script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-background="tuscany.jpg" -->
+
+<!-- ## Uczenie klasyfikatora -->
+<!-- ### Etap 2.: wsteczna propagacja -->
+## Metoda gradientu prostego 
+### (*gradient descent*)</script></section><section data-markdown><script type="text/template">
+## Metoda gradientu prostego
+
+Trenowanie klasyfikatora polega na szukaniu minimum funkcji straty dla ustalonego zbioru uczącego.
+
+W tym celu stosujemy metodę gradientu prostego.
+
+Szukamy $\nabla_W L$ - gradientu funkcji straty 
+
+(pochodnej funkcji straty po parametrach klasyfikatora)
+
+### Algorytm
+
+```
+while not we_happy:
+    params_grad = eval_grad(data, params, loss_fun)
+    params -= learning_rate * params_grad
+```
+</script></section><section data-markdown><script type="text/template">
+## Grafy obliczeniowe
+
+Dowolną operację możemy przedstawić jako graf obliczeniowy, gdzie węzłami są elementarne operacje matematyczne.
+
+![](gradients.png)
+
+Lokalne gradienty możemy obliczyć od razu, w trakcie propagacji do przodu.
+</script></section></section><section ><section data-markdown><script type="text/template">
+### Przykład 1.
+
+$f(x, y, z)=(x+y)z$
+<div class="r-stack">
+
+<div class="fragment fade-in-then-out">
+
+![](graf_1a.png)
+</div>
+<div class="fragment fade-in-then-out">
+
+![](graf_1b.png)
+</div>
+<div class="fragment fade-in">
+
+![](graf_1c.png)
+</div>
+</div>
+</script></section><section data-markdown><script type="text/template">
+### Przykład 2.
+
+<div class="r-stack">
+
+<div class="fragment fade-in-then-out">
+
+![](graf_2a.png)
+</div>
+<div class="fragment fade-in-then-out">
+
+![](graf_2b.png)
+</div>
+<div class="fragment fade-in">
+
+![](graf_2c.png)
+</div>
+</div>
+</script></section><section data-markdown><script type="text/template">### Własności bramek
+
+<div class="cols" style="font-size:0.5em">
+
+![](gate_plus.png)</br>
+dystrybucja
+
+![](gate_mult.png)</br>
+przełączanie
+
+![](gate_max.png)</br>
+przekazywanie
+
+![](gate_fork.png)</br>
+sumowanie w rozgałęzieniach
+
+</div>
+</script></section><section data-markdown><script type="text/template">
+### Przykład 3. - f. sigmoidalna
+
+$f(x, w)=\frac{1}{1+e^{-(w_0 x_0 + w_1 x_1 + w_2)}}$
+
+![](graf_3.png)
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Klasyfikator liniowy
+
+$W x + b = s$
+
+<div class="cols">
+
+<div>
+
+$x$ - wektor cech
+
+$W$, $b$ - parametry klasyfikatora
+
+$s$ - punktacja
+</div>
+
+<div>
+
+![](linear.png)
+</div>
+
+</div>
+</script></section><section data-markdown><script type="text/template">
+### Wsteczna propagacja
+
+<div class="cols">
+<div>
+
+$s_m=\sum\limits_n w_{mn} x_n +b_m$
+
+$m$ - klasa
+
+$n$ - cecha
+
+$\frac{\partial s_m}{\partial w_{mn}}=x_n$
+
+$\frac{\partial s_m}{\partial b_m}=1$
+
+$\frac{\partial s_m}{\partial x_n}=w_{mn}$
+
+</div>
+<div>
+
+$L_i = -\ln p_{y_i}$
+
+$L=\sum\limits_i L_i$
+
+$i$ - wektor uczący
+
+$\frac{\partial L}{\partial p_i} = - \frac{1}{p_i}$ dla $i=y_i$
+
+$\frac{\partial L}{\partial p_i} = 0$ dla $i \neq y_i$
+
+
+</div>
+</div>
+ 
+</script></section><section data-markdown><script type="text/template">
+### Klasyfikator liniowy vs perceptron
+
+Klasyfikator liniowy:
+
+$f(x) = W x$
+
+Perceptron z jedną warstwą ukrytą
+
+$f(x) = W_2 \sigma(W_1 x)$
+
+Perceptron z dwiema warstwami ukrytymi
+
+$f(x) = W_3 \sigma \left(W_2 \sigma(W_1 x) \right)$
+
+$\sigma(\ldots)$ - nieliniowa funkcja aktywacji
+</script></section></section><section  data-markdown><script type="text/template">
+# Źródła
+
+- [Convolutional Neural Networks for Visual Recognition (Stanford class CS231n)](http://cs231n.stanford.edu/)</script></section></div>
+    </div>
+
+    <script src="./../dist/reveal.js"></script>
+
+    <script src="./../plugin/markdown/markdown.js"></script>
+    <script src="./../plugin/highlight/highlight.js"></script>
+    <script src="./../plugin/zoom/zoom.js"></script>
+    <script src="./../plugin/notes/notes.js"></script>
+    <script src="./../plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
