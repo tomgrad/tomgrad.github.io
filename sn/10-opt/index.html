@@ -24,14 +24,14 @@
 <div class="cols"><div>
 
 - przygotowanie danych
-  - randomizacja
-  - zestaw uczący i testowy
   - balansowanie zestawu
   - wzbogacanie danych
+  - randomizacja
+  - zestaw uczący i testowy
 - problem przeuczenia sieci
   - Dropout
 - problem znikających i eksplodujących gradientów
-  - BatchNormalization
+  - Batch Normalization
 
 </div><div>
 
@@ -46,13 +46,431 @@
 
 </div></div>
 
-</script></section><section  data-markdown><script type="text/template">## Przygotowanie danych
-</script></section><section  data-markdown><script type="text/template">## Dropout
+</script></section><section ><section data-markdown><script type="text/template">## Dane, dane, dane!
+> Model może być co najwyżej tak dobry, jak zestaw danych użytych do trenowania.
+
+![](algorytm_ml.svg)</script></section><section data-markdown><script type="text/template">
+### Równoważenie (balansowanie) zestawu uczącego
+
+<div class="cols"><div>
+
+
+- model nauczy się najlepiej tych cech, których w zestawie danych jest najwięcej
+- uczenie modelu powinno odbywać się z użyciem różnorodnej i zrównoważonej bazy
+
+**Wyznaczanie wag dla klas**
+
+- wartość funkcji straty jest sumą / średnią strat cząstkowych dla poszczególnych elementów zestawu uczącego
+- możemy wyznaczyć wagi dla poszczególnych klas na podstawie ich liczności
+- $w_k \sim \frac{1}{licznosc \\ klasy \\ k}$
+
+
+</div><div>
+
+**Wzbogacanie danych**
+
+- Przykładowe metody wzbogadzania zbioru obrazów:
+losowy obrót, zbliżenie, jasność i kontrast, odwrócenie, przesunięcie
+
+![](augmented_cats.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Skalowanie danych
+
+- dokonujemy transformacji danych w celu ustalenia uniwersalnej skali
+- pozwala nam to wyorzystywać dane wyrażane w różnych jednoskach i skalach
+- skalowanie ogranicza problem znikania i eksplodowania gradientów
+
+
+<div class="cols"><div>
+
+**Normalizacja**
+- przeskalowanie i przesunięcie danych do ustalonego zakresu np. $[0, 1]$
+
+$\hat x_i = \frac{x_i - min(x)}{max(x)-min(x)}$
+
+
+</div><div>
+
+**Standaryzacja**
+- transformacja, po której średnia wynosi $0$, a odchylenie standardowe wynosi $1$
+
+$\hat x_i = \frac{x_i - \mu}{\sigma}$
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Mieszanie danych (randomizacja)
+
+- uczenie sieci przebiega na podstawie danych przekazywanych **w porcjach** (*mini batch*)
+- batche są wybierane **losowo** ze zbioru uczącego na początku każdej epoki
+- podział na batche ułatwia znalezienie **globalnego minimum** funkcji straty (czynnik stochastyczny)
+- przetworzenie pojedyńczej porcji wymaga **mniejszych zasobów obliczeniowych**
+- by uczenie było stabilne, rozkład danych w porcji powinien być zbliżony do rozkładu w całym zestawie uczącym
+- przemieszanie danych powinno nastąpić **przed podziałem** zbioru danych na zestaw uczący i testowy
+</script></section><section data-markdown><script type="text/template">
+## Zestaw uczący i testowy
+
+- zestaw danych zawsze dzielimy na **dwie części**: zestaw uczący (treningowy) i zestaw testowy
+- **wsteczna propagacja** i aktualizacja parametrów modelu są przeprowadzane wyłącznie dla danych z **zestawu uczącego**
+- z **zestawu testowego** wyliczane są **metryki** (np. trafność)
+- podział na części jest konieczny, by móc zapobiec przeuczaniu modelu
+- na ogół rozmiar zestawu testowego stanowi $5-25 \\%$ całego zestawu danych
+- podziału dokonujemy po uprzednim przemieszaniu danych
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Problem przeuczenia
+### *Overfitting*
+
+
+<div class="cols"><div>
+
+- nadmierne dopasowanie, przetrenowanie
+- oznacza, że model nauczył się danych, a nie rozkładu, z jakiego pochodzą dane
+- model nauczył się danych "na pamięć"
+- niemożliwość generalizacji wiedzy, czyli zastosowania modelu do nieznanych danych
+
+</div><div>
+
+
+![](overfitting.svg)
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+## Problem przeuczenia
+
+
+<div class="cols"><div>
+
+- przeuczenie można zaobserwować dzięki podziałowi na **zestaw uczący i testowy**
+- dla modelu przeuczonego spada wartość funkcji straty dla zestawu uczącego, a rośnie dla zestawu testowego
+  
+
+**Unikanie problemu**
+- wczesne zatrzymanie uczenia
+- regularyzacja (dropout)
+
+
+
+</div><div>
+
+![](overfitting_error.svg)
+
+</div></div>
+
+
+</script></section><section data-markdown><script type="text/template">## Dropout
+
+
+<div class="cols"><div>
+
+
+- [Improving neural networks by preventing co-adaptation of feature detectors](https://arxiv.org/abs/1207.0580) (2012)
+- metoda regularyzacji
+- podczas uczenia losowa część $p$ wejść jest ustawiana na $0$
+- pozostałe wejścia zostają przeskalowane o czynnik $\frac{1}{1-p}$
+- podczas wnioskowania warstwa *dropout* jest ignorowana (odwzorowanie tożsamościowe)
+
+
+</div><div>
 
 ![](dropout.svg)
-</script></section><section  data-markdown><script type="text/template">## BatchNormalization
-</script></section><section  data-markdown><script type="text/template">## Uczenie sieci
-</script></section><section  data-markdown><script type="text/template">## Metryki</script></section></div>
+
+- przeważnie warstwę *dropout* umieszcza się za warstwami liniowymi / gęstymi ($p=0.5$)
+- czasem stusuje się również po warstwach konwolucyjnych ($p=0.2$)
+
+</div></div>
+</script></section></section><section ><section data-markdown><script type="text/template">## Problem znikających i eksplodujących gradientów
+
+- wyznaczanie gradientu za pomocą reguły łańcuchowej ma swoje negatywne konsekwencje
+- niska (zerowa) wartość jednego z gradientów lokalnych powoduje zniknięcie gradientu
+- zanik gradientu powoduje zatrzymanie procesu uczenia sieci
+
+### Przyczyny zaniku lub eksplozji gradientu
+
+- nieunormowane dane
+- zbyt duże wartości wag skutkują dużą wartością pól lokalnych działających na neurony
+- duże pole lokalne powoduje wejście neuronu w stan nasycenia
+
+### Metody unikania problemu
+
+- odpowiednia inicjalizacja wag (wariancja zależna on liczby neuronów w warstwie)
+- zastąpienie funkcji sigmoidalnej innym rodzajem funkcji aktywacji
+- uczenie adaptacyjne
+- *batch normalization*
+- *residual neural networks*
+</script></section><section data-markdown><script type="text/template">## Batch Normalization (2015)
+
+
+<div class="cols"><div>
+
+- przeskalowanie (standaryzacja)
+- parametry $\gamma$ i $\beta$ (po jednym na neuron) podlegają uczeniu
+- wartości początkowe: $\gamma=1$, $\beta=0$
+- **podczas uczenia** średnia i odchylenie wyznaczane są na podstawie pojedyńczego mini-batcha
+- **podczas wnioskowania** skalowanie następuje na podstawie średnich kroczących wyliczonych podczas uczenia z hiperparametrem oznaczającym bezwładność
+
+
+<div>\[\begin{aligned}
+\mu & \leftarrow \alpha \mu + (1-\alpha)\mu_B \\
+\gamma & \leftarrow \alpha \gamma + (1-\alpha)\gamma_B
+\end{aligned}\]</div>
+
+- BN należy umieścić bezpośrednio przed nieliniowością (funkcją aktywacji)
+
+
+
+</div><div>
+
+
+![](batchnorm_alg.png)
+[Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167)
+
+
+</div></div>
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Entropia wzajemna (krzyżowa)
+### *Cross-entropy*
+
+$H(p,q)=-\sum\limits _x p(x) \ln q(x)$
+
+- $p(x)$ - oczekiwany rozkład prawdopodobieństwa
+- $q(x)$ - rozkład prawdopodobieństwa otrzymany z predykcji
+</script></section><section data-markdown><script type="text/template">
+## Metody optymalizacji
+
+- gradient w sieciach neuronowych wyznaczamy metodą wstecznej propagacji
+- aktualizacji parametrów sieci możemy dokonać z wykorzystaniem różnych algorytmów
+- algorytmy różnią się przede wszystkim szybkością znajdowania minimum funkcji straty
+
+<div class="cols">
+
+![](opt1.gif)
+
+![](opt2.gif)
+
+</div>
+
+Źródło: [4]
+
+https://ruder.io/optimizing-gradient-descent/</script></section><section data-markdown><script type="text/template">
+## Metoda gradientu prostego 
+### *(batch) gradient descent (GD)*
+
+- układ opisują parametry $\\{w_i\\}$ (wagi połączeń sieci neuronowej)
+- szukamy minimum pewnej funkcji straty $L$
+- wyznaczamy składowe gradientu $\frac{\partial L}{\partial w_i}$ metodą wstecznej propagacji
+- aktualizujemy wartości wag proporcjonalnie do wartości gradientu lecz w przeciwnym kierunku
+
+$w_i := w_i- \eta \frac{\partial L}{\partial w_i}$
+
+$w := w - \eta \nabla_w L$
+
+- w metodzie GD gradient wyznaczony jest na podstawie całego zbioru uczącego 
+</script></section><section data-markdown><script type="text/template">
+## Wersja stochastyczna metody gradientu prostego
+### *stochastic gradient descent (SGD)*
+
+- gradient wyznaczamy na podstawie wartości funkcji straty dla pojedynczego wzorca $\mu$
+- aktualizujemy wagi sieci
+
+$w_i:=w_i- \eta \frac{\partial L^{(\mu)}}{\partial w_i}$
+
+- procedurę powtarzamy dla każdego wzorca w zbiorze uczącym
+- kolejność wzorców jest losowa i inna dla każdej epoki
+- dla metody SGD charakterystyczne są duże fluktuacje
+
+
+## Mini-batch GD
+- gradient wyznaczamy dla pewnej porcji (*batch*) danych z zestawu uczącego
+- porcje są losowane
+</script></section><section data-markdown><script type="text/template">
+## SGD z bezwładnością
+### (*SGD with momentum*)
+
+- szybkość uczenia w danym kroku zależy od poprzedniego kroku
+- $\gamma$ - parametr bezwładności
+
+$v_t=\gamma v_{t-1} + \eta \nabla_w L$
+
+$w := w - v_t$
+
+- dzięki bezwładności układ szybciej znajduje minimum
+- bezwładność redukuje wpływ fluktuacji
+</script></section><section data-markdown><script type="text/template">
+## Problemy tradycyjnych algorytmów
+
+- trudny wybór szybkości uczenia (mała $\eta$ - wolne zbieganie, duża $\eta$ - niestabilność)
+- ta sama szybkość uczenia przez wszystkie epoki (ewentualnie trudność określenia zmienności uczenia z czasem)
+- ta sama szybkość uczenia dla wszystkich parametrów, bez względu na częstotliwość występowania odpowiadającej im cechy
+- trudność ominięcia lokalnych minimów
+</script></section><section data-markdown><script type="text/template">
+### AdaGrad
+#### adaptive gradient algorithm
+
+- różne współczynniki uczenia dla każdego parametru i kroku
+- wolniejsze uczenie wag odpowiadających za często występujące cechy
+- szybsze uczenie wag związanych z rzadkimi cechami
+
+- $g_{t, i} = \nabla_w L( w_{t, i} )$ - gradient $i$-tej wagi w chwili $t$
+
+Aktualizacja szybkości uczenia:
+
+$w_{t+1, i} = w_{t, i} - \frac{\eta}{\sqrt{G_{t, ii} + \epsilon}} \cdot g_{t, i}$
+
+$G_t$ - macierz diagonalna: $G_{t,jj}=\sum\limits_{\tau=1}^{t}g_{\tau ,j}^{2}$
+</script></section><section data-markdown><script type="text/template">
+### AdaDelta
+
+- modyfikacja metody AdaGrad
+- rozwiązuje problem kumulowania się gradientów z poprzednich kroków, a więc malenia współczynnika uczenia
+- wprowadzone jest okno czasowe o ustalonej długości, z którego wyliczany jest współczynnik uczenia
+</script></section><section data-markdown><script type="text/template">
+### RMSprop
+#### root mean square propagation
+
+- niezależna szybkość uczenia dla każdego parametru
+- szybkość uczenia zależy od ruchomej średniej ostatnich gradientów dla danej wagi.
+funkcja stra
+$w:=w-{\frac {\eta }{\sqrt {v(w,t)}}}\nabla L(w)$
+</script></section><section data-markdown><script type="text/template">
+### Adam
+#### adaptive moment estimation
+
+- szybkość uczenia zależy od wykładniczo zanikającej średniej z ostatnich gradientów
+- zależy również od wykładniczo zanikającej średniej drugich momentów gradientów
+- rozwiązanie takie symuluje bezwładność i opór
+  
+Zanikające średnie:
+
+$m_t=\beta_1 m_{t−1}+(1−\beta_1)\nabla_w L$
+
+$v_t=\beta_2 v_{t−1}+(1−\beta_2)(\nabla_w L)^2$
+
+- ponieważ $m$ i $v$ na początku są zerowe, wyznaczamy ich poprawione wartości:
+
+$\hat m_t = \frac{m_t}{1-\beta_1^t}$
+
+$\hat v_t = \frac{v_t}{1-\beta_2^t}$
+
+Aktualizacja wag: $w := w - \frac{\eta}{\sqrt{\hat v_t}+\epsilon} \hat m_t$
+</script></section><section data-markdown><script type="text/template">
+## Zmienny współczynnik uczenia
+
+- w celu poprawy skuteczności optymalizacji często stosuje się zmienny współczynnik uczenia
+- na ogół zaczyna się od większej wartości, a następnie zmniejsza z upływem kolejnych epok
+- popularne strategie to:
+  - obniżanie współczynnika po osiągnięciu plateau
+  - spadek odcinkami stały
+  - spadek wykładniczy
+  - spadek z "gorącymi restartami"
+</script></section></section><section ><section data-markdown><script type="text/template">## Metryki
+
+### Tablica pomyłek
+
+
+<div class="cols"><div>
+
+- inaczej: macierz błędów (*ang. confusion matrix*)
+- ocena jakości klasyfikacji binarnej (dwie klasy)
+- oznaczenia:
+  - TP - *true positive*
+  - TN - *true negative*
+  - FP - *false positive*
+  - FN - *false negative*
+
+
+</div><div>
+
+![](conf_matrix.png)
+
+Lub w skrócie:
+
+![](conf_matrix_short.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+### Przykłady dla większej liczby klas
+
+
+<div class="cols"><div>
+
+![](cm_kachuee.png)
+(Kachuee 2018)
+
+</div><div>
+
+![](cm_hannun.png)
+(Hannun 2019)
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+## Współczynniki jakości
+
+
+
+<div class="cols"><div>
+
+- **trafność** (*accuracy*): odsetek poprawnych klasyfikacji dokonywanych przez model.
+- **precyzja** (*precission*): stopień w jakim klasyfikacje pozytywne na podstawie modelu są poprawne.
+- **czułość** (*sensitivity*, *recall*, *true positive rate*): zdolność modelu do wychwytywania przypadków pozytywnych.
+- **specyficzność**, swoistość (*specificity*, *true negative rate*): zdolność modelu do wychwytywania przypadków negatywnych.
+- współczynnik *F1*: średnia harmoniczna czułości i precyzji
+
+
+</div><div>
+
+- $accuracy = \frac{TP+TN}{TP+TN+FP+FN}$
+
+- $precission = \frac{TP}{TP+FP}$
+
+- $sensitivity = \frac{TP}{TP+FN} = \frac{TP}{P} = TPR$
+
+- $specificity = \frac{TN}{TN+FP}= \frac{TN}{N} = TNR$
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Optymalizacja wartości progowej klasyfikatora
+### Krzywa ROC (receiver operator characteristic)
+
+<div class="cols21"><div>
+
+
+- wykres wartości *TPR* (czułość) i *FPR* (1-swoistość) w zależności od prawdopodobieństwa wystąpienia zdarzenia szacowanego przez model
+- wraz ze wzrostem prawdopodobieństwa granicznego klasyfikacji pozytywnej, obie miary maleją
+- o jakości klasyfikatora mówi miara *AUC*, czyli pole pod krzywą *ROC* (*ang. area under curve*)
+- krzywa *ROC* pozwala porównywać ze sobą różne klasyfikatory
+- stosuje się również do klasyfilatorów wieloklasowych w układzie *jeden kontra reszta*
+
+</div><div>
+
+![](roc_curve.svg)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Przykłady krzywej ROC
+
+
+<div class="cols"><div>
+
+![](roc_kwon.png)<!-- .element style="width:80%" -->
+
+(Kwon 2020)
+
+</div><div>
+
+![](roc_hannun.png)<!-- .element style="width:80%" -->
+
+(Hannun 2019)
+
+</div></div>
+</script></section></section></div>
     </div>
 
     <script src="./../dist/reveal.js"></script>
