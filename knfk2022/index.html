@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Wykorzystanie AI w kardiologii</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/beige.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+    <link rel="stylesheet" href="./_assets/custom.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+# Wykorzystanie AI w kardiologii
+
+
+<div class="cols"><div>
+
+dr hab. inż. Teodor Buchner
+
+`teodor.buchner@pw.edu.pl`
+
+</div><div>
+
+dr inż. Tomasz Gradowski
+
+`tomasz.gradowski@pw.edu.pl`
+
+</div></div>
+
+
+Politechnika Warszawska
+Wydział Fizyki
+
+
+<div class="cols21"><div>
+
+### *Come with me if you want to live.*
+
+</div><div>
+
+![](arnie.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Plan
+
+- Kardiologia
+    - obszar zainteresowań
+    - serce
+    - znaczenie EKG
+    - pomiar EKG
+    - tradycyjne metody
+- AI
+    - metody
+    - klasyfikacja
+    - segmentacja
+    - modelowanie generatywne
+- Problemy
+    - dane
+    - regulacje prawne
+</script></section></section><section ><section data-markdown><script type="text/template">
+## "I need your clothes, your boots, and your motorcycle."
+### *Terminator 2: Judgement Day*
+
+
+<div class="cols"><div>
+
+- **sztuczna inteligencja** (*artificial intelligence*) - urządzenie wnioskuje na podstawie dostępnych mu informacji
+- **uczenie maszynowe** (*machine learning*) - ustalanie reguł wnioskowania na podstawie danych
+- **głębokie uczenie** (*deep learning*) - uczenie z wykorzystaniem głębokich sieci neuronowych (o dużej liczbie warstw)
+
+</div><div>
+
+![](ai_ml_dl.svg)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">## Uczenie maszynowe
+
+![](algorytm_ML.svg)
+</script></section><section data-markdown><script type="text/template">
+<div class="cols21"><div>
+
+## Sztuczne sieci neuronowe
+
+- **model obliczeniowy** zainspirowany biologicznymi sieciami neuronowymi
+- możliwość aproksymacji dowolnej funkcji poprzez złożenie wielu **nieliniowych warstw**
+- **uczenie** (dobór parametrów modelu) na podstawie danych w procesie optymalizacji (minimalizacja funkcji straty)
+- optymalizacja na podstawie gradientu funkcji straty wyznaczanego w procesie **wstecznej propagacji**
+- nauka z nadzorem lub bez nadzoru
+- najczęściej występujące rodzaje: perceptron wielowarstwowy, sieć splotowa (konwolucyjna), sieć rekurencyjna
+
+</div><div>
+
+### Perceptron
+![](perceptron.svg)<!-- .element style="width:50%" -->
+
+$\vec y = \sigma(W \vec x)$
+
+$\sigma$ - nieliniowość
+
+
+</div></div>
+
+</script></section></section><section ><section data-markdown><script type="text/template">## Zastosowania do EKG
+
+- **klasyfikacja** - np. określanie rodzaju rytmu
+- **segmentacja** - podział sygnału na segmenty, np. załamki i odcinki
+- **generacja** - modelowanie generatywne syntetycznych sygnałów na podstawie zadanych parametrów
+
+</script></section><section data-markdown><script type="text/template">
+## Klasyfikacja
+
+
+<div class="cols21"><div>
+
+- proces nadawania etykiet (podział na kategorie)
+- nauka z nadzorem (dane z właściwymi etykietami)
+- przykłady:
+    - klasyfikacja pojedynczych uderzeń
+    - klasyfikacja rodzajów rytmu
+    - predykcja ryzyka wystąpienia zdarzenia (np. nagłego zatrzymania krążenia)
+
+
+![](acharya_2018.png)<!-- .element style="width:50%" -->
+
+[*Acharya 2018*]
+
+</div><div>
+
+
+![](cm_kachuee.png)
+[*Kachuee 2018*]
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+![](simple_ecg_cnn.svg)
+
+
+
+
+</script></section><section data-markdown><script type="text/template">
+## Tablica pomyłek i metryki
+
+
+<div class="cols"><div>
+
+
+</div><div>
+
+![](cm_hannun.png)
+
+[*Hannun 2019*]
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+![](results_ribeiro_2020.png)
+
+
+</script></section><section data-markdown><script type="text/template">### Przykładowe klasy w zestawie uczącym
+
+<div class="tight">
+
+
+<div class="cols"><div>
+
+- Normal beat ![](seg_13349_N.svg)
+- Atrial premature beat ![](seg_13404_A.svg)
+- Premature ventricular contraction ![](seg_8631_V.svg)
+
+
+</div><div>
+
+- Left bundle branch block beat ![](seg_19982_L.svg)
+- Right bundle branch block beat ![](seg_22505_R.svg)
+- Paced ![](seg_27607_paced.svg)
+
+</div></div>
+
+
+</div>
+</script></section><section data-markdown><script type="text/template"></script></section></section><section ><section data-markdown><script type="text/template">## Segmentacja
+
+![](segments_moskalenko_2020.png)
+</script></section><section data-markdown><script type="text/template">
+![](ae_sereda_2018.png)
+</script></section><section data-markdown><script type="text/template">
+![](seg1_sereda_2018.png)
+
+![](seg2_sereda_2018.png)
+</script></section><section data-markdown><script type="text/template">
+![](unet_moskalenko_2020.png)
+
+</script></section></section><section  data-markdown><script type="text/template">## Modelowanie generatywne
+
+
+
+
+
+</script></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
