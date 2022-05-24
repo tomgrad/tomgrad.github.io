@@ -1,9 +1,27 @@
----
-title: Atom wodoru
----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Atom wodoru</title>
+    <link rel="shortcut icon" href="./../favicon.ico" />
+    <link rel="stylesheet" href="./../dist/reset.css" />
+    <link rel="stylesheet" href="./../dist/reveal.css" />
+    <link rel="stylesheet" href="./../dist/theme/beige.css" id="theme" />
+    <link rel="stylesheet" href="./../css/highlight/zenburn.css" />
+
+    <link rel="stylesheet" href="./../_assets/custom.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
 
 # Atom wodoru
-<!-- c -->
+
+<div class="cols"><div>
+
 - kwantowy opis atomu wodoru został bardzo dobrze **potwierdzony eksperymentalnie**
 - opis słuszny również dla innych wodoropodobnych atomów ($Z-1$ krotnie zjonizowanych, czyli z jednym elektronem)
 - ponieważ **potencjał** jest **coulombowski**, wystarczy rozważyć położenie elektronu względem jądra
@@ -11,7 +29,9 @@ title: Atom wodoru
 - opis wymaga rozwiązania równania Schrödingera w 3 wymiarach
 - ze względu na symetrię problemu potrzebujemy operatora Laplace'a ($\nabla^2$) w układzie **współrzędnych sferycznych**
 
-<!-- c| -->
+
+</div><div>
+
 
 ### równanie Schrödingera
 
@@ -29,16 +49,20 @@ $V(r) = - \frac{Ze^2}{4 \pi \varepsilon_0} \frac{1}{r}$
 - $Z$ - liczba atomowa (liczba protonów w jądrze)
 - $e$ - ładunek elektronu
 
-<!-- c. -->
-----
 
-<!-- c -->
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
 - laplasjan we współrzędnych sferycznych
 - używamy metody **rozdzielenia zmiennych**
 - postulowaną postać $\Psi$ wstawiamy do równania Schrödingera
 - otrzymane równanie mnożymy stronami przez $- \frac{2mr^2 \sin^2\vartheta}{\hbar^2 R \Theta \Phi }$
 
-<!-- c| -->
+
+</div><div>
+
 
 $\nabla ^2 ={\frac {1}{r^{2}}}{\frac {\partial }{\partial r}}\left(r^{2}{\frac {\partial}{\partial r}}\right)+
 {\frac {1}{r^{2}\sin \vartheta }}{\frac {\partial }{\partial \vartheta }}\left(\sin \vartheta {\frac {\partial}{\partial \vartheta }}\right)+
@@ -48,7 +72,9 @@ $\nabla ^2 ={\frac {1}{r^{2}}}{\frac {\partial }{\partial r}}\left(r^{2}{\frac {
 
 $\Psi(r, \vartheta, \varphi) = R(r) \Theta(\vartheta) \Phi(\varphi)$
 
-<!-- c. -->
+
+</div></div>
+
 
 <br/>
 
@@ -57,22 +83,24 @@ $\frac{-\hbar^2 }{2m} \left[
 \frac{R\Phi}{r^2\sin\vartheta} \frac{\partial}{\partial \vartheta} \left( \sin\vartheta \frac{\partial \Theta}{\partial \vartheta}\right) + 
 \frac{R \Theta}{r^2 \sin^2\vartheta} \frac{\partial^2\Phi}{\partial \varphi^2}
 \right] + V(r)R\Theta\Phi = E R \Theta \Phi$
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 $\frac{1}{\Phi} \frac{d^2\Phi}{d\varphi^2} = 
 \frac{\sin^2 \vartheta}{R} \frac{d}{dr} \left( r^2 \frac{dR}{dr}\right) - 
 \frac{\sin\vartheta}{\Theta} \frac{d}{d\vartheta} \left( \sin \vartheta \frac{d\Theta}{d\vartheta}\right) -
 \frac{2mr^2 \sin^2 \vartheta}{\hbar^2} [E-V(r)]
 $
 
-<!-- c -->
+
+<div class="cols"><div>
+
 
 - Lewa strona zależy wyłącznie od $\varphi$, prawa wyłącznie od $r$ i $\vartheta$.
 - Muszą więc być równe stałej.
 - Przyrównujemy obie strony do $-m_l^2$.
 
-<!-- c| -->
+
+</div><div>
+
 
 $\frac{d^2 \Phi}{d \varphi^2} = -m_l^2\Phi$
 
@@ -80,7 +108,9 @@ $\Phi(\varphi) = \Phi_{m_l} (\varphi) = A e^{im_l\varphi}$
 
 $\Phi(0) = \Phi(2\pi) \Rightarrow m_l=0, \pm 1, \pm 2, \ldots$
 
-<!-- c. -->
+
+</div></div>
+
 
 Po wstawieniu $\Psi$ otrzymujemy:
 
@@ -94,9 +124,7 @@ Lewa strona zależy wyłącznie od $r$, prawa od $\vartheta$, przyrównujemy wi�
 <br>
 
 **Uwaga:** na tym etapie wielkości $m_l$ i $l(l+1)$ to po prostu pewne stałe. Ich interpretacja pojawi się później.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Równanie azymutalne
 
 $- \frac{1}{\sin\vartheta} \frac{d}{d\vartheta} \left( \sin\vartheta \frac{d\Theta}{d\vartheta} \right) + \frac{m_l^2 \Theta}{\sin^2\vartheta} = l(l+1)\Theta$
@@ -107,18 +135,20 @@ $
 \frac{1}{r^2} \frac{d}{dr} \left( r^2 \frac{dR}{dr}\right) + 
 \frac{2m}{\hbar^2} \left[ E-V(r) \right]R = l(l+1)\frac{R}{r^2}
 $
-
----
-
+</script></section></section><section ><section data-markdown><script type="text/template">
 ## Rozwiązanie równania azymualnego
 
-<!-- c -->
+
+<div class="cols"><div>
+
 - równanie znane jest w teorii funkcji specjalnych
 - rozwiązaniami są [**stowarzyszone wielomiany Legendre'a**](https://en.wikipedia.org/wiki/Associated_Legendre_polynomials)
 
 $\Theta(\vartheta) = \Theta_{l,m_l}(\vartheta) \propto P_{l,m_l}(\cos \vartheta)$
 
-<!-- c| -->
+
+</div><div>
+
 
 $
 l \geq | m_l |
@@ -129,7 +159,9 @@ $l=0, 1, 2, \ldots$
 $m_l = 0, \pm 1, \pm 2, \ldots, \pm l$
 
 - stany odpowiadające danemu $l$ są $(2l+1)$-krotnie **zdegenerowane**
-<!-- c. -->
+
+</div></div>
+
 
 <br>
 
@@ -137,12 +169,12 @@ $m_l = 0, \pm 1, \pm 2, \ldots, \pm l$
 
 - istnienie więcej niż jednej funkcji własnej o tej samej wartości własnej
 - wiele stanów kwantowych ma tę samą energię.
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Część kątowa funkcji falowej
 
-<!-- c -->
+
+<div class="cols"><div>
+
 
 $Y(\vartheta, \varphi) = \Theta(\vartheta) \Phi(\varphi)$
 
@@ -153,17 +185,19 @@ $
 - $P_{l, m_l}$ - stowarzyszone wielomiany Legendre'a 
 - $N_{l, m_l}$ -  stała normująca
 
-<!-- c| -->
+
+</div><div>
+
 
 - funkcja kulista, harmonika sferyczna
 - numerowana dwoma indeksami: $l$ i $m_l$
 - ta sama funkcja jest funkcją własną operatora $\hat {L^2}$ (kwadratu momentu pędu)
 - stąd będzie wynikać fizyczna interpretacja indeksów $l$ i $m_l$
 
-<!-- c. -->
 
-----
+</div></div>
 
+</script></section><section data-markdown><script type="text/template">
 ## Normalizacja
 
 Stałą $N_{l, m_l}$ wyznaczamy normalizując funkcję sferyczną:
@@ -179,17 +213,18 @@ $N_{l, m_l} = (-1)^{m_l}
 
 Kilka pierwszych [funkcji kulistych](https://en.wikipedia.org/wiki/Table_of_spherical_harmonics):
 
-<!-- e -->
+
+<div>\[\begin{aligned}
 & Y_{0,0}(\vartheta,\varphi) &=& {1 \over \sqrt { 4\pi }} \\
 & Y_{1,0}(\vartheta,\varphi) &=& {\sqrt {3 \over 4\pi }} \cdot \cos \vartheta \\
 & Y_{1,\pm 1}(\vartheta,\varphi) &=& {\sqrt {3 \over 8\pi }} \cdot \sin \vartheta \cdot e^{\pm i \varphi}\\
-<!-- e. -->
-
-----
-
+\end{aligned}\]</div>
+</script></section><section data-markdown><script type="text/template">
 ## Rozwiązanie równania radialnego
 
-<!-- c -->
+
+<div class="cols"><div>
+
 
 - w rozwiązaniu pojawiają się [stowarzyszone wielomiany Laguerre'a](https://en.wikipedia.org/wiki/Laguerre_polynomials) $L_n^{\alpha}$
 
@@ -197,13 +232,17 @@ $
 R_{n, l}(r) = N_{n, l} \cdot e^{\rho \over 2} \cdot \rho^l \cdot L_{n+l}^{2l+1}(\rho)
 $
 
-<!-- c| -->
+
+</div><div>
+
 
 - podstawienie: $\rho = \frac{Zr}{2\pi\varepsilon_0 n a_0}$
 - $a_0 = \frac{\hbar^2}{me^2}$ - [promień Bohra](https://en.wikipedia.org/wiki/Bohr_radius)
 - $N_{n, l}$ - stała normująca
 
-<!-- c. -->
+
+</div></div>
+
 
 <br><br>
 
@@ -213,19 +252,21 @@ $\int\limits_0^\infty = R_{nl}^\star R_{nl} r^2 dr = 1$
 
 $N_{n, l} = - \sqrt{\left( \frac{2Z}{n a_0}\right)^3 \frac{1}{(4\pi\varepsilon_0)^3}\frac{(n-l-1)!}{2n[(n+1)!]^3}}$
 
-
----
-
+</script></section></section><section ><section data-markdown><script type="text/template">
 ## Interpretacja funkcji falowej
 
 $\Psi_{n, l, m_l}(r, \vartheta, \varphi) = R_{n, l}(r) \cdot Y_{l, m_l}(\vartheta, \varphi)$
 
-<!-- c -->
+
+<div class="cols"><div>
+
 
 - $R_{n, l}(r)$ - część radialna
 - $Y_{l, m_l}(\vartheta, \varphi)$ - część kątowa
 
-<!-- c| -->
+
+</div><div>
+
 
 ### Liczby kwantowe
 
@@ -233,7 +274,9 @@ $\Psi_{n, l, m_l}(r, \vartheta, \varphi) = R_{n, l}(r) \cdot Y_{l, m_l}(\varthet
 - $l=0, 1, 2, \ldots, n-1$
 - $m_l = -l, \ldots, 0, \ldots, l$
 
-<!-- c. -->
+
+</div></div>
+
 
 <!-- $\int |\Psi_{n, l, m_l}(r, \vartheta, \varphi)|^2 dV = \int\limits_0^\infty dr  \int\limits_o^\pi d\vartheta \int\limits_o^{2\pi} d\varphi~ r^2 \sin \vartheta \left|R_{n, l}(r) Y_{l, m_l}(\vartheta, \varphi)\right |^2  =1$ -->
 
@@ -243,12 +286,12 @@ $\Psi_{n, l, m_l}(r, \vartheta, \varphi) = R_{n, l}(r) \cdot Y_{l, m_l}(\varthet
 - $e \Psi^\star \Psi$ - gęstość ładunku elektrycznego odpowiadającego elektronowi
 - elektron nie jest zlokalizowany
 - elektron jest chmurą elektryczną, której kształt i gęstość wynika z postaci $\Psi_{nlm_l}$
-
-----
-
+</script></section><section data-markdown><script type="text/template">
 ## Liczby kwantowe
 
-<!-- c21 -->
+
+<div class="cols21"><div>
+
 ### $n=1, 2, 3, \ldots$
 
 - główna liczba kwantowa
@@ -270,16 +313,20 @@ $\Psi_{n, l, m_l}(r, \vartheta, \varphi) = R_{n, l}(r) \cdot Y_{l, m_l}(\varthet
 - określa składową momentu pędu w wyróżnionym kierunku ($z$)
 - $L_z = m \hbar$
 
-<!-- c| -->
+
+</div><div>
+
 ![](moment.png)
 
-<!-- c. -->
 
-----
+</div></div>
 
+</script></section><section data-markdown><script type="text/template">
 ## Część radialna
 
-<!-- c -->
+
+<div class="cols"><div>
+
 
 - $R_{10}$ ($n=1$, $l=0$)
 - tzw. orbital *s*
@@ -290,7 +337,9 @@ $\Psi_{n, l, m_l}(r, \vartheta, \varphi) = R_{n, l}(r) \cdot Y_{l, m_l}(\varthet
 
 [Źródło](https://demonstrations.wolfram.com/HydrogenAtomRadialFunctions/)
 
-<!-- c| -->
+
+</div><div>
+
 
 - $R_{20}$ ($n=2$, $l=0$) - orbital *s*
 
@@ -299,10 +348,12 @@ $\Psi_{n, l, m_l}(r, \vartheta, \varphi) = R_{n, l}(r) \cdot Y_{l, m_l}(\varthet
 - $R_{21}$ ($n=2$, $l=1$) - orbital *p*
 
 ![](R21.png)
-<!-- c. -->
 
-----
-<!-- c -->
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+<div class="cols"><div>
+
 
 Nazwy orbitali dla kolejnych wartości $l$:
 
@@ -317,7 +368,9 @@ Nazwy orbitali dla kolejnych wartości $l$:
 
 ![](R31.png)
 
-<!-- c| -->
+
+</div><div>
+
 - $R_{30}$
   
 ![](R30.png)
@@ -325,11 +378,13 @@ Nazwy orbitali dla kolejnych wartości $l$:
 - $R_{32}$
 
 ![](R32.png)
-<!-- c. -->
 
-----
+</div></div>
 
-<!-- c -->
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
 - $R_{40}$
 
 ![](R40.png)
@@ -337,7 +392,9 @@ Nazwy orbitali dla kolejnych wartości $l$:
 - $R_{42}$
 
 ![](R42.png)
-<!-- c| -->
+
+</div><div>
+
 - $R_{41}$
 
 ![](R41.png)
@@ -345,12 +402,14 @@ Nazwy orbitali dla kolejnych wartości $l$:
 - $R_{43}$
 
 ![](R43.png)
-<!-- c. -->
+
+</div></div>
 
 
-----
+</script></section><section data-markdown><script type="text/template">
 
-<!-- c12 -->
+<div class="cols12"><div>
+
 
 ## Część kątowa
 
@@ -361,35 +420,45 @@ Nazwy orbitali dla kolejnych wartości $l$:
 - e) $\Theta_{2 \pm 1} = {\sqrt 15 \over 2} \sin \vartheta \cos \vartheta$
 - f) $\Theta_{2 \pm 2} = {\sqrt 15 \over 4} \sin^2 \vartheta$
 
-<!-- c| -->
-![](ptheta_a.png)<!-- w30% -->
-![](ptheta_b.png)<!-- w30% -->
-![](ptheta_c.png)<!-- w30% -->
 
-![](ptheta_d.png)<!-- w30% -->
-![](ptheta_e.png)<!-- w30% -->
-![](ptheta_f.png)<!-- w30% -->
-<!-- c. -->
+</div><div>
 
----
+![](ptheta_a.png)<!-- .element style="width:30%" -->
+![](ptheta_b.png)<!-- .element style="width:30%" -->
+![](ptheta_c.png)<!-- .element style="width:30%" -->
 
-<!-- c12 -->
+![](ptheta_d.png)<!-- .element style="width:30%" -->
+![](ptheta_e.png)<!-- .element style="width:30%" -->
+![](ptheta_f.png)<!-- .element style="width:30%" -->
+
+</div></div>
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+
+<div class="cols12"><div>
+
 ## Orbitale atomowe
 
 - z nałożenia radialnych i kątowych gęstości prawdopodobieństwa powstają rozkłady przestrzenne gęstości prawdopodobieństwa znalezienia elektronu
 - są to tzw. orbitale atomowe
 - [symulacje](https://falstad.com/qmatom/)
-<!-- c| -->
-![](Atomic-orbital-clouds_spdf_m0.png)<!-- w80% -->
-<!-- c. -->
 
-----
+</div><div>
 
-<!-- c -->
+![](Atomic-orbital-clouds_spdf_m0.png)<!-- .element style="width:80%" -->
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
 ## Układ okresowy
 
 ![](Simple_Periodic_Table_Chart-blocks.svg)
-<!-- c| -->
+
+</div><div>
+
 - **okres** - liczba powłok, na których są elektrony
 - **grupa** (wg. starej konwencji 1-8 oznaczała liczbę elektronów na ostatniej powłoce, tzw. walencyjnej)
 - **liczba atomowa** (porządkowa) *Z* - liczba protonów w jądrze
@@ -399,13 +468,15 @@ Nazwy orbitali dla kolejnych wartości $l$:
   - ... i wszystko razy *2*, bo 2 możliwe wartości **spinu**
   - kolejne powłoki nazywamy $K$, $L$, $M$, $N$, $O$, $P$, $Q$
 
-<!-- c. -->
 
-----
+</div></div>
 
+</script></section><section data-markdown><script type="text/template">
 ## Przykłady
 
-<!-- c -->
+
+<div class="cols"><div>
+
 
 ### miedź (*Cu*)
 
@@ -419,7 +490,9 @@ Nazwy orbitali dla kolejnych wartości $l$:
 
 $1s^2 2s^2 p^6 3s^2 p^6 d^{10} 4s^1$
 
-<!-- c| -->
+
+</div><div>
+
 
 ### neon (*Ne*)
 
@@ -433,10 +506,10 @@ $1s^2 2s^2 p^6 3s^2 p^6 d^{10} 4s^1$
 - *Z=47*
 - $1s^2 2s^2 p^6 3s^2 p^6 d^{10} 4s^2 p^6 d^{10} 5s^1$
 
-<!-- c. -->
 
-----
+</div></div>
 
+</script></section><section data-markdown><script type="text/template">
 ## Spin
 
 - elektron posiada własny (spinowy) moment pędu (spin) i związany z nim moment magnetyczny
@@ -445,7 +518,9 @@ $1s^2 2s^2 p^6 3s^2 p^6 d^{10} 4s^1$
   
 <br><br>
 
-<!-- c -->
+
+<div class="cols"><div>
+
 
 ### Doświadczenie Sterna-Gerlacha
 
@@ -454,6 +529,61 @@ $1s^2 2s^2 p^6 3s^2 p^6 d^{10} 4s^1$
 Your browser does not support the video tag.
 </video>
 
-<!-- c| -->
+
+</div><div>
+
 Atom srebra posiada na najwyższej orbicie jeden niesparowany elektron, którego spin może być zwrócony w górę lub w dół. Niejednorodne pole magnetyczne odchyla kierunek ruchu atomów w wiązce w zależności od zwrotu spinu.
-<!-- c. -->
+
+</div></div>
+</script></section></section></div>
+    </div>
+
+    <script src="./../dist/reveal.js"></script>
+
+    <script src="./../plugin/markdown/markdown.js"></script>
+    <script src="./../plugin/highlight/highlight.js"></script>
+    <script src="./../plugin/zoom/zoom.js"></script>
+    <script src="./../plugin/notes/notes.js"></script>
+    <script src="./../plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
