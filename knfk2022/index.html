@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./dist/reset.css" />
     <link rel="stylesheet" href="./dist/reveal.css" />
     <link rel="stylesheet" href="./dist/theme/beige.css" id="theme" />
-    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+    <link rel="stylesheet" href="./css/highlight/github.css" />
 
     <link rel="stylesheet" href="./_assets/custom.css" />
 
@@ -135,9 +135,9 @@ $\sigma$ - nieliniowość
 
 Operacja splotu dyskretnego jest zdefiniowana następująco (1D):
 
-$(f \star g)[n]=\sum \limits_{m=-M}^{M}f[n-m]g[m]$
+$(X \star w)[n]=\sum \limits_{m=-M}^{M}X[n-m]w[m]$
 
-- $f$ jest sygnałem wejściowym, $g$ jest filtrem (kernelem)
+- $X$ jest sygnałem wejściowym, $w$ jest filtrem (kernelem)
 - filtry z reguły są krótkimi wektorami (lub macierzami w przypadku 2D)
 - sygnał wejściowy jest **próbkowany** - dzielony na okna o długości filtra
 - w zależności od potrzeby dobiera się właściwe przekrycie okien
@@ -558,7 +558,7 @@ Lub w skrócie:
       // options from URL query string
       var queryOptions = Reveal().getQueryHash() || {};
 
-      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige"}, queryOptions);
+      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige","highlight-theme":"github"}, queryOptions);
     </script>
 
 
