@@ -54,10 +54,8 @@ Wydział Fizyki
 ## Plan
 
 - Kardiologia
-    - obszar zainteresowań
     - serce
-    - znaczenie EKG
-    - pomiar EKG
+    - EKG
     - tradycyjne metody
 - AI
     - metody
@@ -67,10 +65,7 @@ Wydział Fizyki
 - Problemy
     - dane
     - regulacje prawne
-</script></section></section><section ><section data-markdown><script type="text/template">
-## "I need your clothes, your boots, and your motorcycle."
-### *Terminator 2: Judgement Day*
-
+</script></section><section data-markdown><script type="text/template">
 
 <div class="cols"><div>
 
@@ -87,7 +82,7 @@ Wydział Fizyki
 </script></section><section data-markdown><script type="text/template">## Uczenie maszynowe
 
 ![](algorytm_ML.svg)
-</script></section><section data-markdown><script type="text/template">
+</script></section></section><section ><section data-markdown><script type="text/template">
 <div class="cols21"><div>
 
 ## Sztuczne sieci neuronowe
@@ -111,62 +106,142 @@ $\sigma$ - nieliniowość
 
 </div></div>
 
-</script></section></section><section ><section data-markdown><script type="text/template">## Zastosowania do EKG
-
-- **klasyfikacja** - np. określanie rodzaju rytmu
-- **segmentacja** - podział sygnału na segmenty, np. załamki i odcinki
-- **generacja** - modelowanie generatywne syntetycznych sygnałów na podstawie zadanych parametrów
-
 </script></section><section data-markdown><script type="text/template">
-## Klasyfikacja
 
+<div class="cols"><div>
 
-<div class="cols21"><div>
+## Sieci splotowe (konwolucyjne, *CNN*)​
 
-- proces nadawania etykiet (podział na kategorie)
-- nauka z nadzorem (dane z właściwymi etykietami)
-- przykłady:
-    - klasyfikacja pojedynczych uderzeń
-    - klasyfikacja rodzajów rytmu
-    - predykcja ryzyka wystąpienia zdarzenia (np. nagłego zatrzymania krążenia)
-
-
-![](acharya_2018.png)<!-- .element style="width:50%" -->
-
-[*Acharya 2018*]
+- szeroko stosowane w widzeniu komputerowym​
+- używane do klasyfikacji, identyfikacji i segmentacji​
+- dokonują detekcji cech wysokopoziomowych​
+- definicja cech na podstawie danych​
 
 </div><div>
 
 
-![](cm_kachuee.png)
-[*Kachuee 2018*]
+![](identification.png)<!-- .element style="width:50%" -->
+![](segmentation.png)<!-- .element style="width:50%" -->
+
 
 </div></div>
 
 </script></section><section data-markdown><script type="text/template">
-![](simple_ecg_cnn.svg)
+## Detekcja cech poprzez splot​
 
 
+<div class="cols21"><div>
 
 
-</script></section><section data-markdown><script type="text/template">
-## Tablica pomyłek i metryki
+Operacja splotu dyskretnego jest zdefiniowana następująco (1D):
+
+$(f \star g)[n]=\sum \limits_{m=-M}^{M}f[n-m]g[m]$
+
+- $f$ jest sygnałem wejściowym, $g$ jest filtrem (kernelem)
+- filtry z reguły są krótkimi wektorami (lub macierzami w przypadku 2D)
+- sygnał wejściowy jest **próbkowany** - dzielony na okna o długości filtra
+- w zależności od potrzeby dobiera się właściwe przekrycie okien
+- odpowiedź filtra jest **iloczynem skalarnym** okna z filtrem
+- otrzymana wartość jest **miarą podobieństwa** wzorca z każdym oknem sygnału​
+- splot z zestawem filtrów daje tzw. **mapę cech​**
+
+
+</div><div>
+
+
+![](splot.svg)
+
+![](sorter.jpg)<!-- .element style="width:75%" -->
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">## Przykłady filtrów splotowych
 
 
 <div class="cols"><div>
 
 
+![](original.png)
+
+- filtry splotowe dokonują detekcji cech poprzez przekształcanie sygnału​
+- przykładowe operacje wykonywane przez splot to wygładzanie, odwracanie lub różniczkowanie sygnału​
+- sieć splotowa sama uczy się filtrów
+
+
 </div><div>
 
-![](cm_hannun.png)
 
-[*Hannun 2019*]
+![](conv_diff1.png)
+
+![](conv_diff2.png)
+
+![](conv_inv.png)
+
 
 </div></div>
 
 </script></section><section data-markdown><script type="text/template">
-![](results_ribeiro_2020.png)
+## Aktywacja
 
+
+<div class="cols12"><div>
+
+
+- wzmacnia / filtruje informację o wystąpieniu cechy​
+- przekształca nieliniowo przestrzeń cech​
+
+![](relu.svg)
+
+
+</div><div>
+
+
+![](conv_diff1.png) ![](conv_diff2.png)
+
+![](conv_diff1_relu.png) ![](conv_diff2_relu.png)
+
+
+</div></div>
+
+
+Funkcja aktywacji jest istotna zarówno przy **detekcji** cech, jak i **klasyfikacji**.​
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols21"><div>
+
+## Redukcja wymiarowości​
+
+- filtrowaniu splotowemu towarzyszy operacja redukcji​
+- operacja ta **zmniejsza częstotliwość próbkowania**​
+- **kompresja** z zachowaniem najważniejszych informacji​
+- zwiększa zasięg filtrów​
+- pozwala szukać **cech wysokopoziomowych​**
+
+</div><div>
+
+![​](maxpool.png)<!-- .element style="width:75%" -->
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Zastosowania sieci splotowych do EKG
+
+- **klasyfikacja** - np. określanie rodzaju rytmu
+- **segmentacja** - podział sygnału na segmenty, np. załamki i odcinki
+- **generacja** - modelowanie generatywne syntetycznych sygnałów na podstawie zadanych parametrów
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Klasyfikacja
+
+- proces nadawania **etykiet** (podział na kategorie)
+- **nauka z nadzorem** (dane z właściwymi etykietami)
+- przykłady:
+    - klasyfikacja pojedyńczych uderzeń
+    - klasyfikacja rodzajów rytmu
+    - predykcja ryzyka wystąpienia zdarzenia (np. nagłego zatrzymania krążenia)
+
+![](acharya_2018.png)<!-- .element style="width:50%" -->
+
+[*Acharya 2018*]
 
 </script></section><section data-markdown><script type="text/template">### Przykładowe klasy w zestawie uczącym
 
@@ -190,25 +265,257 @@ $\sigma$ - nieliniowość
 
 
 </div>
-</script></section><section data-markdown><script type="text/template"></script></section></section><section ><section data-markdown><script type="text/template">## Segmentacja
+</script></section><section data-markdown><script type="text/template">
+![](classes_ribeiro_2020.png)
+
+[*Ribeiro 2020*]
+</script></section><section data-markdown><script type="text/template">
+## Schemat prostego klasyfikatora splotowego​
+
+![](simple_ecg_cnn.svg)<!-- .element style="width:75%" -->
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+
+## Przykładowe wyniki
+
+![](cm_hannun.png)<!-- .element style="width:75%" -->
+
+[*Hannun 2019*]
+
+</div><div>
+
+
+![](cm_kachuee.png)<!-- .element style="width:50%" -->
+
+[*Kachuee 2018*]
+
+![](results_ribeiro_2020.png)<!-- .element style="width:75%" -->
+
+[*Ribeiro 2020*]
+
+</div></div>
+
+</script></section></section><section ><section data-markdown><script type="text/template">## Segmentacja
+
+- podział sygnału na segmenty (np. poszczególne załamki)
+- uczenie z nadzorem (sygnał + maski)
 
 ![](segments_moskalenko_2020.png)
+
+[*Moskalenko 2020*]</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+Dwuczęściowa sieć neuronowa, której części stanowią:
+- **koder** - kompresuje dane wysokowymiarowe do niskowymiarowej reprezentacji
+- **dekoder** - odtwarza oryginalne dane na podstawie tej niskowymiarowej reprezentacji
+- uczenie polega na poszukiwaniu parametrów sieci w celu zminimalizowania straty (różnicy) pomiędzy danymi wejściowymi, a wyjściem.
+- ukryta warstwa będąca wyjściem kodera i wejściem dekodera stanowi **ukrytą przestrzeń**, do której skompresowane zostały dane wejściowe.
+
+</div><div>
+
+
+## Autoenkoder
+
+![](ae_aggarwal2018.png)
+
+[*Aggarwal 2018*]
+
+
+</div></div>
+
 </script></section><section data-markdown><script type="text/template">
+
+
+<div class="cols"><div>
+
+## Segmentacja z wykorzystaniem autoenkodera
+
 ![](ae_sereda_2018.png)
-</script></section><section data-markdown><script type="text/template">
+
+[*Sereda 2018*]
+
+
+</div><div>
+
+
 ![](seg1_sereda_2018.png)
 
 ![](seg2_sereda_2018.png)
+
+
+</div></div>
+
 </script></section><section data-markdown><script type="text/template">
+## Autoenkoder typu U-Net
+
+<div class="cols"><div>
+
+- sieć niesekwencyjna
+- ścieżka redukująca / kompresująca (koder) i rekonstruująca / dekompresująca (dekoder)
+- ścieżka kompresująca zawiera warstwy splotowe i redukujące
+- ścieżka dekompresująca zawiera sploty transponowane (z ułamkowym skokiem) i konkatenację map cech ze ścieżki kompresującej
+- lepsze odwzorowanie cech niskopoziomowych
+
+</div><div>
+
 ![](unet_moskalenko_2020.png)
 
-</script></section></section><section  data-markdown><script type="text/template">## Modelowanie generatywne
+[*Moskalenko 2020*]
+
+</div></div>
+
+</script></section></section><section ><section data-markdown><script type="text/template">## Modelowanie generatywne
+
+
+<div class="cols"><div>
+
+
+![](wulan2020.jpg)
+
+[*Wulan 2020*]
+
+
+</div><div>
+
+
+![](kuznetzow_2021.png)<!-- .element style="width:75%" -->
+
+[*Kuznetzow 2021*]
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Modelowanie generatywne
+
+
+<div class="cols"><div>
+
+
+- modele generatywne znajdują **rozkład prawdopodobieństwa** oryginalnych danych w ukrytej przestrzeni
+- próbkowanie z przestrzeni ukrytej pozwala wygenerować dane posiadające cechy danych weściowych, lecz nienależące do zbioru uczącego.
+- model generatywny opisuje więc, jak w sensie probabilistycznym są generowane dane
+- przykłady modeli generatywnych:
+  - autoenkoder wariacyjny (*VAE*)
+  - generatywne sieci przeciwstawne (*GAN*)
+
+
+</div><div>
+
+
+![](cvae_latent_space.jpg)
+
+Źródło: [www.tensorflow.org/tutorials/generative/cvae](https://www.tensorflow.org/tutorials/generative/cvae)
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Autoenkoder wariacyjny (*VAE*)
+
+
+<div class="cols"><div>
+
+
+- w zwyczajnym autoenkoderze obraz jest mapowany bezpośrednio na punkt w przestrzeni ukryte
+- w autoenkoderze wariacyjnym obraz jest mapowany na rozkład normalny wokół punktu w przestrzeni ukrytej
+- VAE zakłada, że pomiędzy wymiarami w przestrzeni ukrytej nie ma korelacji
+- ponieważ próbkujemy z z pewnego rozkładu, dekoder musi zapewnić, że obrazy bliskich punktów w przestrzeni ukrytej są podobne
+
+
+</div><div>
+
+
+![](vae-gaussian.png)
+
+Źródło rysunku: [lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae)
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Geneartywne sieci przeciwstawne (*GAN*)
+
+Rywalizacja dwóch graczy (Generatora i Dyskryminatora) do momentu osiągnięcia równowagi.
+
+
+<div class="cols"><div>
+
+### Generator
+- funkcja (sieć neuronowa) generująca syntetyczne (fałszywe) dane
+- nigdy nie widzi danych rzeczywistych
+- wejście: liczby losowe
+- cel: wygenerowanie danych syntetycznych o cechach danych rzeczywistych
+
+</div><div>
+
+### Dyskryminator
+- funkcja (sieć neuronowa) określająca prawdopodobieństwo tego, że dane są rzeczywiste lub syntetyczne
+- wytrenowana na danych rzeczywistych i syntetycznych
+- cel: odrzucenie danych syntetycznych
+
+</div></div>
+
+</script></section></section><section ><section data-markdown><script type="text/template"># Dodatek
+
+## Tablica pomyłek
+
+
+<div class="cols"><div>
+
+- inaczej: macierz błędów (*ang. confusion matrix*)
+- ocena jakości klasyfikacji binarnej (dwie klasy)
+- oznaczenia:
+  - TP - *true positive*
+  - TN - *true negative*
+  - FP - *false positive*
+  - FN - *false negative*
+
+
+</div><div>
+
+![](conf_matrix.png)
+
+Lub w skrócie:
+
+![](conf_matrix_short.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Współczynniki jakości
 
 
 
+<div class="cols"><div>
+
+- **trafność** (*accuracy*): odsetek poprawnych klasyfikacji dokonywanych przez model.
+- **precyzja** (*precission*): stopień w jakim klasyfikacje pozytywne na podstawie modelu są poprawne.
+- **czułość** (*sensitivity*, *recall*, *true positive rate*): zdolność modelu do wychwytywania przypadków pozytywnych.
+- **specyficzność**, swoistość (*specificity*, *true negative rate*): zdolność modelu do wychwytywania przypadków negatywnych.
+- współczynnik **F1**: średnia harmoniczna czułości i precyzji
 
 
-</script></section></div>
+</div><div>
+
+- $accuracy = \frac{TP+TN}{TP+TN+FP+FN}$
+
+- $precission = \frac{TP}{TP+FP}$
+
+- $sensitivity = \frac{TP}{TP+FN} = \frac{TP}{P} = TPR$
+
+- $specificity = \frac{TN}{TN+FP}= \frac{TN}{N} = TNR$
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Sploty transponowane
+
+[Convolution arithmetic](https://github.com/vdumoulin/conv_arithmetic)</script></section></section></div>
     </div>
 
     <script src="./dist/reveal.js"></script>
