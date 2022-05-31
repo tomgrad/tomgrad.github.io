@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Mechanika statystyczna</title>
+    <link rel="shortcut icon" href="./../favicon.ico" />
+    <link rel="stylesheet" href="./../dist/reset.css" />
+    <link rel="stylesheet" href="./../dist/reveal.css" />
+    <link rel="stylesheet" href="./../dist/theme/beige.css" id="theme" />
+    <link rel="stylesheet" href="./../css/highlight/zenburn.css" />
+
+    <link rel="stylesheet" href="./../_assets/custom.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+
+<div class="cols"><div>
+
+# Mechanika statystyczna
+- badanie układów **wielu czastek**
+- nie jest możliwe rozwiązanie równań ruchu dla wszystkich cząstek ze względu na ich dużą liczbę i możliwe wzajemne oddziaływania
+- mechanika statystyczna używa **opisu statystycznego**
+
+
+</div><div>
+
+![](goodstein.png)
+
+[David Goodstein, *States of Matter*]
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+## Zasady termodynamiki
+
+0. Jeśli dwa układy są w stanie **równowagi termodynamicznej** z trzecim układem, wtedy są w równowadze również względem siebie. Istnieje wielkość termodynamiczna, zwana **temperaturą**, którą można się posłużyć, by określić, czy układy są w stanie równowagi, czy nie.
+
+1. Istnieje wielkość termodynamiczna charakteryzująca układ zwana **energią wewnętrzną**. W układach izolowanych i zamkniętych jest spełniona **zasada zachowania** energii wewnętrznej. Energię wewnętrzną można zmieniać np. poprzez dostarczenie ciepła do układu lub wykonując pracę nad układem.
+   
+2. Istnieje wielkość termodynamiczna charakteryzująca układ w stanie równowagi zwana **entropią**. Jeśli układ jest izolowany od otoczenia wtedy,
+w wyniku spontanicznych procesów termodynamicznych zachodzących w takim
+układzie, **entropia rośnie** lub pozostaje stała, tj. $\Delta S \geq 0$. Oznacza to, że w stanie równowagi termodynamicznej entropia układu izolowanego osiąga maksymalną wartość.
+3. W temperaturze zera bezwzględnego, entropia układu termodynamicznego ma najmniejszą możliwą wartość.
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols21"><div>
+
+## Mikrostan
+
+- mikrostan: $Q=(\vec q, \vec p)$
+- podanie stanu wszystkich cząstek układu
+- np. dla *N* cząstek klasycznych będzie to *6N* zmiennych: *3N* składowych położenia i *3N* składowych pędu
+- mikrostan odpowiada punktowi w *6N* - wymiarowej **przestrzeni fazowej**
+- ewolucja czasowa mikrostanu odpowiada trajektorii fazowej - krzywej złożonej z punktów odpowiadających mikrostanom układu w kolejnych chwilach
+
+</div><div>
+
+
+
+<div class="box">
+
+$\vec q_i = [x_i, y_i, z_i]$
+
+$\vec q=(\vec q_1, \vec q_2, \ldots, \vec q_N)$
+
+$\vec p_i = [p_{xi}, p_{yi}, p_{zi}]$
+
+$\vec p=(\vec p_1, \vec p_2, \ldots, \vec p_N)$
+
+
+</div>
+
+![](trajektoria.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Makrostan
+
+- stan układu fizycznego jako całości, określony przez wielkości makroskopowe, np. ciśnienie *p*, objętość *V*, temperatura *T*, entropia *S*, magnetyzacja *M*.
+- **makrostan jest funkcją mikrostanu**, $x(t)=x(Q(t))$, gdzie $x$ jest wielkością fizyczną charakteryzującą makrostan
+- makrostan, w którym pewna wielkość fizyczna $x$ przyjmuje konkretną wartość $x=X$, jest zwykle realizowany przez wiele mikrostanów, których liczbę oznaczamy $W(X)$
+</script></section><section data-markdown><script type="text/template">## Mikrostan vs. makrostan - przykład
+
+Mamy 5 spinów, czyli cząstek które opisuje tylko binarna wartość, np. $\pm 1$, $\uparrow \downarrow$, itp.
+
+Przykładowe mikrostany:
+
+$\Omega_1 = \\{ \uparrow\uparrow\uparrow\uparrow\uparrow \\}$, $m=+1$
+
+$\Omega_2 = \\{ \uparrow\uparrow\downarrow\uparrow\downarrow \\}$, $m=+\frac{1}{5}$
+
+$\Omega_3 = \\{ \uparrow\downarrow\uparrow\downarrow\uparrow \\}$, $m=+\frac{1}{5}$
+
+$\Omega_4 = \\{ \downarrow\downarrow\uparrow\downarrow\uparrow \\}$, $m=-\frac{1}{5}$
+
+Objętość przestrzeni fazowej (liczba możliwych mikrostanów):
+
+$\\{ \Omega \\} = 2^5 = 32$
+
+Mikrostany $\Omega_2$ i $\Omega_3$ odpowiadają temu samemu makrostanowi (ta sama wartość magnetyzacji).
+</script></section><section data-markdown><script type="text/template">
+## Stan równowagi
+
+
+<div class="cols"><div>
+
+
+- zwykle układy fizyczne dążą do stanu równowagi, tj. wielkości fizyczne dążą do wartości średnich
+- w stanie równowagi występują jednak **fluktuacje** wielkości fizycznych wokół wartości średnich, których miarą może być np. odchylenie standardowe
+
+![](rownowaga.png)<!-- .element style="width:75%" -->
+
+</div><div>
+
+
+
+<div class="box">
+
+**Wartość średnia wielkości fizycznej**
+
+$\langle x \rangle = \lim\limits_{t\to\infty} \frac{1}{t}\int\limits_0^t x(t) dt = \lim\limits_{t\to\infty} \frac{1}{t}\int\limits_0^t x(Q(t)) dt$
+
+</div>
+
+
+
+
+<div class="box">
+
+**Odchylenie standardowe**
+
+$\delta x = \sqrt{\langle x^2 \rangle - \langle x \rangle^2}$
+
+${\delta x \over \langle x \rangle} \approx {1 \over \sqrt N}$
+
+
+</div>
+
+
+</div></div>
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Hipoteza ergodyczna
+
+- rozważmy dużą liczbę jednakowych układów (**zespół statystyczny**), znajdujących się w takich samych warunkach
+- obserwując ewolucję każdego układu w jego przestrzeni fazowej, możemy zmierzyć prawdopodobieństwo wystąpienia każdego mikrostanu *P(Q)*, który wystąpi w trakcie ewolucji czasowej
+
+
+
+<div class="box">
+
+**Średnia po czasie z dowolnej wielkości fizycznej, będącej funkcją mikrostanu, jest równa średniej po zespole statystycznym.**
+
+$\langle x \rangle = \sum\limits_Q P(Q) ~ x(Q)  = \int \limits_\Gamma P(Q(\vec q, \vec p)) ~ x(Q(\vec q, \vec p)) ~ d^N\vec p ~ d^N\vec q$ 
+
+$\Gamma$ - dostępna dla układu część przestrzeni fazowej
+
+</div>
+
+</script></section><section data-markdown><script type="text/template">
+## Hipoteza ergodyczna
+
+- jest to bardzo silne stwierdzenie
+- oznacza ono, że **po dostatecznie długim czasie** trajektoria fazowa znajdzie się **dostatecznie blisko dowolnego punktu**, leżącego w dostepnej dla układu części przestrzeni fazowej
+- hipoteza ergodyczna stanowi pomost pomiędzy termodynamiką fenomenologiczną i mechaniką statystyczną
+- twierdzenie ergodyczne zostało udowodnione przy pewnych założeniach, które jednak, jak się wydaje, nie muszą zawsze być spełnione w układach fizycznych
+</script></section><section data-markdown><script type="text/template">
+## Entropia
+
+- rozważmy układ, którego makrostan scharakteryzowany jest przez pewną wielkość fizyczną $x$.
+- niech makrostanowi, dla którego $x=X$, odpowiada pewna liczba mikrostanów $g(x=X)$
+
+
+<div class="box">
+
+
+**Statystyczna definicja entropii**
+
+$S(X) = k_B \ln W(X)$
+
+$k_B = 1.3806 \cdot 10^{-23} {J\over K}$ - stała Boltzmanna
+
+
+</div>
+
+
+
+<div class="box">
+
+**Statystyczna definicja temperatury**
+
+$\frac{1}{T} = {\partial S \over \partial E}$
+
+
+</div>
+
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+## Rozkład (zespół) mikrokanoniczny
+
+- opisuje układ **całkowicie odizolowany** od otoczenia, o ustalonej energii $E = E_1$ i liczbie cząstek $N_1$
+- ponieważ energia układu jest stała, mogą wystapić tylko takie mikrostany, które odpowiadają makrostanowi, scharakteryzowanemu energią $E_1$
+- przyjmujemy, że **prawdopodobieństwo** wystąpienia każdego z dopuszczalnych mikrostanów jest **jednakowe**
+
+
+</div><div>
+
+
+![](mikrokanoniczny.svg)<!-- .element style="width:50%" -->
+
+
+<div class="box">
+
+**Rozkład prawdopodobieństwa mikrostanów**
+
+<div>\[\begin{aligned}
+P(\Omega)={\begin{cases} \frac{1}{W} &dla& \Omega\in\Gamma \\ 0 &dla& \Omega\notin\Gamma \end{cases}}
+\end{aligned}\]</div>
+$W$ - liczba mikrostanów
+
+</div>
+
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+### Przykład: model wymiany ciepła
+
+- mamy 2 odizolowane części *A* i *B* układu
+- w każdej części znajdują się 2 rozróżnialne cząstki
+- liczba kwantów energii w poszczególnych częściach wynosi $E_A=5$ i $E_B=1$
+- każda cząstka może mieć tylko całkowitą liczbę kwantów energii
+
+#### Pytania:
+
+- Ile wynosi liczba mikrostanów? Jak uogólnić odpowiedź na dowolną liczbę cząstek i kwantów energii?
+- Ile wyniesie liczba mikrostanów, jeśli umożliwimy przepływ energii przez barierę?
+- Jakie jest prawdopodobieństwo, że po usunięciu bariery między częściami, energia części *A* wzrośnie?
+- Jaki podział energii między układami jest najbardziej prawdopodobny?
+</script></section><section data-markdown><script type="text/template">
+#### Ile wynosi liczba mikrostanów?
+
+- w części *A*: {5, 0}, {4, 1}, {3, 2}, {2, 3}, {1, 4}, {0, 5} - $W_A=6$ mikrostanów
+- w części *B*: {1, 0}, {0, 1} - $W_B=2$ mikrostany
+- dla całego układu: $W=W_A \cdot W_B = 12$
+- entropia: $S = k_B \ln W$
+
+
+#### Jak to uogólnić na dowolną liczbę czastek i kwantów energii? 
+
+- np. *N=3*, *E=5* (3 pudełka, 5 kulek)
+
+- przykładowy mikrostan: (***) () (**)
+- dowolny mikrostan możemy zakodować jako ciąg symboli. Dla mikrostanu powyżej "***||**"
+- czyli mamy *E* kropek i *N-1* kresek, w sumie *E+N-1* symboli
+- liczba możliwych kombinacji: $W = {E+N-1 \choose E}$
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Rozkład kanoniczny
+
+
+<div class="cols21"><div>
+
+
+- opisuje układ, będący niewielką częścią większego układu i pozostający **w równowadze termodynamicznej z termostatem** (pozostałą częścią większego układu)
+- energia większego układu $E_{tot}$ (suma energii badanego układu $E$ oraz termostatu $E_t$) jest stała
+- układ może wymieniać z termostatem energię (ciepło), więc jego temperatura $T$ jest określona przez termostat
+- układ nie może wymieniać cząstek (liczba cząstek $N$ w rozpatrywanym układzie jest stała)
+
+
+</div><div>
+
+![](kanoniczny.svg)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+<div class="cols"><div>
+
+- załóżmy, że prawdopodobieństwo wystąpienia mikrostanu, w którym badany układ ma energię $E$, jest **proporcjonalne** do liczby mikrostanów **termostatu**, w których termostat ma energię $E_t = E_{tot} - E$
+
+$P(Q(E)) \propto W_t(E_t)$
+
+- gdy makrostan termostatu scharakteryzowany jest przez energię $E_t = E_{tot} - E$, jego entropia wynosi:
+
+$S_t(E_t) = k_B \ln W_t (E_t) \Rightarrow W_t(E_t) = e^{S_t \over k_B}$
+
+- badany układ jest znacznie mniejszy od termostatu $\Rightarrow$ możemy entropię termostatu rozwinąć w szereg w pobliżu wartości $E_t=E_{tot}$
+
+</div><div>
+
+
+
+<div>\[\begin{aligned}
+S_t(E_{t}) = S_t(E_{tot}) - \frac{\partial S_t}{\partial E_t} E = const - \frac{1}{T} E
+\end{aligned}\]</div>
+
+$P(Q(E)) \propto e^{- \frac{E(Q)}{k_B T}}$
+
+
+<div class="box">
+
+**rozkład kanoniczny (Boltzmanna)**
+
+$P(Q(E)) = \frac{1}{Z} e^{- \frac{E(Q)}{k_B T}}$
+
+**suma statystyczna**
+
+$Z = \sum\limits_Q e^{- \frac{E(Q)}{k_B T}}$
+
+lub dla zmiennych ciągłych:
+
+$Z = \int\limits_\Gamma  e^{- \frac{E(\vec q, \vec p)}{k_B T}} d^N \vec q ~ d^N \vec p$
+
+
+</div></div>
+
+
+
+</div>
+
+</script></section><section data-markdown><script type="text/template">
+### Własności rozkładu kanonicznego
+
+**Multiplikatywność sumy statystycznej**
+- Jeśli układ można podzielić na nieoddziałujące części ($E = E_1 + E_2 + \ldots + E_n$), suma statystyczna całego układu jest iloczynem sum statystycznych jego oddzielnych części: 
+
+$Z = Z_1 Z_2 \ldots Z_n$
+
+**Średnia wartość energii**
+
+$\langle E \rangle = -\frac{\partial \ln Z}{\partial \beta}$
+
+gdzie $\beta = \frac{1}{k_B T}$
+
+**Odchylenie standardowe obserwowanych wartości energii $E(\Omega)$ od wartości średniej $\langle E \rangle$**
+
+$\sigma_E^2 = \left( \frac{Z'}{Z} \right)'$
+
+gdzie znak $'$ (*prim*) oznacza pochodną po $\beta$.
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Układ o dwóch poziomach energetycznych
+
+
+<div class="cols21"><div>
+
+
+- $N = const$ - liczba cząstek
+- $N_+$ - liczba cząstek o energii $\varepsilon$ (spin w górę)
+- $N_-$ - liczba cząstek o energii $-\varepsilon$ (spin w dół)
+
+Stan o energii $E = \varepsilon (N_+  - N_-)$ odpowiada umieszczeniu dokładnie $N_-$ cząstek na poziomie o energii $-\varepsilon$.
+
+
+**Liczba mikrostanów** odpowiadających energii $E$:
+
+$W(E) = {N \choose N_-} = \frac{N!}{(N-N_-)!~N_-!} =$
+
+$ = \frac{N!}{[\frac{1}{2}(N+M)]!~[\frac{1}{2}(N-M)]!}$
+
+
+
+</div><div>
+
+
+<div class="box">
+
+
+<div>\[\begin{aligned}
+N = N_+ + N_- \\
+M \equiv N_+ - N_-
+\end{aligned}\]</div>
+
+$M$ - magnetyzacja
+
+
+<div>\[\begin{aligned}
+N_+ = \frac{1}{2}(N+M) \\ 
+N_- = \frac{1}{2}(N-M)
+\end{aligned}\]</div>
+
+</div>
+
+![](spiny.png)<!-- .element style="width:50%" -->
+
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols31"><div>
+
+### Entropia układu dwustanowego
+
+Korzystamy ze wzoru Stirlinga
+
+$m \to \infty \Rightarrow \ln m! = m \ln m - m$ 
+
+
+<div>\[\begin{aligned}
+S &= k_B \ln W(E) \approx\\
+&\approx k_B\left(N\ln N - \frac{N+M}{2} \ln \frac{N+M}{2} + \frac{N-M}{2} \ln \frac{N-M}{2}\right)
+\end{aligned}\]</div>
+
+
+</div><div>
+
+![](spiny_entropia.png)<!-- .element style="width:50%" -->
+
+</div></div>
+
+
+
+<div class="cols21"><div>
+
+
+### Temperatura
+
+$E =(N_+-N_-)\varepsilon = M \varepsilon \Rightarrow M=\frac{E}{\varepsilon}$
+
+
+<div>\[\begin{aligned}
+\frac{1}{T} &= \frac{\partial S}{\partial E} = \frac{\partial S}{\partial M} \frac{\partial M}{\partial E}= \frac{k_B}{2\varepsilon} \ln \frac{N-M}{N+M} =
+\frac{k_B}{2\varepsilon} \ln \frac{N_-}{N_+}
+\end{aligned}\]</div>
+
+$N_- \lt N_+ \Rightarrow T<0$ 
+
+(inwersja obsadzeń)
+
+
+</div><div>
+
+![](lasers.png)<!-- .element style="width:50%" -->
+
+</div></div>
+
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Klasyczny gaz doskonały
+
+
+<div class="cols21"><div>
+
+- *N* klasycznych cząstek w ustalonej objętości
+- brak oddziaływań (brak energii potencjalnej)
+- zderzenia doskonale sprężyste
+- objętość cząsteczek jest znikoma w stosunku do objętości gazu
+
+$E = E(\vec p, \vec q) = E_{kin}(\vec p, \vec q) = \sum\limits_{i=1}^N \frac{\vec p_i^2}{2m}$
+
+Do opisu gazu doskonałego wykorzystujemy **rozkład kanoniczny**.
+
+</div><div>
+
+![](ideal_gas.gif)<!-- .element style="width:100%" -->
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+### Rozkład Boltzmanna
+gęstość prawdopodobieństwa, że cząstka posiada pęd $\vec p=(p_x, p_y, p_z)$
+
+$f(\vec p) d\vec p = \frac{1}{2\pi mk_B T} e^{-\frac{p_x^2+ p_y^2+ p_z^2}{2mk_BT}} dp_x dp_y dp_z$
+
+Jest to gęstość prawdopodobieństwa dla wektorów pędu we współrzednych kartezjańskich.
+
+
+<div class="cols"><div>
+
+
+### Rozkład Maxwella
+gęstość prawdopodobieństwa, że wartość pędu cząstki wynosi *p* lub wartość prędkości cząstki wynosi *v*.
+
+$f(p)dp = \sqrt{\frac{2}{\pi}} \frac{p^2}{(mk_BT)^{3/2}} e^{-\frac{p^2}{2mk_BT}}dp$
+
+$f(v)dv = \sqrt{\frac{2}{\pi}} \left(\frac{m}{k_BT} \right)^{3/2} v^2 e^{-\frac{mv^2}{2k_BT}}dv$
+
+</div><div>
+
+![](maxwell.png)
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+<div class="cols"><div>
+
+
+**Prędkość średnia cząstek gazu**
+
+$\langle v \rangle = \int\limits_0^\infty vf(v)dv = \sqrt{\frac{8k_BT}{\pi m}}$
+
+**Prędkość najbardziej prawdopodobna**
+
+maksimum funkcji *f(v)*
+
+$v_{pr} = \sqrt{\frac{2k_BT}{\pi m}}$
+
+</div><div>
+
+**Prędkość średnia kwadratowa**
+
+$\sqrt{\langle v^2 \rangle} = \sqrt{\int\limits_0^\infty v^2f(v)dv} = \sqrt{\frac{3k_BT}{\pi m}}$
+
+**Średnia energia cząstek**
+
+$\langle E \rangle = \frac{m}{2} \langle v^2 \rangle = \frac{3}{2} k_B T$
+
+</div></div>
+
+
+
+<div class="box">
+
+**Zasada ekwipartycji energii:** cała energia cząsteczki rozkłada się "po równo" na wszystkie możliwe stopnie swobody
+
+$\langle E_1 \rangle = \frac{k_BT}{2}$ - średnia energia przypadająca na 1 stopień swobody
+
+
+</div>
+
+</script></section></section></div>
+    </div>
+
+    <script src="./../dist/reveal.js"></script>
+
+    <script src="./../plugin/markdown/markdown.js"></script>
+    <script src="./../plugin/highlight/highlight.js"></script>
+    <script src="./../plugin/zoom/zoom.js"></script>
+    <script src="./../plugin/notes/notes.js"></script>
+    <script src="./../plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
