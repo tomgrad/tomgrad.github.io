@@ -525,6 +525,255 @@ $\langle E_1 \rangle = \frac{k_BT}{2}$ - średnia energia przypadająca na 1 sto
 
 </div>
 
+</script></section></section><section ><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+# Model Isinga
+### (Ernst Ising, 1900-1998)
+
+
+- model układu z oddziaływaniami
+- suma statystyczna nie separuje się na iloczyny sum jednostkowych
+- cząstki opisuje zmienna binarna (spin), np. $s_i=\pm 1$ (lub $\\{0, 1\\}$ - decyduje wygoda matematyczna)
+
+</div><div>
+
+
+![](ising_quench_b10.gif)<!-- .element style="width:80%" -->
+**Zastosowania**
+- magnetyki
+- stopy dwuskładnikowe
+- gaz niedoskonały
+- sieci neuronowe
+- układy społeczne
+
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+Energia oddziaływania:
+
+$\varepsilon_{nm} = -J_{nm}s_n s_m$
+
+$J$ - całka wymiany (krótkozasiegowe oddziaływania wymienne)
+
+- $J>0$ - oddziaływania ferromagnetyczne (preferowane ustawienie równoległe)
+- $J<0$ - oddziaływanie antyferromagnetyczne (preferowane ustawienie antyrównoległe)
+- $J=0$ - brak oddziaływania
+
+
+Energia *n*-tego spinu z uwzględnieniem zewnętrznego pola:
+
+$\varepsilon_n = -s_n (\sum\limits_m J_{nm}s_m+\gamma F)$
+</script></section><section data-markdown><script type="text/template">
+## Ścisłe rozwiązanie dla 1D
+### (łańcuch spinów)
+
+
+<div class="cols"><div>
+
+
+![](lancuch_spinow.svg)<!-- .element style="width:60%" -->
+
+$\varepsilon = - \sum\limits_{n=1}^{N-1} J_n s_n s_{n+1}$
+
+ozn. $K_n:=\frac{J_n}{kT}=\beta J_n$
+
+suma statystyczna
+
+$Z_n = \sum\limits_{\\{s\\}} e^{K_1s_1s_2+K_2s_2s_3+\ldots+K_{N-1}s_{N-1}s_N}$
+
+$\sum\limits_{\\{s\\}}$ - suma po $2^N$ mikrostanach
+
+
+</div><div>
+
+
+Wydzielamy czynnik z $s_N$, bo występuje tylko raz
+
+$\sum\limits_{s_N} e^{K_{N-1}s_{N-1}s_N} = e^{K_{N-1}s_{N-1}} + e^{-K_{N-1}s_{N-1}}=$
+
+$=2 \cosh(K_{N-1}s_{N-1}) = 2 \cosh (K_{N-1})$ - ponieważ $\cosh(x)$ jest funkcją parzystą
+
+$Z_N = 2 \cosh(K_{N-1}) Z_{N-1}$
+
+$Z_N = 2^N \cosh K_1 \cosh K_2 \ldots \cosh K_{N-1}$
+
+dla $K_n=K$:
+
+$Z_N=2^N (\cosh K)^{N-1}$
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+Liczymy energię wewnętrzną na 2 sposoby:
+
+
+<div class="cols"><div>
+
+
+1. $U=\langle E \rangle = - \frac{\partial}{\partial \beta} \ln Z$
+
+$\ln Z = \ln 2^N + \sum\limits_{n=1}^{N-1}\ln \cosh \beta J_n$
+
+$U=-\sum\limits_{n=1}^{N-1} \frac{1}{\cosh \beta J_n} J_n \sinh \beta J_n = -\sum\limits_{n=1}^{N-1} J_n \tanh \beta J_n$
+
+
+</div><div>
+
+
+2. $U=-\sum\limits_{n=1}^{N-1} J_n \langle s_n s_{n+1} \rangle$
+
+
+</div></div>
+
+
+
+<div class="cols21"><div>
+
+
+Przyrównujemy:
+
+$\langle s_n s_{n+1} \rangle = \tanh \beta J_n$
+
+W wysokich temperaturach węzły są niezależne (nieskorelowane):
+
+$\langle s_n s_{n+1} \rangle \approx \langle s_n \rangle \langle s_{n+1} \rangle$
+
+</div><div>
+
+![](tanh1x.svg)
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+<div class="cols21"><div>
+
+
+Funkcja korelacyjna dla dowolnych 2 spinów:
+
+$\Gamma(n) = \langle s_i s_{i+n} \rangle - \langle s_i \rangle \langle s_{i+n} \rangle \stackrel{N\to\infty}{\approx} \langle s_i s_{i+n} \rangle$
+
+$\Gamma(n) = \frac{1}{Z} \sum\limits_{\\{s\\}} s_i s_{i+n} e^{K_1s_1s_2+\ldots+K_{N-1}s_{N-1}s_N}$
+
+$s_i s_{i+n} = s_i (s_{i+1}s_{i+1}) (s_{i+2}s_{i+2}) \ldots (s_{i+n-1}s_{i+n-1}) s_{i+n}$ - czynniki w nawiasach są równe 1
+
+$s_i s_{i+1} \exp(\ldots) = \frac{\partial}{\partial K_i} \exp (\ldots)$
+
+$\Gamma(n) = \frac{1}{Z} \frac{\partial}{\partial K_i} \frac{\partial}{\partial K_{i+1}} \ldots \frac{\partial}{\partial K_{i+n-1}} \sum\limits_{\\{s\\}} e^{K_1s_1s_2+K_2s_2s_3+\ldots+K_{N-1}s_{N-1}s_N}$
+
+$\Gamma(n) = \tanh K_i \tanh K_{i+1} \ldots \tanh K_{i+n-1}$ - iloczyn funkcji korelacyjnych kolejnych par
+
+
+</div><div>
+
+dla $J_n=J$:
+
+$\Gamma(n) = \Gamma(1)^n$
+
+$\Gamma(1) = \tanh K < 1$
+
+czyli dla dużych $n$: $\Gamma(n)\to 0$
+
+odległe spiny nie są skorelowane w żadnej temperaturze
+
+**Wniosek:** brak przemiany fazowej w jednym wymiarze
+
+</div></div>
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Przybliżenie pola średniego (molekularnego)
+### *MFA - mean field approximation*
+
+Założenia:
+- oddziaływania międzycząsteczkowe zastępujemy pewnym polem zewnętrznym
+- problem wielocząstkowy redukujemy do jednocząstkowego (cząstki niezależne)
+- zmienne spinowe zastępujemy ich wartościami średnimi: $s_m \to \langle s_m \rangle$
+
+</script></section><section data-markdown><script type="text/template">
+## MFA dla modelu Isinga
+
+energia *n*-tego węzła
+
+$\varepsilon_n = -J s_n \sum\limits_{m\prime} \langle s_m \rangle-\gamma F s_n$
+
+- $\sum\limits_{m\prime}$ - suma po najbliższych sąsiadach
+- $F$ - rzeczywiste pole zewnętrzne
+- $\langle s_m \rangle \to \langle s \rangle$ - wartości średnie spinów są takie same
+
+
+<div class="cols12"><div>
+
+
+$\varepsilon_n = -z J \langle s \rangle s_n -\gamma F s_n$
+
+- $z$ - liczba sąsiadów
+
+
+</div><div>
+
+
+![](siatki.svg)<!-- .element style="width:80%" -->
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+$\varepsilon_n = -\gamma (F+\frac{zJ\langle s \rangle}{\gamma})s_n$
+
+ozn. $F_m := \frac{zJ\langle s \rangle}{\gamma}$
+
+Obliczamy jednocząstkową sumę statystyczną:
+
+$Z_n = e^{-\beta\gamma(F+F_m)} + e^{\beta\gamma(F+F_m)} = 2 \cosh [\beta \gamma (F+F_m)]$
+
+$\langle s_n \rangle = \langle s \rangle = \frac{1}{Z} \sum\limits_{\\{s_n\\}} s_n e^{\beta\gamma(F+F_m)s_n} = \frac{1}{Z} \left( e^{\beta\gamma(F+F_m)} - e^{-\beta\gamma(F+F_m)}\right) = \tanh [\beta\gamma(F+F_m)]$
+
+
+
+<div class="cols"><div>
+
+Otrzymujemy uwikłane równanie na $\langle s \rangle$.
+
+
+Przy braku zewnętrznego pola ($F=0$):
+
+$\langle s \rangle = \tanh (\beta\gamma F_m) = \tanh (\beta J z \langle s \rangle)$
+
+
+**Wniosek:** poniżej temperatury krytycznej $T_0$ następuje spontaniczne uporządkowanie, nawet przy braku pola zewnętrznego.
+
+</div><div>
+
+
+![](ising_mfa_T.svg)<!-- .element style="width:80%" -->
+
+
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+<div class="cols21"><div>
+
+w pobliżu $T_0$ ($T\approx T_0$) funkcję $\tanh$ możemy przybliżyć liniowo.
+
+$\langle s \rangle \approx \beta J z \langle s \rangle$
+
+$\langle s \rangle \approx \frac{J z \langle s \rangle}{kT}$
+
+dla $T \to T_0$: $T_0=\frac{zJ}{k}$
+
+</div><div>
+
+![](ising_T0.svg)
+
+
+</div></div>
+
+- brak zgodności z wynikiem ścisłym dla łańcucha 1D (*z=2*)
+- im większy wymiar (i *z*), tym lepsza dokładność MFA
+
+
+
+
 </script></section></section></div>
     </div>
 
