@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Explainable AI</title>
+    <link rel="shortcut icon" href="./../favicon.ico" />
+    <link rel="stylesheet" href="./../dist/reset.css" />
+    <link rel="stylesheet" href="./../dist/reveal.css" />
+    <link rel="stylesheet" href="./../dist/theme/beige.css" id="theme" />
+    <link rel="stylesheet" href="./../css/highlight/zenburn.css" />
+
+    <link rel="stylesheet" href="./../_assets/custom.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+![](black_box.png)<!-- .element style="width:80%" -->
+
+([Źródło](https://captum.ai/))</script></section><section data-markdown><script type="text/template">
+# Explainable artificial intelligence
+## (XAI)
+</script></section><section data-markdown><script type="text/template">
+![](explainability.png)
+
+([Źródło](https://www.youtube.com/watch?v=6xePkn3-LME))
+</script></section><section data-markdown><script type="text/template">
+![](targets.png)
+
+([Źródło](https://www.youtube.com/watch?v=6xePkn3-LME))
+</script></section><section data-markdown><script type="text/template">
+![](siontis2021.png)<!-- .element style="width:40%" -->
+
+[Siontis 2021]</script></section><section data-markdown><script type="text/template">
+
+<div class="cols21"><div>
+
+![](flowchart.jpg)
+
+</div><div>
+
+![](gradl2012.png)<!-- .element style="width:80%" -->
+
+[Gradl 2012]
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+![](sensitivity_map_kwon2020.png)<!-- .element style="width:90%" -->
+
+[Kwon 2020]
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Integrated gradients
+
+Axiomatic Attribution for Deep Networks - 
+Mukund Sundararajan, Ankur Taly, Qiqi Yan (2017)</script></section><section data-markdown><script type="text/template">
+## Odniesienie i atrybuty
+
+![](ig_1.png)
+</script></section><section data-markdown><script type="text/template">
+## Po co odniesienie?
+
+![](ig_2.png)
+![](ig_3.png)
+</script></section><section data-markdown><script type="text/template">
+## Atrybuty?
+
+![](ig_4.png)
+</script></section><section data-markdown><script type="text/template">
+![](ig_5.png)
+
+![](alpha.png)
+</script></section><section data-markdown><script type="text/template">
+## Wyznaczamy atrybuty
+
+![](ig_6.png)
+</script></section><section data-markdown><script type="text/template">
+## Całkowanie po drodze
+
+![](ig_7.png)
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Wyniki
+
+
+<div class="cols"><div>
+
+![](output_TcpGLJWuHnYl_0.png)
+
+</div><div>
+
+![](output_vxCQFx96iDVs_0.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+![](ex_1.png)<!-- .element style="width:70%" -->
+</script></section><section data-markdown><script type="text/template">
+![](ex_2.png)
+</script></section><section data-markdown><script type="text/template">
+![](ex_3.png)
+</script></section><section data-markdown><script type="text/template">
+![](ex_4.png)<!-- .element style="width:70%" -->
+</script></section><section data-markdown><script type="text/template">
+![](ex_5.png)
+</script></section></section><section  data-markdown><script type="text/template">## Źródła
+
+- [Axiomatic Attribution for Deep Networks](https://arxiv.org/abs/1703.01365)
+- [Introduction to Explainable AI (ML Tech Talks)](https://www.youtube.com/watch?v=6xePkn3-LME)
+- [Right to explanation](https://en.wikipedia.org/wiki/Right_to_explanation)
+- [Captum - Model Interpretability for PyTorch](https://captum.ai/)
+- [Integrated gradients tutorial, TF](https://www.tensorflow.org/tutorials/interpretability/integrated_gradients)</script></section></div>
+    </div>
+
+    <script src="./../dist/reveal.js"></script>
+
+    <script src="./../plugin/markdown/markdown.js"></script>
+    <script src="./../plugin/highlight/highlight.js"></script>
+    <script src="./../plugin/zoom/zoom.js"></script>
+    <script src="./../plugin/notes/notes.js"></script>
+    <script src="./../plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
