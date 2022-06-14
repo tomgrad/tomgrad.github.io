@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Dynamika układów nieliniowych</title>
+    <link rel="shortcut icon" href="./../favicon.ico" />
+    <link rel="stylesheet" href="./../dist/reset.css" />
+    <link rel="stylesheet" href="./../dist/reveal.css" />
+    <link rel="stylesheet" href="./../dist/theme/beige.css" id="theme" />
+    <link rel="stylesheet" href="./../css/highlight/zenburn.css" />
+
+    <link rel="stylesheet" href="./../_assets/custom.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+# Wstęp do dynamiki układów nieliniowych
+</script></section><section data-markdown><script type="text/template">
+## Układy dynamiczne
+
+
+<div class="box">
+
+**Układ dynamiczny** - deterministyczna recepta na ewolucję w czasie stanu danego układu.
+
+</div>
+
+Rozróżniamy układy z czasem *dyskretnym* (np. odwzorowania dyskretne, tzw. mapy) lub z czasem *ciągłym* (opisane np. za pomocą równań różniczkowych).
+
+
+<div class="cols"><div>
+
+
+**Układ dynamiczny z czasem dyskretnym**
+
+$x_{n+1} = f(x_n)$
+
+</div><div>
+
+**Układ dynamiczny z czasem ciągłym**
+
+$\frac{d \vec x}{dt} = \vec F(\vec x)$
+
+</div></div>
+
+
+Punkt $x^*$ jest **punktem stałym** odwzorowania $f$, jeżeli
+$x^* = f(x^*)$.
+</script></section><section data-markdown><script type="text/template">
+## Dyskretne odwzorowania jednowymiarowe
+### przykład: odwzorowanie Bernoulliego
+
+$x_{n+1} = \sigma(x_n) = 2 x_n \mod 1$
+
+zaczynamy od warunku początkowego $x_0$ i otrzymujemy ciąg wartości:
+
+$x_1=\sigma(x_0)$, $x_2=\sigma(\sigma(x_0))$, ..., $x_n=\sigma(\ldots \sigma(\sigma(x_0)))$
+
+Oznaczenie: *n*-krotne wykonanie odwzorowania (*n*-krotne złożenie) oznaczamy górnym indeksem *n*.
+
+$x_n = \sigma^n(x_0)$
+
+[symulacja w JS](https://codepen.io/tomgrad/full/mdJMyYO)
+</script></section><section data-markdown><script type="text/template">
+### Odwzorowanie Bernoulliego, c.d.
+
+Przedstawmy warunek początkowy w postaci binarnej:
+
+$x_0 = \sum\limits_{\alpha=1}^\infty a_\alpha 2^{-\alpha}$
+
+tzn. w postaci:
+
+$x_0 = 0,a_1 a_2 a_3 \ldots$
+
+gdzie $a_\alpha$ przyjmują wartości *0* lub *1*.
+
+- dla $a_1=0$ otrzymujemy $x_0 \lt 0.5$
+- dla $a_1=1$ otrzymujemy $x_0 \gt 0.5$
+
+Pierwsza iteracja odwzorowania $\sigma(x_0)$ oznacza przesunięcie ciągu reprezentacji binarnej o 1 miejsce w lewo (mnożenie liczby binarnej razy 2) oraz usunięcie pierwszej cyfry ciągu (*modulo 1*).
+
+$x_1 = 0, a_2 a_3 a_4 \ldots$
+
+Przy każdej iteracji $\sigma$ realizuje się *przesunięcie Bernoulliego*.
+</script></section><section data-markdown><script type="text/template">
+### Własności odwzorowania Bernoulliego
+
+- **czułość na warunki początkowe** -  jeśli dwa warunki początkowe różnią się od siebie tylko *n*-tym miejscu po przecinku, to różnica ta jest podwajana przez każde działanie $\sigma$.
+- **ergodyczność** - dla ciągu iteracji $\sigma^n$ obrazy dowolnego $x_0 \in [0,1]$ zbliżają się na odległość $\varepsilon =2^{-n}$ do każdego punktu odcinka $[0,1]$.
+- **istnienie orbit periodycznych** - dla warunku początkowego $x_0=0,a_1 a_2 \ldots a_p a_1 a_2 \ldots a_p a_1 a_2 \ldots a_p \ldots$ otrzymujemy orbitę periodyczną o okresie $p$.
+Punkt *y* na orbicie o okresie *p* jest również punktem stałym mapy *p*-krotnie złożonej:
+$y=\sigma^p (y)$
+
+Przykład:
+
+$x_0=0.10101010\ldots =2/3$
+
+$x_1=0.01010101\ldots =1/3$
+
+$x_2=0.10101010\ldots =2/3$
+</script></section><section data-markdown><script type="text/template">
+## Chaos w odwzorowaniu Bernoulliego
+
+Mechanizm powstawania chaosu deterministycznego w postaci przesunięcia Bernoulliego jest całkowicie uniwersalny: 
+- we wszystkich nieliniowych układach dynamicznych pojawia się **rozciąganie**, a następnie **składanie**.
+
+
+![](skladanie.svg)<!-- .element style="width:40%" -->
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Wykładnik Lapunowa
+
+
+<div class="cols21"><div>
+
+- **rozciąganie** powoduje, że punkty, leżące blisko siebie, **oddalają się** od siebie pod wpływem odwzorowania nieliniowego $f(x_n)$
+- $\lambda$ jest wykładnikiem Lapunowa
+- $N$ pełni rolę dyskretnego czasu, więc $\lambda$ jest średnią prędkością oddalania / zbliżania się trajektorii
+- w granicy otrzymujemy ścisłe wyrażenie na wykładnik Lapunowa $\lambda(x_0)$
+- wykladnik Lapunowa mierzy **średni ubytek informacji** o położeniu punktu na odcinku $[0,1)$ po jednej iteracji odwzorowania
+
+</div><div>
+
+![](lapunow.svg)<!-- .element style="width:90%" -->
+
+</div></div>
+
+
+$\varepsilon e^{N \lambda(x_0)} = |f^N(x_0 + \varepsilon)-f^N(x_0)|$
+
+$\lambda(x_0) = \lim\limits_{N\to\infty}\lim\limits_{\varepsilon\to 0} \frac{1}{N} \ln |\frac{f^N(x_0+\varepsilon)-f^N(x_0)}{\varepsilon}| = \lim\limits_{N\to\infty}\frac{1}{N} \ln |\frac{df^N(x_0)}{dx_0}| = \lim\limits_{N\to\infty}\frac{1}{N} \sum\limits_{i=0}^{N-1}\ln |f^\prime(x_i)|=$ 
+
+$= \lim\limits_{N\to\infty}\frac{1}{N} \sum\limits_{i=0}^{N-1}\ln |f^\prime(x_i)|$ 
+</script></section><section data-markdown><script type="text/template">
+## Stabilność punktu stałego
+
+Punkt stały $x^*$ jest **lokalnie stabilny**, jeśli wszystkie punkty $x_0$ w pewnym otoczeniu $x^*$ są do niego **przyciągane** (ciąg iteracji zbliża się do $x^*$):
+
+$x_0, x_1, x_2, \ldots x_n, \ldots \to x^*$
+
+Odległość od punktu stałego:
+
+$\delta_{n+1} = |x_{n+1}-x^*|=|f(x^*+\delta_n)-x^*|\approx$
+
+$\approx |\frac{d}{dx^*}f(x^*)| \delta_n$
+
+Tak więc analitycznie kryterium lokalnej stabilności jest spełnione dla warunku:
+
+$|\frac{d}{dx^*}f(x^*)|<1$
+
+Dodatni wykładnik Lapunowa świadczy o niestabilności rozwiązania (ale nie o jego braku).
+</script></section><section data-markdown><script type="text/template">
+
+## Stabilność w układach wielowymiarowych
+
+
+<div class="cols"><div>
+
+- dla układu $n$-wymiarowego istnieje całe **spektrum** $n$ wykładników Lapunowa
+- dodatnia wartość największego współczynnika świadczy o **chaosie**
+- w ogólności współczynniki Lapunowa zależą od warunku początkowego, lecz zwykle interesuje nas obszar przyciągania (tzw. **atraktor**)
+
+</div><div>
+
+![](LyapunovDiagram.svg)
+
+</div></div>
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Odwzorowanie logistyczne
+### (mapa logistyczna)
+
+
+<div class="cols21"><div>
+
+
+$$
+x_{n+1} = r x_n (1-x_n)
+$$
+gdzie $r$ jest parametrem $r \in [0,4]$
+
+- jednowymiarowe odwzorowanie unimodalne z czasem dyskretnym
+- określone na skończonym odcinku
+- posiada pojedyńcze gładkie maksimum
+- nieodwracalne
+
+
+[symulacja 1.](https://codepen.io/tomgrad/full/mdJMyYO)
+
+[symulacja 2.](https://codepen.io/tomgrad/full/KKpWrPg)
+
+</div><div>
+
+
+![](LogisticCobwebChaos.gif)<!-- .element style="width:100%" -->
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+### Diagram bifurkacyjny
+
+
+<div class="cols"><div>
+
+- dla niskich wartości parametru kontrolnego $r$ układ jest periodyczny
+- ze wzrostem wartości $r$ występują kolejne **bifurkacje podwojenia okresu**
+- po przekroczeniu pewnej krytycznej wartości $r$ następuje przejście do **chaosu**
+- nawet dla dużych wartości $r$ występują tzw. **okna periodyczne**
+
+</div><div>
+
+![](Logistic_Bifurcation_map_High_Resolution.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+### Wykładnik Lapunowa dla mapy logistycznej
+
+
+![](logistic_lyapunov.png)<!-- .element style="width:50%" -->
+
+[Źródło](https://demonstrations.wolfram.com/LyapunovExponentsForTheLogisticMap/)
+
+</script></section><section data-markdown><script type="text/template">
+### Pierwsza stała Feigenbauma
+
+Mitchell Feigenbaum (1978): obszar stabilności orbity o okresie $2^n$ w odwzorowaniu nieliniowym maleje w przybliżeniu w stosunku geometrycznym:
+
+$$
+\delta = \lim_{n \to \infty} \frac{r_{n-1} - r_{n-2}}{r_n - r_{n-1}} = 4.669\,201\,609\,\ldots
+$$
+
+### "Period Three Implies Chaos"
+
+T.-Y. Li, J.A. Yorke (1975): istnienie trajektorii periodycznej o okresie 3 oznacza, że istnieje również nieprzeliczalna liczba trajektorii, które pozostają na zawsze nieperiodyczne.
+</script></section></section><section ><section data-markdown><script type="text/template">## Układy z czasem ciągłym
+### układ dynamiczny jako pole wektorowe
+
+
+
+<div class="cols"><div>
+
+- $\leftarrow$ pole wektorowe
+- $\rightarrow$ portret fazowy
+
+</div><div>
+
+Przykład:
+
+<div>\[\begin{aligned}
+\dot x_1 & = x_2 \\
+\dot x_2 & = -x_1-x_2^2
+\end{aligned}\]</div>
+
+</div></div>
+
+![](vector_field.png)<!-- .element style="width:50%" -->
+
+[Boccara]</script></section><section data-markdown><script type="text/template">
+
+<div class="cols12"><div>
+
+### Przykład: oscylator z tłumieniem
+
+
+<div>\[\begin{aligned}
+\dot x_1 & = x_2 \\
+\dot x_2 & = -\omega^2 \sin x_1 -\alpha x_2
+\end{aligned}\]</div>
+
+- $\omega=2.8$, $\alpha=0.2$
+- widoczne stabilne i niestabilne punkty stałe
+
+
+</div><div>
+
+
+![](dumped_pend.png)
+
+
+
+[Boccara]
+
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+## Rodzaje punktów stałych
+### w układach wielowymiarowych
+
+![](fixed_strogatz.png)<!-- .element style="width:70%" -->
+
+[Strogatz]
+</script></section><section data-markdown><script type="text/template">
+## Rodzaje punktów stałych
+
+
+<div class="cols12"><div>
+
+- a) punkt siodłowy (siodło)
+- b) węzeł stabilny (dren)
+- c) węzeł niestabilny (źródło)
+- d) ognisko stabilne
+- e) ognisko niestabilne
+- f) centrum
+
+
+</div><div>
+
+![](fixed.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Określanie stabilności punktów stałych
+
+
+
+<div class="cols"><div>
+
+- układ dynamiczny opisuje układ równań $\dot x_i = f_i(\vec x)$
+- punkty stałe układu spełniają równość $f_i(\vec x)=0$
+- by określić stabilność punktu stałego, dokonujemy linearyzacji układu w pobliżu punkty stałego
+- w tym celu wyznaczamy Jakobian przekształcenia: $J_{ij}=\frac{df_i}{dx_j}$
+- postać Jakobianu w punkcie stałym ($A=J(\vec x^*)$) określa jego stabilność
+
+</div><div>
+
+
+**Dla przepływów dwuwymiarowych:**
+- $\det A \lt 0$, wartości własne (w.w.) rzeczywiste przeciwnego znaku - **siodło**
+- $\det A \gt 0$, w.w. rzeczywiste tego samego znaku - **dren** (dla $\operatorname {tr} (A) \lt 0$) lub **źródło** (dla $\operatorname {tr} (A) \gt 0$)
+- $\operatorname {tr} (A)\neq 0$, w.w. zespolone - **ognisko stabilne** ($\operatorname {tr} (A) \lt 0$) lub **niestabilne** ($\operatorname {tr} (A) \gt 0$)
+- $\operatorname {tr} (A)=0$, $\det A \lt 0$, w.w. urojone - **centrum**
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Cykl graniczny
+
+- zamknięta trajektoria w przestrzeni fazowej
+
+![](cycle_strogatz.png)
+
+[Strogatz]
+
+W układach dynamicznych cykl graniczny może pojawić się np. na wskutek utraty stabilności punktu stałego (tzw. bifurkacja Hopfa).
+</script></section><section data-markdown><script type="text/template">
+## Przykłady nieliniowych układów dynamicznych
+
+
+- [odwzorowanie namiotowe](https://en.wikipedia.org/wiki/Tent_map)
+- [mapa Henona](https://en.wikipedia.org/wiki/H%C3%A9non_map)
+- [oscylator Van der Pola](https://en.wikipedia.org/wiki/Van_der_Pol_oscillator)
+- [oscylator Duffinga](https://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equations)
+- [układ Lorenza](https://en.wikipedia.org/wiki/Lorenz_system)
+- [obwód Chuy](https://en.wikipedia.org/wiki/Chua%27s_circuit)
+- [układ Rosslera](https://en.wikipedia.org/wiki/R%C3%B6ssler_attractor)
+- [model Lotki-Volterry (drapieżnik-ofiara)](https://en.wikipedia.org/wiki/Lotka%E2%80%93Volterra_equations)
+- [model neuronu Hindmarsh-Rose](https://en.wikipedia.org/wiki/Hindmarsh%E2%80%93Rose_model)</script></section></section></div>
+    </div>
+
+    <script src="./../dist/reveal.js"></script>
+
+    <script src="./../plugin/markdown/markdown.js"></script>
+    <script src="./../plugin/highlight/highlight.js"></script>
+    <script src="./../plugin/zoom/zoom.js"></script>
+    <script src="./../plugin/notes/notes.js"></script>
+    <script src="./../plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige","highlight-theme":"github"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
