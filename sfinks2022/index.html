@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Sieci splotowe narzędziem współczesnego kardiologa</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/beige.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/github.css" />
+
+    <link rel="stylesheet" href="./_assets/custom.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+
+
+<div class="cols"><div>
+
+
+## Sieci splotowe narzędziem współczesnego kardiologa
+
+Tomasz Gradowski
+
+*Politechnika Warszawska*
+
+</div><div>
+
+![](t800.png)
+
+</div></div>
+
+
+
+</script></section><section data-markdown><script type="text/template">
+![](kwon1.png)<!-- .element style="width:80%" -->
+
+</script></section><section data-markdown><script type="text/template"><!-- .element data-auto-animate data-auto-animate-restart -->
+**AI**: prawdopodobieństwo wystąpienia NZK: ***0.685897***
+<!-- .element class="r-fit-text" -->
+
+</script></section><section data-markdown><script type="text/template"><!-- .element data-auto-animate -->
+**AI**: prawdopodobieństwo wystąpienia NZK: ***0.685897***
+
+<br/>
+<br/>
+
+
+
+<div class="box">
+
+**Nagłe zatrzymanie krążenia**, NZK (*cardiac arrest*) – nagły stan chorobowy, w którym dochodzi do zatrzymania czynności mechanicznej serca, powodującego ustanie krążenia krwi. Następuje wtórne zatrzymanie oddechu i w konsekwencji dochodzi do nieodwracalnego uszkodzenia mózgu.
+
+*Wikipedia*
+
+</div>
+
+</script></section><section data-markdown><script type="text/template"><!-- .element data-auto-animate -->
+**AI**: prawdopodobieństwo wystąpienia NZK: ***0.685897***
+
+<br/>
+<br/>
+
+## po 18 min. dochodzi do NZK
+<!-- .element class="r-fit-text" -->
+
+<br/>
+<br/>
+
+
+<div class="box">
+
+**Nagłe zatrzymanie krążenia**, NZK (*cardiac arrest*) – nagły stan chorobowy, w którym dochodzi do zatrzymania czynności mechanicznej serca, powodującego ustanie krążenia krwi. Następuje wtórne zatrzymanie oddechu i w konsekwencji dochodzi do nieodwracalnego uszkodzenia mózgu.
+
+*Wikipedia*
+
+</div>
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+- **sztuczna inteligencja** (*artificial intelligence*) - urządzenie wnioskuje na podstawie dostępnych mu informacji
+- **uczenie maszynowe** (*machine learning*) - ustalanie reguł wnioskowania na podstawie danych
+- **głębokie uczenie** (*deep learning*) - uczenie z wykorzystaniem głębokich sieci neuronowych (o dużej liczbie warstw)
+
+</div><div>
+
+![](ai_ml_dl.svg)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">## Uczenie maszynowe
+
+![](algorytm_ML.svg)
+</script></section><section data-markdown><script type="text/template">
+<div class="cols21"><div>
+
+## Sztuczne sieci neuronowe
+
+- **model obliczeniowy** zainspirowany biologicznymi sieciami neuronowymi
+- możliwość aproksymacji dowolnej funkcji poprzez złożenie wielu **nieliniowych warstw**
+- **uczenie** (dobór parametrów modelu) na podstawie danych w procesie optymalizacji (minimalizacja funkcji straty)
+- optymalizacja na podstawie gradientu funkcji straty wyznaczanego w procesie **wstecznej propagacji**
+- nauka z nadzorem lub bez nadzoru
+- najczęściej występujące rodzaje: perceptron wielowarstwowy, sieć splotowa (konwolucyjna), sieć rekurencyjna
+
+</div><div>
+
+### Perceptron
+![](perceptron.svg)<!-- .element style="width:50%" -->
+
+$\vec y = \sigma(W \vec x)$
+
+$\sigma$ - nieliniowość
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+## Sieci splotowe (konwolucyjne, *CNN*)​
+
+- szeroko stosowane w widzeniu komputerowym​
+- używane do klasyfikacji, identyfikacji i segmentacji​
+- dokonują detekcji cech wysokopoziomowych​
+- definicja cech na podstawie danych​
+
+</div><div>
+
+
+![](identification.png)<!-- .element style="width:50%" -->
+![](segmentation.png)<!-- .element style="width:50%" -->
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Detekcja cech poprzez splot​
+
+
+<div class="cols21"><div>
+
+
+Operacja splotu dyskretnego jest zdefiniowana następująco (1D):
+
+$(X \star w)[n]=\sum \limits_{m=-M}^{M}X[n-m]w[m]$
+
+- $X$ jest sygnałem wejściowym, $w$ jest filtrem (kernelem)
+- filtry z reguły są krótkimi wektorami (lub macierzami w przypadku 2D)
+- sygnał wejściowy jest **próbkowany** - dzielony na okna o długości filtra
+- w zależności od potrzeby dobiera się właściwe przekrycie okien
+- odpowiedź filtra jest **iloczynem skalarnym** okna z filtrem
+- otrzymana wartość jest **miarą podobieństwa** wzorca z każdym oknem sygnału​
+- splot z zestawem filtrów daje tzw. **mapę cech​**
+
+
+</div><div>
+
+
+![](splot.svg)
+
+![](sorter.jpg)<!-- .element style="width:75%" -->
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">## Przykłady filtrów splotowych
+
+
+<div class="cols"><div>
+
+
+![](original.png)
+
+- filtry splotowe dokonują detekcji cech poprzez przekształcanie sygnału​
+- przykładowe operacje wykonywane przez splot to wygładzanie, odwracanie lub różniczkowanie sygnału​
+- sieć splotowa sama uczy się filtrów
+
+
+</div><div>
+
+
+![](conv_diff1.png)
+
+![](conv_diff2.png)
+
+![](conv_inv.png)
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Aktywacja
+
+
+<div class="cols12"><div>
+
+
+- wzmacnia / filtruje informację o wystąpieniu cechy​
+- przekształca nieliniowo przestrzeń cech​
+
+![](relu.svg)
+
+
+</div><div>
+
+
+![](conv_diff1.png) ![](conv_diff2.png)
+
+![](conv_diff1_relu.png) ![](conv_diff2_relu.png)
+
+
+</div></div>
+
+
+Funkcja aktywacji jest istotna zarówno przy **detekcji** cech, jak i **klasyfikacji**.​
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols21"><div>
+
+## Redukcja wymiarowości​
+
+- filtrowaniu splotowemu towarzyszy operacja redukcji​
+- operacja ta **zmniejsza częstotliwość próbkowania**​
+- **kompresja** z zachowaniem najważniejszych informacji​
+- efektywnie **zwiększa zasięg** filtrów​
+- pozwala szukać **cech wysokopoziomowych​**
+
+</div><div>
+
+![​](maxpool.png)<!-- .element style="width:75%" -->
+
+</div></div>
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Zastosowania sieci splotowych do EKG
+
+- **klasyfikacja** - np. określanie rodzaju rytmu
+- **segmentacja** - podział sygnału na segmenty, np. załamki i odcinki
+- **generacja** - modelowanie generatywne syntetycznych sygnałów na podstawie zadanych parametrów
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+
+## Klasyfikacja
+
+- proces nadawania **etykiet** (podział na kategorie)
+- **nauka z nadzorem** (dane z właściwymi etykietami)
+- przykłady:
+    - klasyfikacja pojedyńczych uderzeń
+    - klasyfikacja rodzajów rytmu
+    - predykcja ryzyka wystąpienia zdarzenia (np. nagłego zatrzymania krążenia)
+
+
+</div><div>
+
+
+![](classes_ribeiro_2020.png)
+
+[*Ribeiro 2020*]
+
+</div></div>
+</script></section><section data-markdown><script type="text/template">
+## Schemat **prostego** klasyfikatora splotowego​
+
+![](simple_ecg_cnn.svg)<!-- .element style="width:75%" -->
+</script></section><section data-markdown><script type="text/template">
+## Residual neural networks (*ResNet*)
+
+
+<div class="cols"><div>
+
+![](cnn_hannun_2019.png)<!-- .element style="width:30%" -->
+
+[*Hannun 2019*]
+
+</div><div>
+
+![](cnn_kachue_2018.png)<!-- .element style="width:30%" -->
+
+[*Kachue 2018*]
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Explainable artificial intelligence (XAI)
+
+![](blackbox.png)
+
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols21"><div>
+
+![](flowchart.png)<!-- .element style="width:80%" -->
+
+</div><div>
+
+![](gradl2012.png)<!-- .element style="width:80%" -->
+
+[*Gradl 2012*]
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Integrated gradients
+
+atrybut - jaki wkład do wyniku ma każda cecha
+
+*atrybut* = całka po drodze *odniesienie* ($x^\prime$) $\to$ *wejście* ($x$)
+
+![](alpha.png)
+
+$IG_i(x):= (x_i - x^\prime_i) \times \int\limits_0^1 \frac{\partial F(x^\prime + \alpha \times (x-x^\prime))}{\partial x_i}d\alpha$
+</script></section><section data-markdown><script type="text/template">
+
+![](ig_fig3.png)<!-- .element style="width:60%" -->
+
+[*Sundararajan 2017*]
+</script></section><section data-markdown><script type="text/template">
+![](kwon2.png)<!-- .element style="width:80%" -->
+
+$^*$ wyznaczone metodą *Grad-CAM* (nie *IG*)
+</script></section></section><section  data-markdown><script type="text/template">
+
+<div class="cols21"><div>
+
+
+## Bibliografia
+
+
+- Hannun AY, et al., *Nature medicine* 25.1 (2019): 65-69.
+- Kachuee M, et al., *2018 IEEE international conference on healthcare informatics* (ICHI). IEEE, 2018.
+- Kwon JM, et al., *Scandinavian journal of trauma, resuscitation and emergency medicine* 28.1 (2020): 1-10.
+- Ribeiro AH, et al., *Nature communications* 11.1 (2020): 1-9.
+- Siontis KC, et al., *Nature Reviews Cardiology* 18.7 (2021): 465-478.
+- Attia ZI, et al., *The Lancet* 394.10201 (2019): 861-867.
+- Sundararajan M, et al., *International conference on machine learning*. PMLR, 2017.
+
+</div><div>
+
+![](sfinks_t800.png)
+
+</div></div>
+
+</script></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige","highlight-theme":"github"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Wykorzystanie AI w kardiologii</title>
+    <link rel="shortcut icon" href="./../favicon.ico" />
+    <link rel="stylesheet" href="./../dist/reset.css" />
+    <link rel="stylesheet" href="./../dist/reveal.css" />
+    <link rel="stylesheet" href="./../dist/theme/beige.css" id="theme" />
+    <link rel="stylesheet" href="./../css/highlight/zenburn.css" />
+
+    <link rel="stylesheet" href="./../_assets/custom.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+# Wykorzystanie AI w kardiologii
+
+
+<div class="cols"><div>
+
+dr hab. inż. Teodor Buchner
+
+`teodor.buchner@pw.edu.pl`
+
+</div><div>
+
+dr inż. Tomasz Gradowski
+
+`tomasz.gradowski@pw.edu.pl`
+
+</div></div>
+
+
+Politechnika Warszawska
+Wydział Fizyki
+
+
+<div class="cols21"><div>
+
+### *Come with me if you want to live.*
+
+</div><div>
+
+![](arnie.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Plan
+
+- Kardiologia
+    - serce
+    - EKG
+    - tradycyjne metody
+- AI
+    - metody
+    - klasyfikacja
+    - segmentacja
+    - modelowanie generatywne
+- Problemy
+    - dane
+    - regulacje prawne
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+- **sztuczna inteligencja** (*artificial intelligence*) - urządzenie wnioskuje na podstawie dostępnych mu informacji
+- **uczenie maszynowe** (*machine learning*) - ustalanie reguł wnioskowania na podstawie danych
+- **głębokie uczenie** (*deep learning*) - uczenie z wykorzystaniem głębokich sieci neuronowych (o dużej liczbie warstw)
+
+</div><div>
+
+![](ai_ml_dl.svg)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">## Uczenie maszynowe
+
+![](algorytm_ML.svg)
+</script></section></section><section ><section data-markdown><script type="text/template">
+<div class="cols21"><div>
+
+## Sztuczne sieci neuronowe
+
+- **model obliczeniowy** zainspirowany biologicznymi sieciami neuronowymi
+- możliwość aproksymacji dowolnej funkcji poprzez złożenie wielu **nieliniowych warstw**
+- **uczenie** (dobór parametrów modelu) na podstawie danych w procesie optymalizacji (minimalizacja funkcji straty)
+- optymalizacja na podstawie gradientu funkcji straty wyznaczanego w procesie **wstecznej propagacji**
+- nauka z nadzorem lub bez nadzoru
+- najczęściej występujące rodzaje: perceptron wielowarstwowy, sieć splotowa (konwolucyjna), sieć rekurencyjna
+
+</div><div>
+
+### Perceptron
+![](perceptron.svg)<!-- .element style="width:50%" -->
+
+$\vec y = \sigma(W \vec x)$
+
+$\sigma$ - nieliniowość
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+## Sieci splotowe (konwolucyjne, *CNN*)​
+
+- szeroko stosowane w widzeniu komputerowym​
+- używane do klasyfikacji, identyfikacji i segmentacji​
+- dokonują detekcji cech wysokopoziomowych​
+- definicja cech na podstawie danych​
+
+</div><div>
+
+
+![](identification.png)<!-- .element style="width:50%" -->
+![](segmentation.png)<!-- .element style="width:50%" -->
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Detekcja cech poprzez splot​
+
+
+<div class="cols21"><div>
+
+
+Operacja splotu dyskretnego jest zdefiniowana następująco (1D):
+
+$(X \star w)[n]=\sum \limits_{m=-M}^{M}X[n-m]w[m]$
+
+- $X$ jest sygnałem wejściowym, $w$ jest filtrem (kernelem)
+- filtry z reguły są krótkimi wektorami (lub macierzami w przypadku 2D)
+- sygnał wejściowy jest **próbkowany** - dzielony na okna o długości filtra
+- w zależności od potrzeby dobiera się właściwe przekrycie okien
+- odpowiedź filtra jest **iloczynem skalarnym** okna z filtrem
+- otrzymana wartość jest **miarą podobieństwa** wzorca z każdym oknem sygnału​
+- splot z zestawem filtrów daje tzw. **mapę cech​**
+
+
+</div><div>
+
+
+![](splot.svg)
+
+![](sorter.jpg)<!-- .element style="width:75%" -->
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">## Przykłady filtrów splotowych
+
+
+<div class="cols"><div>
+
+
+![](original.png)
+
+- filtry splotowe dokonują detekcji cech poprzez przekształcanie sygnału​
+- przykładowe operacje wykonywane przez splot to wygładzanie, odwracanie lub różniczkowanie sygnału​
+- sieć splotowa sama uczy się filtrów
+
+
+</div><div>
+
+
+![](conv_diff1.png)
+
+![](conv_diff2.png)
+
+![](conv_inv.png)
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Aktywacja
+
+
+<div class="cols12"><div>
+
+
+- wzmacnia / filtruje informację o wystąpieniu cechy​
+- przekształca nieliniowo przestrzeń cech​
+
+![](relu.svg)
+
+
+</div><div>
+
+
+![](conv_diff1.png) ![](conv_diff2.png)
+
+![](conv_diff1_relu.png) ![](conv_diff2_relu.png)
+
+
+</div></div>
+
+
+Funkcja aktywacji jest istotna zarówno przy **detekcji** cech, jak i **klasyfikacji**.​
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols21"><div>
+
+## Redukcja wymiarowości​
+
+- filtrowaniu splotowemu towarzyszy operacja redukcji​
+- operacja ta **zmniejsza częstotliwość próbkowania**​
+- **kompresja** z zachowaniem najważniejszych informacji​
+- zwiększa zasięg filtrów​
+- pozwala szukać **cech wysokopoziomowych​**
+
+</div><div>
+
+![​](maxpool.png)<!-- .element style="width:75%" -->
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Zastosowania sieci splotowych do EKG
+
+- **klasyfikacja** - np. określanie rodzaju rytmu
+- **segmentacja** - podział sygnału na segmenty, np. załamki i odcinki
+- **generacja** - modelowanie generatywne syntetycznych sygnałów na podstawie zadanych parametrów
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Klasyfikacja
+
+- proces nadawania **etykiet** (podział na kategorie)
+- **nauka z nadzorem** (dane z właściwymi etykietami)
+- przykłady:
+    - klasyfikacja pojedyńczych uderzeń
+    - klasyfikacja rodzajów rytmu
+    - predykcja ryzyka wystąpienia zdarzenia (np. nagłego zatrzymania krążenia)
+
+![](acharya_2018.png)<!-- .element style="width:50%" -->
+
+[*Acharya 2018*]
+
+</script></section><section data-markdown><script type="text/template">### Przykładowe klasy w zestawie uczącym
+
+<div class="tight">
+
+
+<div class="cols"><div>
+
+- Normal beat ![](seg_13349_N.svg)
+- Atrial premature beat ![](seg_13404_A.svg)
+- Premature ventricular contraction ![](seg_8631_V.svg)
+
+
+</div><div>
+
+- Left bundle branch block beat ![](seg_19982_L.svg)
+- Right bundle branch block beat ![](seg_22505_R.svg)
+- Paced ![](seg_27607_paced.svg)
+
+</div></div>
+
+
+</div>
+</script></section><section data-markdown><script type="text/template">
+![](classes_ribeiro_2020.png)
+
+[*Ribeiro 2020*]
+</script></section><section data-markdown><script type="text/template">
+## Schemat **prostego** klasyfikatora splotowego​
+
+![](simple_ecg_cnn.svg)<!-- .element style="width:75%" -->
+</script></section><section data-markdown><script type="text/template">
+## Residual neural networks (*ResNet*)
+
+
+<div class="cols"><div>
+
+![](cnn_hannun_2019.png)<!-- .element style="width:30%" -->
+
+[*Hannun 2019*]
+
+</div><div>
+
+![](cnn_kachue_2018.png)<!-- .element style="width:30%" -->
+
+[*Kachue 2018*]
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+
+## Przykładowe wyniki
+
+![](cm_hannun.png)<!-- .element style="width:75%" -->
+
+[*Hannun 2019*]
+
+</div><div>
+
+
+![](cm_kachuee.png)<!-- .element style="width:50%" -->
+![](categories_kachue_2018.png)<!-- .element style="width:35%" -->
+
+[*Kachuee 2018*]
+
+![](results_ribeiro_2020.png)<!-- .element style="width:75%" -->
+
+[*Ribeiro 2020*]
+
+</div></div>
+
+</script></section></section><section ><section data-markdown><script type="text/template">## Segmentacja
+
+- podział sygnału na segmenty (np. poszczególne załamki)
+- uczenie z nadzorem (sygnał + maski)
+
+![](segments_moskalenko_2020.png)
+
+[*Moskalenko 2020*]</script></section><section data-markdown><script type="text/template">
+
+<div class="cols"><div>
+
+Dwuczęściowa sieć neuronowa, której części stanowią:
+- **koder** - kompresuje dane wysokowymiarowe do niskowymiarowej reprezentacji
+- **dekoder** - odtwarza oryginalne dane na podstawie tej niskowymiarowej reprezentacji
+- uczenie polega na poszukiwaniu parametrów sieci w celu zminimalizowania straty (różnicy) pomiędzy danymi wejściowymi, a wyjściem.
+- ukryta warstwa będąca wyjściem kodera i wejściem dekodera stanowi **ukrytą przestrzeń**, do której skompresowane zostały dane wejściowe.
+
+</div><div>
+
+
+## Autoenkoder
+
+![](ae_aggarwal2018.png)
+
+[*Aggarwal 2018*]
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+
+
+<div class="cols"><div>
+
+## Segmentacja z wykorzystaniem autoenkodera
+
+![](ae_sereda_2018.png)
+
+[*Sereda 2018*]
+
+
+</div><div>
+
+
+![](seg1_sereda_2018.png)
+
+![](seg2_sereda_2018.png)
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Autoenkoder typu U-Net
+
+<div class="cols"><div>
+
+- sieć niesekwencyjna
+- ścieżka redukująca / kompresująca (koder) i rekonstruująca / dekompresująca (dekoder)
+- ścieżka kompresująca zawiera warstwy splotowe i redukujące
+- ścieżka dekompresująca zawiera sploty transponowane (z ułamkowym skokiem) i konkatenację map cech ze ścieżki kompresującej
+- lepsze odwzorowanie cech niskopoziomowych
+
+</div><div>
+
+![](unet_moskalenko_2020.png)
+
+[*Moskalenko 2020*]
+
+</div></div>
+
+</script></section></section><section ><section data-markdown><script type="text/template">## Modelowanie generatywne
+
+
+<div class="cols"><div>
+
+
+![](wulan2020.jpg)
+
+[*Wulan 2020*]
+
+
+</div><div>
+
+
+![](kuznetzow_2021.png)<!-- .element style="width:75%" -->
+
+[*Kuznetzow 2021*]
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Modelowanie generatywne
+
+
+<div class="cols"><div>
+
+
+- modele generatywne znajdują **rozkład prawdopodobieństwa** oryginalnych danych w ukrytej przestrzeni
+- próbkowanie z przestrzeni ukrytej pozwala wygenerować dane posiadające cechy danych weściowych, lecz nienależące do zbioru uczącego.
+- model generatywny opisuje więc, jak w sensie probabilistycznym są generowane dane
+- przykłady modeli generatywnych:
+  - autoenkoder wariacyjny (*VAE*)
+  - generatywne sieci przeciwstawne (*GAN*)
+
+
+</div><div>
+
+
+![](cvae_latent_space.jpg)
+
+Źródło: [www.tensorflow.org/tutorials/generative/cvae](https://www.tensorflow.org/tutorials/generative/cvae)
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Autoenkoder wariacyjny (*VAE*)
+
+
+<div class="cols"><div>
+
+
+- w zwyczajnym autoenkoderze obraz jest mapowany bezpośrednio na punkt w przestrzeni ukryte
+- w autoenkoderze wariacyjnym obraz jest mapowany na rozkład normalny wokół punktu w przestrzeni ukrytej
+- VAE zakłada, że pomiędzy wymiarami w przestrzeni ukrytej nie ma korelacji
+- ponieważ próbkujemy z z pewnego rozkładu, dekoder musi zapewnić, że obrazy bliskich punktów w przestrzeni ukrytej są podobne
+
+
+</div><div>
+
+
+![](vae-gaussian.png)
+
+Źródło rysunku: [lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae)
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Geneartywne sieci przeciwstawne (*GAN*)
+
+Rywalizacja dwóch graczy (Generatora i Dyskryminatora) do momentu osiągnięcia równowagi.
+
+
+<div class="cols"><div>
+
+### Generator
+- funkcja (sieć neuronowa) generująca syntetyczne (fałszywe) dane
+- nigdy nie widzi danych rzeczywistych
+- wejście: liczby losowe
+- cel: wygenerowanie danych syntetycznych o cechach danych rzeczywistych
+
+</div><div>
+
+### Dyskryminator
+- funkcja (sieć neuronowa) określająca prawdopodobieństwo tego, że dane są rzeczywiste lub syntetyczne
+- wytrenowana na danych rzeczywistych i syntetycznych
+- cel: odrzucenie danych syntetycznych
+
+</div></div>
+
+</script></section></section><section ><section data-markdown><script type="text/template"># Dodatek
+
+## Tablica pomyłek
+
+
+<div class="cols"><div>
+
+- inaczej: macierz błędów (*ang. confusion matrix*)
+- ocena jakości klasyfikacji binarnej (dwie klasy)
+- oznaczenia:
+  - TP - *true positive*
+  - TN - *true negative*
+  - FP - *false positive*
+  - FN - *false negative*
+
+
+</div><div>
+
+![](conf_matrix.png)
+
+Lub w skrócie:
+
+![](conf_matrix_short.png)
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Współczynniki jakości
+
+
+
+<div class="cols"><div>
+
+- **trafność** (*accuracy*): odsetek poprawnych klasyfikacji dokonywanych przez model.
+- **precyzja** (*precission*): stopień w jakim klasyfikacje pozytywne na podstawie modelu są poprawne.
+- **czułość** (*sensitivity*, *recall*, *true positive rate*): zdolność modelu do wychwytywania przypadków pozytywnych.
+- **specyficzność**, swoistość (*specificity*, *true negative rate*): zdolność modelu do wychwytywania przypadków negatywnych.
+- współczynnik **F1**: średnia harmoniczna czułości i precyzji
+
+
+</div><div>
+
+- $accuracy = \frac{TP+TN}{TP+TN+FP+FN}$
+
+- $precission = \frac{TP}{TP+FP}$
+
+- $sensitivity = \frac{TP}{TP+FN} = \frac{TP}{P} = TPR$
+
+- $specificity = \frac{TN}{TN+FP}= \frac{TN}{N} = TNR$
+
+
+</div></div>
+
+</script></section><section data-markdown><script type="text/template">
+## Sploty transponowane
+
+[Convolution arithmetic](https://github.com/vdumoulin/conv_arithmetic)</script></section></section></div>
+    </div>
+
+    <script src="./../dist/reveal.js"></script>
+
+    <script src="./../plugin/markdown/markdown.js"></script>
+    <script src="./../plugin/highlight/highlight.js"></script>
+    <script src="./../plugin/zoom/zoom.js"></script>
+    <script src="./../plugin/notes/notes.js"></script>
+    <script src="./../plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"controls":true,"width":1920,"height":1080,"theme":"beige"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
